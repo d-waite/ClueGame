@@ -4,33 +4,37 @@ import java.util.*;
 public class TestBoardCell {
 	private int row;
 	private int column;
+	private Set<TestBoardCell> adjList = new HashSet<TestBoardCell>();
+	private boolean isRoom;
+	private boolean isOccupied;
 	public TestBoardCell(int row, int column) {
 		this.row = row;
 		this.column = column;
 	}
 	
 	public void addAdjacency(TestBoardCell cell) {
-		
+		adjList.add(cell);
 	}
 	
 	public Set<TestBoardCell> getAdjList() {
-		Set<TestBoardCell> empty = new HashSet<TestBoardCell>();
-		return empty;
+		return adjList;
 	}
 	
 	public void setRoom(boolean room) {
-		
+		this.isRoom = room;
 	}
 	
-//	public boolean isRoom() {
-//		
-//	}
+	public boolean getRoom() {
+		return isRoom;
+	}
 	
 	public void setOccupied(boolean occupied) {
-		
+		this.isOccupied = occupied;
 	}
 	
-//	public boolean getOccupied() {
-//		
-//	}
+	public boolean getOccupied() {
+		return isOccupied;
+	}
+	
+	
 }
