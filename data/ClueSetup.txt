@@ -1,0 +1,13 @@
+// Rooms and room cards
+Room, Keep, K
+Room, Armory, A
+Room, Lookout, L
+Room, Banquet Hall, H
+Room, Throne Room, T
+Room, Dungeon, D
+Room, Bathroom, B
+Room, Stable, S
+Room, Porch, P
+// other spaces on board
+Space, Unused, X
+Space, Unused, W
