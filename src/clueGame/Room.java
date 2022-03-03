@@ -2,19 +2,18 @@ package clueGame;
 
 public class Room {
 
-	public Object getName() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getName() { 
+		return "";
 	}
 
 	public BoardCell getLabelCell() {
-		// TODO Auto-generated method stub
-		return null;
+		BoardCell cell = new BoardCell(-1,-1);
+		return cell;
 	}
 
 	public BoardCell getCenterCell() {
-		// TODO Auto-generated method stub
-		return null;
+		BoardCell cell = new BoardCell(-1,-1);
+		return cell;
 	}
 
 }

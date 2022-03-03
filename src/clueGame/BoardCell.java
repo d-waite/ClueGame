@@ -49,23 +49,23 @@ public class BoardCell {
 	}
 
 	public DoorDirection getDoorDirection() {
-		// TODO Auto-generated method stub
 		return DoorDirection.NONE;
 	}
 
 	public boolean isLabel() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public boolean isRoomCenter() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public char getSecretPassage() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	public char getInitial() {
+		return 0;
+	}
+	
 }

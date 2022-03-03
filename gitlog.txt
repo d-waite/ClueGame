@@ -1,3 +1,21 @@
+commit 0e7ceff2d666096201b28e941b509c4109a5121a
+Author: David Waite <davidwaite@mines.edu>
+Date:   Wed Mar 2 15:40:31 2022 -0700
+
+    Wrote target algorithm & fixed test
+
+commit 5f1df52a2e572d713573f9fc9bf1189f5b70947f
+Author: Dillinger Day <djday@mines.edu>
+Date:   Tue Mar 1 13:44:15 2022 -0700
+
+    Created the Adjacency List for the TestBoardCells.
+
+commit 0b696536bce2eb317366f562c178011512e48274
+Author: Dillinger Day <djday@mines.edu>
+Date:   Sat Feb 26 12:51:45 2022 -0700
+
+    gitlog
+
 commit 166514f8f60d9ed20216d003df9a8d21ce5d8439
 Author: David Waite <davidwaite@mines.edu>
 Date:   Sat Feb 26 12:50:02 2022 -0700
