@@ -2,6 +2,13 @@ package clueGame;
 
 public class Room {
 
+	private String name;
+	
+	public Room(String name) {
+		super();
+		this.name = name;
+	}
+
 	public String getName() { 
 		return "";
 	}
