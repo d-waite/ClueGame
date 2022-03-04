@@ -18,7 +18,7 @@ class FileInitTest {
 	private static final int NUM_ROWS = 29;
 	private static final int NUM_COLS = 25;
 	private static final int NUM_DOORS = 18;
-	private static final int NUM_ROOMS = 9;
+	private static final int NUM_ROOMS = 11;
 
 	private static Board board;
 
@@ -93,39 +93,39 @@ class FileInitTest {
 		assertEquals('W', board.getCell(8, 0).getInitial()); // test walkway initial
 		assertEquals('S', board.getCell(7, 0).getInitial()); // test room initial
 		assertEquals('X', board.getCell(28, 0).getInitial()); // test unused space initial
-		assertEquals("L", board.getCell(27, 0).getInitial()); // test initial of a secret doorway
-		assertEquals("K", board.getCell(27, 0).getSecretPassage()); // test second initial of a secret doorway
+		assertEquals('L', board.getCell(27, 0).getInitial()); // test initial of a secret doorway
+		assertEquals('K', board.getCell(27, 0).getSecretPassage()); // test second initial of a secret doorway
 	}
 
 	@Test
 	public void testCenterAndLabel() { // testing two rooms for correct center and label cells
-		BoardCell cell = new BoardCell(0,0); // check individual cells for being a label and a center
+		BoardCell cell = board.getCell(0, 0); // check individual cells for being a label and a center
 		Room room = board.getRoom(cell); // checking that room label/center is consistent with cell label/center
 		assertFalse(cell.isRoomCenter());
 		assertFalse(cell.isLabel());
 		assertFalse(room.getCenterCell() == cell);
 		assertFalse(room.getLabelCell() == cell);
-		BoardCell label = new BoardCell(2,2);
+		BoardCell label = board.getCell(2, 2);
 		assertTrue(label.isLabel());
 		assertFalse(label.isRoomCenter());
 		assertTrue(room.getLabelCell() == label);
-		BoardCell center = new BoardCell(3,2);
+		BoardCell center = board.getCell(3, 2);
 		assertTrue(center.isRoomCenter());
 		assertFalse(center.isLabel());
 		assertTrue(room.getCenterCell() == center);
 
 
-		BoardCell cell2 = new BoardCell(27,0); // secret passage cell
+		BoardCell cell2 = board.getCell(27, 0); // secret passage cell
 		Room room2 = board.getRoom(cell2);
 		assertFalse(cell2.isRoomCenter());
 		assertFalse(cell2.isLabel());
 		assertFalse(room2.getCenterCell() == cell2);
 		assertFalse(room2.getLabelCell() == cell2);
-		BoardCell label2 = new BoardCell(24,1);
+		BoardCell label2 = board.getCell(24,1);
 		assertTrue(label2.isLabel());
 		assertFalse(label2.isRoomCenter());
 		assertTrue(room2.getLabelCell() == label2);
-		BoardCell center2 = new BoardCell(25,2);
+		BoardCell center2 = board.getCell(25, 2);
 		assertTrue(center2.isRoomCenter());
 		assertFalse(center2.isLabel());
 		assertTrue(room2.getCenterCell() == center2);

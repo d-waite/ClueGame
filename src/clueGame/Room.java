@@ -3,6 +3,8 @@ package clueGame;
 public class Room {
 
 	private String name;
+	private BoardCell centerCell;
+	private BoardCell labelCell;
 	
 	public Room(String name) {
 		super();
@@ -10,17 +12,23 @@ public class Room {
 	}
 
 	public String getName() { 
-		return "";
+		return name;
+	}
+
+	public void setCenterCell(BoardCell centerCell) {
+		this.centerCell = centerCell;
+	}
+
+	public void setLabelCell(BoardCell labelCell) {
+		this.labelCell = labelCell;
 	}
 
 	public BoardCell getLabelCell() {
-		BoardCell cell = new BoardCell(-1,-1);
-		return cell;
+		return labelCell;
 	}
 
 	public BoardCell getCenterCell() {
-		BoardCell cell = new BoardCell(-1,-1);
-		return cell;
+		return centerCell;
 	}
 
 }

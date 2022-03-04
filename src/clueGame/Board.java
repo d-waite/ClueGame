@@ -3,8 +3,6 @@ package clueGame;
 import java.util.*;
 import java.io.*;
 
-import experiment.TestBoardCell;
-
 public class Board {
 	private String setupConfigFile;
 	private String layoutConfigFile;
@@ -33,34 +31,34 @@ public class Board {
 	}
 
 	public BoardCell getCell(int i, int j) {
-		BoardCell cell = new BoardCell(-1,-1);
-		return cell;
+		return grid[i][j];
 	}
 
 	public int getNumRows() {
-		return 0;
+		return numRows;
 	}
 
 	public int getNumColumns() {
-		return 0;
+		return numCols;
 	}
 
 	public Room getRoom(char c) {
-		Room room = new Room("");
-		return room;
+		return rooms.get(c);
 	}
 
 	public Room getRoom(BoardCell cell) {
-		Room room = new Room("");
-		return room;
+		return rooms.get(cell.getInitial());
 	}
 
 	public void loadSetupConfig(String setupFile) {
 		try {
-			FileReader input = new FileReader(setupFile);
+			FileReader input = new FileReader("data/" + setupFile);
 			Scanner scan = new Scanner(input);
 			while (scan.hasNextLine()) {
 				String roomLine = scan.nextLine();
+				if (roomLine.charAt(0) == '/') {
+					roomLine = scan.nextLine();
+				}
 				String[] roomInfo = new String[3];
 				roomInfo = roomLine.split(", ");
 				Room room = new Room(roomInfo[1]);
@@ -74,20 +72,83 @@ public class Board {
 
 	public void loadLayoutConfig(String layoutFile) {
 		try {
-			FileReader input = new FileReader(layoutFile);
-			Scanner scan = new Scanner(input);
+			FileReader inputSize = new FileReader("data/" + layoutFile);
+			Scanner scanSize = new Scanner(inputSize);
 			String rowCells = "";
-			while (scan.hasNextLine()) {
+			while (scanSize.hasNextLine()) {
 				numRows++;
-				rowCells = scan.nextLine();
+				rowCells = scanSize.nextLine();
 			}
 			numCols = rowCells.split(",").length;
 			
 			grid = new BoardCell[numRows][numCols];
+			
+			FileReader inputCells = new FileReader("data/" + layoutFile);
+			Scanner scanCells = new Scanner(inputCells);
+			
+			while (scanCells.hasNextLine()) {
+				for (int i = 0; i < numRows; i++) {
+					String row = scanCells.nextLine();
+					String[] seperatedRow = new String[numCols];
+					seperatedRow = row.split(",");
+					for (int j = 0; j < numCols; j++) {
+						BoardCell cell = new BoardCell(i,j);
+						initializeCell(cell, seperatedRow[j]);
+						grid[i][j] = cell;
+					}
+				}
+			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Error opening Layout file.");
 		}
 		
+	}
+	
+	public void initializeCell(BoardCell cell, String label) {
+		cell.setInitial(label.charAt(0));
+		if (cell.getInitial() == 'W' || cell.getInitial() == 'X') {
+			cell.setRoom(false);
+			cell.setLabel(false);
+			cell.setRoomCenter(false);
+		} else {
+			cell.setRoom(true);
+			cell.setDoorway(false);
+			cell.setDoorDirection(DoorDirection.NONE);
+			cell.setRoomCenter(false);
+			cell.setLabel(false);
+		}
+		
+		if (label.length() == 2) {
+			char symbol = label.charAt(1);
+			switch (symbol) {
+			case '^':
+				cell.setDoorway(true);
+				cell.setDoorDirection(DoorDirection.UP);
+				break;
+			case 'v':
+				cell.setDoorway(true);
+				cell.setDoorDirection(DoorDirection.DOWN);
+				break;
+			case '>':
+				cell.setDoorway(true);
+				cell.setDoorDirection(DoorDirection.RIGHT);
+				break;
+			case '<':
+				cell.setDoorway(true);
+				cell.setDoorDirection(DoorDirection.LEFT);
+				break;
+			case '*':
+				cell.setRoomCenter(true);
+				getRoom(cell.getInitial()).setCenterCell(cell);
+				break;
+			case '#':
+				cell.setLabel(true);
+				getRoom(cell.getInitial()).setLabelCell(cell);
+				break;
+			default:
+				cell.setSecretPassage(symbol);
+			}
+		} 
 	}
 
 

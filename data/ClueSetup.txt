@@ -1,3 +1,4 @@
+// Rooms and room cards
 Room, Keep, K
 Room, Armory, A
 Room, Lookout, L
@@ -7,5 +8,6 @@ Room, Dungeon, D
 Room, Bathroom, B
 Room, Stable, S
 Room, Porch, P
+// other spaces on board
 Space, Unused, X
 Space, Walkway, W
