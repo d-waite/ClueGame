@@ -21,8 +21,6 @@ public class Board {
 	}
 
 	public void initialize() {
-		
-
 		try {
 			loadSetupConfig(null);
 			loadLayoutConfig(null);
@@ -79,13 +77,16 @@ public class Board {
 			//If the first word in the line isn't Space or Room throw an Exception
 			if (!(roomInfo[0].equals("Room")) && !(roomInfo[0].equals("Space"))) {
 				throw new BadConfigFormatException("Bad room type in setup file.");
-				//if the initial for the cell is longer than 2 characters long, throw an Exception
-			} else if (roomInfo[2].length() > 2) {
+			}
+			//if the initial for the cell is longer than 2 characters long, throw an Exception
+			if (roomInfo[2].length() > 2) {
 				throw new BadConfigFormatException("Bad initial in setup file.");
 			}
 			// Create a new room and insert it into the map
-			Room room = new Room(roomInfo[1]);
-			rooms.put(roomInfo[2].charAt(0), room);
+			String roomName = roomInfo[1];
+			Room room = new Room(roomName);
+			char roomInitial = roomInfo[2].charAt(0);
+			rooms.put(roomInitial, room);
 		}
 		scan.close();
 	}
@@ -137,7 +138,7 @@ public class Board {
 		scanSize.close();
 		scanCells.close();
 	}
-	
+
 	//helper function for initializing BoardCells
 	public void initializeCell(BoardCell cell, String label) throws BadConfigFormatException{
 		cell.setInitial(label.charAt(0));
@@ -150,7 +151,7 @@ public class Board {
 			cell.setRoom(false);
 			cell.setLabel(false);
 			cell.setRoomCenter(false);
-		//If not, the cell is a room
+			//If not, the cell is a room
 		} else {
 			cell.setRoom(true);
 			cell.setDoorway(false);
