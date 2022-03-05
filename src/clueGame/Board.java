@@ -6,11 +6,11 @@ import java.io.*;
 public class Board {
 	private String setupConfigFile;
 	private String layoutConfigFile;
-	private int numRows = 0;
-	private int numCols = 0;
+	private int numRows;
+	private int numCols;
 	private static Board theInstance = new Board();
 	private BoardCell[][] grid;
-	private Map<Character, Room> rooms = new HashMap<Character, Room>();
+	private Map<Character, Room> rooms;
 
 	private Board() {
 		super();
@@ -21,8 +21,18 @@ public class Board {
 	}
 
 	public void initialize() {
-		loadSetupConfig(setupConfigFile);
-		loadLayoutConfig(layoutConfigFile);
+		
+
+		try {
+			loadSetupConfig(null);
+			loadLayoutConfig(null);
+		}
+		catch (BadConfigFormatException e) {
+			System.out.println(e.getMessage());
+		}
+		catch (FileNotFoundException e) {
+			System.out.println("Error opening file.");
+		}
 	}
 
 	public void setConfigFiles(String layoutConfigFile, String setupConfigFile) {
@@ -50,66 +60,97 @@ public class Board {
 		return rooms.get(cell.getInitial());
 	}
 
-	public void loadSetupConfig(String setupFile) {
-		try {
-			FileReader input = new FileReader("data/" + setupFile);
-			Scanner scan = new Scanner(input);
-			while (scan.hasNextLine()) {
-				String roomLine = scan.nextLine();
-				if (roomLine.charAt(0) == '/') {
-					roomLine = scan.nextLine();
-				}
-				String[] roomInfo = new String[3];
-				roomInfo = roomLine.split(", ");
-				Room room = new Room(roomInfo[1]);
-				rooms.put(roomInfo[2].charAt(0), room);
+	public void loadSetupConfig(Object obj) throws FileNotFoundException, BadConfigFormatException {
+		//Open the file
+		FileReader input = new FileReader("data/" + setupConfigFile);
+		Scanner scan = new Scanner(input);
+		//initialize room map
+		rooms = new HashMap<Character, Room>();
+		//Loop while the scanner has a next line, 
+		while (scan.hasNextLine()) {
+			String roomLine = scan.nextLine();
+			//Skip the line if the first character is a slash
+			if (roomLine.charAt(0) == '/') {
+				roomLine = scan.nextLine();
 			}
-			scan.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("Error opening Setup file.");
+			//Split the line with the commas on the delimiters
+			String[] roomInfo = new String[3];
+			roomInfo = roomLine.split(", ");
+			//If the first word in the line isn't Space or Room throw an Exception
+			if (!(roomInfo[0].equals("Room")) && !(roomInfo[0].equals("Space"))) {
+				throw new BadConfigFormatException("Bad room type in setup file.");
+				//if the initial for the cell is longer than 2 characters long, throw an Exception
+			} else if (roomInfo[2].length() > 2) {
+				throw new BadConfigFormatException("Bad initial in setup file.");
+			}
+			// Create a new room and insert it into the map
+			Room room = new Room(roomInfo[1]);
+			rooms.put(roomInfo[2].charAt(0), room);
 		}
+		scan.close();
 	}
 
-	public void loadLayoutConfig(String layoutFile) {
-		try {
-			FileReader inputSize = new FileReader("data/" + layoutFile);
-			Scanner scanSize = new Scanner(inputSize);
-			String rowCells = "";
-			while (scanSize.hasNextLine()) {
-				numRows++;
-				rowCells = scanSize.nextLine();
-			}
+	public void loadLayoutConfig(Object obj) throws BadConfigFormatException, FileNotFoundException{
+		//Open the file
+		FileReader inputSize = new FileReader("data/" + layoutConfigFile);
+		Scanner scanSize = new Scanner(inputSize);
+		String rowCells = "";
+		numRows = 0;
+		numCols = 0;
+		//Get the first line and set the length to numCols
+		if (scanSize.hasNextLine()) {
+			numRows++;
+			rowCells = scanSize.nextLine();
 			numCols = rowCells.split(",").length;
-			
-			grid = new BoardCell[numRows][numCols];
-			
-			FileReader inputCells = new FileReader("data/" + layoutFile);
-			Scanner scanCells = new Scanner(inputCells);
-			
-			while (scanCells.hasNextLine()) {
-				for (int i = 0; i < numRows; i++) {
-					String row = scanCells.nextLine();
-					String[] seperatedRow = new String[numCols];
-					seperatedRow = row.split(",");
-					for (int j = 0; j < numCols; j++) {
-						BoardCell cell = new BoardCell(i,j);
-						initializeCell(cell, seperatedRow[j]);
-						grid[i][j] = cell;
-					}
+
+		}
+		//Increment numRows each loop and check if the column sizes are consistent, if not throw an Exception
+		while (scanSize.hasNextLine()) {
+			numRows++;
+			rowCells = scanSize.nextLine();
+			if ((rowCells.split(",").length) != (numCols)) {
+				throw new BadConfigFormatException("Layout file did not have the same number of columns per row.");
+			}
+
+		}
+		System.out.println(numRows);
+		System.out.println(numCols);
+		grid = new BoardCell[numRows][numCols];
+
+		FileReader inputCells = new FileReader("data/" + layoutConfigFile);
+		Scanner scanCells = new Scanner(inputCells);
+		//Loop through the file again
+		while (scanCells.hasNextLine()) {
+			for (int i = 0; i < numRows; i++) {
+				//split the row along the commas
+				String row = scanCells.nextLine();
+				String[] seperatedRow = new String[numCols];
+				seperatedRow = row.split(",");
+				//make all of the cells in the row into BoardCells and add them to the grid
+				for (int j = 0; j < numCols; j++) {
+					BoardCell cell = new BoardCell(i,j);
+					initializeCell(cell, seperatedRow[j]);
+					grid[i][j] = cell;
 				}
 			}
-		} catch (FileNotFoundException e) {
-			System.out.println("Error opening Layout file.");
 		}
-		
+		scanSize.close();
+		scanCells.close();
 	}
 	
-	public void initializeCell(BoardCell cell, String label) {
+	//helper function for initializing BoardCells
+	public void initializeCell(BoardCell cell, String label) throws BadConfigFormatException{
 		cell.setInitial(label.charAt(0));
+		//Throw an exception if the initial doesn't match our known room initials
+		if (!(rooms.containsKey(cell.getInitial()))){
+			throw new BadConfigFormatException("Room reference does not exist.");
+		}
+		//Initialization for cells that are a walkway or an unused space
 		if (cell.getInitial() == 'W' || cell.getInitial() == 'X') {
 			cell.setRoom(false);
 			cell.setLabel(false);
 			cell.setRoomCenter(false);
+		//If not, the cell is a room
 		} else {
 			cell.setRoom(true);
 			cell.setDoorway(false);
@@ -117,7 +158,7 @@ public class Board {
 			cell.setRoomCenter(false);
 			cell.setLabel(false);
 		}
-		
+		//This checks the second symbol and updates the cell attributes accordingly
 		if (label.length() == 2) {
 			char symbol = label.charAt(1);
 			switch (symbol) {

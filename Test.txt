@@ -1,0 +1,11 @@
+For the testCellInitials test, we chose four different cells. The first cell was a walkway, the second
+was a room, the third was an unused space, and the fourth a secrect doorway. In addition to testing the label
+of the secret doorway we also tested the .getSeceretPassage method which tells us where the passage leads.
+
+For the testCenterAndLabel test, we chose two different rooms, the Stable and the lookout, which have
+different orientations of their centers and labels. We tested the locations of the center and the label,
+but we also tested that random edge cells and secret passage cells aren't marked as center or label.
+
+In the testDoorways test, we tested a doorway of each type, and also tested a cell that were next to doorways
+to make sure that the edge cases didn't cause any problems. We also tested a cell that is inside a room that isn't a
+doorway.
