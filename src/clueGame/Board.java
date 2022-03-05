@@ -191,6 +191,20 @@ public class Board {
 		} 
 	}
 
+	public Set<BoardCell> getAdjList(int i, int j) {
+		Set<BoardCell> empty = new HashSet<BoardCell>();
+		return empty;
+	}
+
+	public void calcTargets(BoardCell cell, int i) {
+		
+	}
+
+	public Set<BoardCell> getTargets() {
+		Set<BoardCell> empty = new HashSet<BoardCell>();
+		return empty;
+	}
+
 
 }
 
