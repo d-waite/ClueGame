@@ -1,3 +1,39 @@
+commit a1350ae48ed5fc9ca522c12ab324485afedd6c55
+Author: Dillinger Day <djday@mines.edu>
+Date:   Fri Mar 4 19:01:30 2022 -0700
+
+    Refactored last commit
+
+commit dd71feea1c80c465bfad52b0096f5472764aabcb
+Author: Dillinger Day <djday@mines.edu>
+Date:   Fri Mar 4 18:54:28 2022 -0700
+
+    Passed Exception tests
+
+commit 0a744990114b7b68c2092027e1d4011522f6cbc9
+Author: David Waite <davidwaite@mines.edu>
+Date:   Fri Mar 4 16:32:46 2022 -0700
+
+    Passing file init tests & fixed bug in FileInitTest.java
+
+commit 1be03803b3aae218f6a5405352e1568009ca0809
+Author: David Waite <davidwaite@mines.edu>
+Date:   Thu Mar 3 13:42:37 2022 -0700
+
+    Started file loading
+
+commit 94dfbf99b00ee204a332374d23193b580bb3a0a1
+Author: David Waite <davidwaite@mines.edu>
+Date:   Wed Mar 2 17:50:00 2022 -0700
+
+    Created FileInitTest
+
+commit afee4a9685f175f18411b9d3d60bc403ff3b0625
+Author: Dillinger Day <djday@mines.edu>
+Date:   Wed Mar 2 16:15:54 2022 -0700
+
+    Fixed the errors in the test Files and created stub methods so that all of the tests failed and not errored.
+
 commit 0e7ceff2d666096201b28e941b509c4109a5121a
 Author: David Waite <davidwaite@mines.edu>
 Date:   Wed Mar 2 15:40:31 2022 -0700

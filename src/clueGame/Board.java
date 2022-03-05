@@ -114,8 +114,6 @@ public class Board {
 			}
 
 		}
-		System.out.println(numRows);
-		System.out.println(numCols);
 		grid = new BoardCell[numRows][numCols];
 
 		FileReader inputCells = new FileReader("data/" + layoutConfigFile);
