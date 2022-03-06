@@ -1,3 +1,30 @@
+commit 1eadae87c080d192fdad0007881f0c5d3dfaf317
+Author: David Waite <davidwaite@mines.edu>
+Date:   Sat Mar 5 17:18:14 2022 -0700
+
+    Added comments & updated spreadsheet
+
+commit a4a25b06296b1356f39d88495e976b10bc4a6520
+Author: Dillinger Day <djday@mines.edu>
+Date:   Sat Mar 5 17:03:36 2022 -0700
+
+    Created cell targeting tests
+
+commit e80b0dcd688388da3e8ea76eb01fc91b36026681
+Merge: a91a0f1 254a2ec
+Author: David Waite <97065935+d-waite@users.noreply.github.com>
+Date:   Sat Mar 5 16:18:50 2022 -0700
+
+    Merge pull request #1 from d-waite/master
+    
+    Created adjacency tests
+
+commit 254a2ecf890197788a1102fcb2c60e30ca548407
+Author: David Waite <davidwaite@mines.edu>
+Date:   Sat Mar 5 16:11:53 2022 -0700
+
+    Created adjacency tests
+
 commit a91a0f1775d7ace6908d8672f05ea852085b1c07
 Author: Dillinger Day <djday@mines.edu>
 Date:   Sat Mar 5 15:07:05 2022 -0700
