@@ -1,3 +1,9 @@
+commit a91a0f1775d7ace6908d8672f05ea852085b1c07
+Author: Dillinger Day <djday@mines.edu>
+Date:   Sat Mar 5 15:07:05 2022 -0700
+
+    Removed bug testing lines
+
 commit a1350ae48ed5fc9ca522c12ab324485afedd6c55
 Author: Dillinger Day <djday@mines.edu>
 Date:   Fri Mar 4 19:01:30 2022 -0700
