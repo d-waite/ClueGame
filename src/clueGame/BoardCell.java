@@ -3,6 +3,8 @@ package clueGame;
 import java.util.HashSet;
 import java.util.Set;
 
+import experiment.TestBoardCell;
+
 public class BoardCell {
 	// variables describing the cell
 	private int row;
@@ -15,6 +17,7 @@ public class BoardCell {
 	private boolean isRoom;
 	private boolean isOccupied;
 	private boolean isDoorway;
+	private boolean isSecretPassage = false;
 	private char secretPassage;
 		
 	public BoardCell(int row, int column) {
@@ -79,11 +82,16 @@ public class BoardCell {
 	}
 	
 	public void setSecretPassage(char secretPassage) {
+		this.isSecretPassage = true;
 		this.secretPassage = secretPassage;
 	}
 
 	public char getSecretPassage() {
 		return secretPassage;
+	}
+	
+	public boolean isSecretPassage() {
+		return isSecretPassage;
 	}
 
 	public char getInitial() {

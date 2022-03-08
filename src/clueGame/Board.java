@@ -187,23 +187,157 @@ public class Board {
 				break;
 			default:
 				cell.setSecretPassage(symbol);
+
 			}
 		} 
 	}
 
-	public Set<BoardCell> getAdjList(int i, int j) {
-		Set<BoardCell> empty = new HashSet<BoardCell>();
-		return empty;
-	}
+	public void createAdjacencyList( BoardCell[][] grid) {
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numCols; j++) {
+				if (grid[i][j].getInitial() == 'W') {
+					if(grid[i][j].isDoorway()) {
+						switch (grid[i][j].getDoorDirection()) {
+						case UP:
+							grid[i][j].addAdjacency(getRoom(grid[i-1][j].getInitial()).getCenterCell());
+							getRoom(grid[i-1][j].getInitial()).getCenterCell().addAdjacency(grid[i][j]);
+							break;
+						case DOWN:
+							grid[i][j].addAdjacency(getRoom(grid[i+1][j].getInitial()).getCenterCell());
+							getRoom(grid[i+1][j].getInitial()).getCenterCell().addAdjacency(grid[i][j]);
+							break;
+						case RIGHT:
+							grid[i][j].addAdjacency(getRoom(grid[i][j+1].getInitial()).getCenterCell());
+							getRoom(grid[i][j + 1].getInitial()).getCenterCell().addAdjacency(grid[i][j]);
+							break;
+						case LEFT:
+							grid[i][j].addAdjacency(getRoom(grid[i][j-1].getInitial()).getCenterCell());
+							getRoom(grid[i][j-1].getInitial()).getCenterCell().addAdjacency(grid[i][j]);
+							break;
+						default:
+							break;
+						}
 
-	public void calcTargets(BoardCell cell, int i) {
-		
+					} 
+					if (i == 0) {
+						if (j == 0) { // at top left, so we can only go down or right
+							if (testRoomAndUnused(grid[i+1][j])) {
+								grid[i][j].addAdjacency(grid[i+1][j]);
+							}
+							if (testRoomAndUnused(grid[i][j+1])) {
+								grid[i][j].addAdjacency(grid[i][j+1]);
+							}
+						} else if (j == numCols - 1) { // at top right, so we can only go down or left
+							if(testRoomAndUnused(grid[i+1][j])) {
+								grid[i][j].addAdjacency(grid[i+1][j]);
+							}
+							if(testRoomAndUnused(grid[i][j-1])) {
+								grid[i][j].addAdjacency(grid[i][j-1]);
+							}
+						} else { // at top edge, so we can only go down,left, or right
+							if(testRoomAndUnused(grid[i+1][j])) {
+								grid[i][j].addAdjacency(grid[i+1][j]);
+							}
+							if(testRoomAndUnused(grid[i][j+1])) {
+								grid[i][j].addAdjacency(grid[i][j+1]);
+							}
+							if(testRoomAndUnused(grid[i][j-1])) {
+								grid[i][j].addAdjacency(grid[i][j-1]);
+							}
+						}
+					} else if (i == numRows -1) {
+						if (j == 0) { // // at bottom left, so we can only go up or right
+							if(testRoomAndUnused(grid[i-1][j])) {
+								grid[i][j].addAdjacency(grid[i-1][j]);
+							}
+							if(testRoomAndUnused(grid[i][j+1])) {
+								grid[i][j].addAdjacency(grid[i][j+1]);
+							}
+						} else if (j == numCols - 1) { // at bottom right, so we can only go up or left
+							if(testRoomAndUnused(grid[i-1][j])) {
+								grid[i][j].addAdjacency(grid[i-1][j]);
+							}
+							if(testRoomAndUnused(grid[i][j-1])) {
+								grid[i][j].addAdjacency(grid[i][j-1]);
+							}
+						} else { // at bottom edge, so we can only go up, right, and left
+							if(testRoomAndUnused(grid[i-1][j])) {
+								grid[i][j].addAdjacency(grid[i-1][j]);
+							}
+							if(testRoomAndUnused(grid[i][j+1])) {
+								grid[i][j].addAdjacency(grid[i][j+1]);
+							}
+							if(testRoomAndUnused(grid[i][j-1])) {
+								grid[i][j].addAdjacency(grid[i][j-1]);
+							}
+						}
+					} else if (j == 0) { // at left edge, so we can only go up, down, or right
+						if(testRoomAndUnused(grid[i-1][j])) {
+							grid[i][j].addAdjacency(grid[i-1][j]);
+						}
+						if(testRoomAndUnused(grid[i+1][j])) {
+							grid[i][j].addAdjacency(grid[i+1][j]);
+						}
+						if(testRoomAndUnused(grid[i][j+1])) {
+							grid[i][j].addAdjacency(grid[i][j+1]);
+						}
+					} else if (j == numCols -1) { // at right edge, so we can only go up, down, or left
+						if(testRoomAndUnused(grid[i-1][j])) {
+							grid[i][j].addAdjacency(grid[i-1][j]);
+						}
+						if(testRoomAndUnused(grid[i+1][j])) {
+							grid[i][j].addAdjacency(grid[i+1][j]);
+						}
+						if(testRoomAndUnused(grid[i][j-1])) {
+							grid[i][j].addAdjacency(grid[i][j-1]);
+						}
+					} else { // in middle, we have adjacent cells on all 4 sides
+						if(testRoomAndUnused(grid[i-1][j])) {
+							grid[i][j].addAdjacency(grid[i-1][j]);
+						}
+						if(testRoomAndUnused(grid[i+1][j])) {
+							grid[i][j].addAdjacency(grid[i+1][j]);
+						}
+						if(testRoomAndUnused(grid[i][j-1])) {
+							grid[i][j].addAdjacency(grid[i][j-1]);
+						}
+						if(testRoomAndUnused(grid[i][j+1])) {
+							grid[i][j].addAdjacency(grid[i][j+1]);
+						}
+					}
+				} else {
+					if (grid[i][j].getInitial() != 'X') {
+						if(grid[i][j].isRoomCenter()) {
+							if(grid[i][j].isSecretPassage()) {
+								grid[i][j].addAdjacency(getRoom(grid[i][j].getSecretPassage()).getCenterCell());
+							}
+						}
+			}
+		}
 	}
+}
+}
 
-	public Set<BoardCell> getTargets() {
-		Set<BoardCell> empty = new HashSet<BoardCell>();
-		return empty;
+private boolean testRoomAndUnused(BoardCell cell) {
+	if (cell.getInitial() == 'W') {
+		return true;
+	} else {
+		return false;
 	}
+}
+
+public Set<BoardCell> getAdjList(int i, int j) {
+	return grid[i][j].getAdjList();
+}
+
+public void calcTargets(BoardCell cell, int i) {
+
+}
+
+public Set<BoardCell> getTargets() {
+	Set<BoardCell> empty = new HashSet<BoardCell>();
+	return empty;
+}
 
 
 }
