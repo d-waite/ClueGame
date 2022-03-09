@@ -66,10 +66,10 @@ class BoardAdjTargetTest {
 		assertTrue(testAdjList.contains(board.getCell(28, 4)));
 		assertTrue(testAdjList.contains(board.getCell(27, 5)));
 
-		testAdjList = board.getAdjList(6, 24); // testing east edge
+		testAdjList = board.getAdjList(4, 24); // testing east edge
 		assertEquals(2, testAdjList.size());
-		assertTrue(testAdjList.contains(board.getCell(5, 24)));
-		assertTrue(testAdjList.contains(board.getCell(6, 23)));
+		assertTrue(testAdjList.contains(board.getCell(3, 24)));
+		assertTrue(testAdjList.contains(board.getCell(4, 23)));
 	}
 
 	@Test
@@ -100,7 +100,8 @@ class BoardAdjTargetTest {
 
 		board.calcTargets(board.getCell(28, 4), 3); // testing target that lets user go into a room
 		Set<BoardCell> targets4 = board.getTargets();
-		assertEquals(targets4.size(), 4);
+		assertEquals(targets4.size(), 5);
+		assertTrue(targets4.contains(board.getCell(27, 4)));
 		assertTrue(targets4.contains(board.getCell(25, 2)));
 		assertTrue(targets4.contains(board.getCell(25, 4)));
 		assertTrue(targets4.contains(board.getCell(28, 5)));

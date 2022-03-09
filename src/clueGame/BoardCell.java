@@ -42,7 +42,9 @@ public class BoardCell {
 	}
 
 	public void setOccupied(boolean occupied) {
-		this.isOccupied = occupied;
+		if (!roomCenter) {
+			this.isOccupied = occupied;
+		}
 	}
 
 	public boolean getOccupied() {

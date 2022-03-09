@@ -1,6 +1,9 @@
 package clueGame;
 
 import java.util.*;
+
+import experiment.TestBoardCell;
+
 import java.io.*;
 
 public class Board {
@@ -11,6 +14,8 @@ public class Board {
 	private static Board theInstance = new Board();
 	private BoardCell[][] grid;
 	private Map<Character, Room> rooms;
+	private Set<BoardCell> targets = new HashSet<BoardCell>();
+	private Set<BoardCell> visited  = new HashSet<BoardCell>();
 
 	private Board() {
 		super();
@@ -31,6 +36,7 @@ public class Board {
 		catch (FileNotFoundException e) {
 			System.out.println("Error opening file.");
 		}
+		createAdjacencyList(grid);
 	}
 
 	public void setConfigFiles(String layoutConfigFile, String setupConfigFile) {
@@ -245,7 +251,7 @@ public class Board {
 								grid[i][j].addAdjacency(grid[i][j-1]);
 							}
 						}
-					} else if (i == numRows -1) {
+					} else if (i == numRows - 1) {
 						if (j == 0) { // // at bottom left, so we can only go up or right
 							if(testRoomAndUnused(grid[i-1][j])) {
 								grid[i][j].addAdjacency(grid[i-1][j]);
@@ -306,17 +312,14 @@ public class Board {
 						}
 					}
 				} else {
-					if (grid[i][j].getInitial() != 'X') {
-						if(grid[i][j].isRoomCenter()) {
-							if(grid[i][j].isSecretPassage()) {
-								grid[i][j].addAdjacency(getRoom(grid[i][j].getSecretPassage()).getCenterCell());
-							}
-						}
+					if(grid[i][j].isSecretPassage()) {
+						getRoom(grid[i][j]).getCenterCell().addAdjacency(getRoom(grid[i][j].getSecretPassage()).getCenterCell());
+					}
+				}
 			}
 		}
 	}
-}
-}
+
 
 private boolean testRoomAndUnused(BoardCell cell) {
 	if (cell.getInitial() == 'W') {
@@ -330,13 +333,31 @@ public Set<BoardCell> getAdjList(int i, int j) {
 	return grid[i][j].getAdjList();
 }
 
-public void calcTargets(BoardCell cell, int i) {
+public void calcTargets(BoardCell cell, int pathlength) {
+	visited.clear(); 
+	targets.clear();
+	visited.add(cell); 
+	findAllTargets(cell, pathlength);
+}
 
+private void findAllTargets(BoardCell cell, int pathlength) {
+	for (BoardCell adjCell: cell.getAdjList()) {
+		if ((!(visited.contains(adjCell))) && (!(adjCell.getOccupied()))) { 
+			visited.add(adjCell); 
+			if (adjCell.getRoom()) { 
+				targets.add(adjCell);
+			} else if (pathlength == 1) { 
+				targets.add(adjCell);
+			} else {
+				findAllTargets(adjCell, pathlength - 1); 
+			}
+			visited.remove(adjCell); 
+		}
+	}
 }
 
 public Set<BoardCell> getTargets() {
-	Set<BoardCell> empty = new HashSet<BoardCell>();
-	return empty;
+	return targets;
 }
 
 
