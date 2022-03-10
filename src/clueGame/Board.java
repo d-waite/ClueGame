@@ -144,7 +144,7 @@ public class Board {
 	}
 
 	//helper function for initializing BoardCells
-	public void initializeCell(BoardCell cell, String label) throws BadConfigFormatException{
+	private void initializeCell(BoardCell cell, String label) throws BadConfigFormatException{
 		cell.setInitial(label.charAt(0));
 		//Throw an exception if the initial doesn't match our known room initials
 		if (!(rooms.containsKey(cell.getInitial()))){
@@ -199,166 +199,144 @@ public class Board {
 	}
 
 	public void createAdjacencyList( BoardCell[][] grid) {
-		for(int i = 0; i < numRows; i++) {
+		for(int i = 0; i < numRows; i++) { // go through every cell in the grid
 			for(int j = 0; j < numCols; j++) {
-				if (grid[i][j].getInitial() == 'W') {
-					if(grid[i][j].isDoorway()) {
-						switch (grid[i][j].getDoorDirection()) {
+				BoardCell currentCell = grid[i][j];
+				if (currentCell.getInitial() == 'W') { // if cell is a walkway
+					int above = i-1; 
+					int below = i+1;
+					int right = j+1;
+					int left = j-1;
+					if(currentCell.isDoorway()) { 
+						switch (currentCell.getDoorDirection()) {
+						// add center cell of the room the doorway enters into to the adjacency list of the current cell
+						// & vice versa
 						case UP:
-							grid[i][j].addAdjacency(getRoom(grid[i-1][j].getInitial()).getCenterCell());
-							getRoom(grid[i-1][j].getInitial()).getCenterCell().addAdjacency(grid[i][j]);
+							currentCell.addAdjacency(getRoom(grid[above][j].getInitial()).getCenterCell());
+							getRoom(grid[above][j].getInitial()).getCenterCell().addAdjacency(currentCell);
 							break;
 						case DOWN:
-							grid[i][j].addAdjacency(getRoom(grid[i+1][j].getInitial()).getCenterCell());
-							getRoom(grid[i+1][j].getInitial()).getCenterCell().addAdjacency(grid[i][j]);
+							currentCell.addAdjacency(getRoom(grid[below][j].getInitial()).getCenterCell());
+							getRoom(grid[below][j].getInitial()).getCenterCell().addAdjacency(currentCell);
 							break;
 						case RIGHT:
-							grid[i][j].addAdjacency(getRoom(grid[i][j+1].getInitial()).getCenterCell());
-							getRoom(grid[i][j + 1].getInitial()).getCenterCell().addAdjacency(grid[i][j]);
+							currentCell.addAdjacency(getRoom(grid[i][right].getInitial()).getCenterCell());
+							getRoom(grid[i][right].getInitial()).getCenterCell().addAdjacency(currentCell);
 							break;
 						case LEFT:
-							grid[i][j].addAdjacency(getRoom(grid[i][j-1].getInitial()).getCenterCell());
-							getRoom(grid[i][j-1].getInitial()).getCenterCell().addAdjacency(grid[i][j]);
+							currentCell.addAdjacency(getRoom(grid[i][left].getInitial()).getCenterCell());
+							getRoom(grid[i][left].getInitial()).getCenterCell().addAdjacency(currentCell);
 							break;
 						default:
 							break;
 						}
 
-					} 
+					}
+					
 					if (i == 0) {
 						if (j == 0) { // at top left, so we can only go down or right
-							if (testRoomAndUnused(grid[i+1][j])) {
-								grid[i][j].addAdjacency(grid[i+1][j]);
-							}
-							if (testRoomAndUnused(grid[i][j+1])) {
-								grid[i][j].addAdjacency(grid[i][j+1]);
-							}
+							addCellsToAdjList(currentCell, false, true, false, true, i, j);
 						} else if (j == numCols - 1) { // at top right, so we can only go down or left
-							if(testRoomAndUnused(grid[i+1][j])) {
-								grid[i][j].addAdjacency(grid[i+1][j]);
-							}
-							if(testRoomAndUnused(grid[i][j-1])) {
-								grid[i][j].addAdjacency(grid[i][j-1]);
-							}
+							addCellsToAdjList(currentCell, true, false, false, true, i, j);
 						} else { // at top edge, so we can only go down,left, or right
-							if(testRoomAndUnused(grid[i+1][j])) {
-								grid[i][j].addAdjacency(grid[i+1][j]);
-							}
-							if(testRoomAndUnused(grid[i][j+1])) {
-								grid[i][j].addAdjacency(grid[i][j+1]);
-							}
-							if(testRoomAndUnused(grid[i][j-1])) {
-								grid[i][j].addAdjacency(grid[i][j-1]);
-							}
+							addCellsToAdjList(currentCell, true, true, false, true, i, j);
 						}
 					} else if (i == numRows - 1) {
 						if (j == 0) { // // at bottom left, so we can only go up or right
-							if(testRoomAndUnused(grid[i-1][j])) {
-								grid[i][j].addAdjacency(grid[i-1][j]);
-							}
-							if(testRoomAndUnused(grid[i][j+1])) {
-								grid[i][j].addAdjacency(grid[i][j+1]);
-							}
+							addCellsToAdjList(currentCell, false, true, true, false, i, j);
 						} else if (j == numCols - 1) { // at bottom right, so we can only go up or left
-							if(testRoomAndUnused(grid[i-1][j])) {
-								grid[i][j].addAdjacency(grid[i-1][j]);
-							}
-							if(testRoomAndUnused(grid[i][j-1])) {
-								grid[i][j].addAdjacency(grid[i][j-1]);
-							}
+							addCellsToAdjList(currentCell, true, false, true, false, i, j);
 						} else { // at bottom edge, so we can only go up, right, and left
-							if(testRoomAndUnused(grid[i-1][j])) {
-								grid[i][j].addAdjacency(grid[i-1][j]);
-							}
-							if(testRoomAndUnused(grid[i][j+1])) {
-								grid[i][j].addAdjacency(grid[i][j+1]);
-							}
-							if(testRoomAndUnused(grid[i][j-1])) {
-								grid[i][j].addAdjacency(grid[i][j-1]);
-							}
+							addCellsToAdjList(currentCell, true, true, true, false, i, j);
 						}
 					} else if (j == 0) { // at left edge, so we can only go up, down, or right
-						if(testRoomAndUnused(grid[i-1][j])) {
-							grid[i][j].addAdjacency(grid[i-1][j]);
-						}
-						if(testRoomAndUnused(grid[i+1][j])) {
-							grid[i][j].addAdjacency(grid[i+1][j]);
-						}
-						if(testRoomAndUnused(grid[i][j+1])) {
-							grid[i][j].addAdjacency(grid[i][j+1]);
-						}
+						addCellsToAdjList(currentCell, false, true, true, true, i, j);
 					} else if (j == numCols -1) { // at right edge, so we can only go up, down, or left
-						if(testRoomAndUnused(grid[i-1][j])) {
-							grid[i][j].addAdjacency(grid[i-1][j]);
-						}
-						if(testRoomAndUnused(grid[i+1][j])) {
-							grid[i][j].addAdjacency(grid[i+1][j]);
-						}
-						if(testRoomAndUnused(grid[i][j-1])) {
-							grid[i][j].addAdjacency(grid[i][j-1]);
-						}
+						addCellsToAdjList(currentCell, true, false, true, true, i, j);
 					} else { // in middle, we have adjacent cells on all 4 sides
-						if(testRoomAndUnused(grid[i-1][j])) {
-							grid[i][j].addAdjacency(grid[i-1][j]);
-						}
-						if(testRoomAndUnused(grid[i+1][j])) {
-							grid[i][j].addAdjacency(grid[i+1][j]);
-						}
-						if(testRoomAndUnused(grid[i][j-1])) {
-							grid[i][j].addAdjacency(grid[i][j-1]);
-						}
-						if(testRoomAndUnused(grid[i][j+1])) {
-							grid[i][j].addAdjacency(grid[i][j+1]);
-						}
+						addCellsToAdjList(currentCell, true, true, true, true, i, j);
 					}
+					
 				} else {
-					if(grid[i][j].isSecretPassage()) {
-						getRoom(grid[i][j]).getCenterCell().addAdjacency(getRoom(grid[i][j].getSecretPassage()).getCenterCell());
+					if(currentCell.isSecretPassage()) {
+						// connect center cells of rooms that have secret passages
+						getRoom(currentCell).getCenterCell().addAdjacency(getRoom(currentCell.getSecretPassage()).getCenterCell());
 					}
 				}
 			}
 		}
 	}
 
-
-private boolean testRoomAndUnused(BoardCell cell) {
-	if (cell.getInitial() == 'W') {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-public Set<BoardCell> getAdjList(int i, int j) {
-	return grid[i][j].getAdjList();
-}
-
-public void calcTargets(BoardCell cell, int pathlength) {
-	visited.clear(); 
-	targets.clear();
-	visited.add(cell); 
-	findAllTargets(cell, pathlength);
-}
-
-private void findAllTargets(BoardCell cell, int pathlength) {
-	for (BoardCell adjCell: cell.getAdjList()) {
-		if ((!(visited.contains(adjCell))) && (!(adjCell.getOccupied()))) { 
-			visited.add(adjCell); 
-			if (adjCell.getRoom()) { 
-				targets.add(adjCell);
-			} else if (pathlength == 1) { 
-				targets.add(adjCell);
-			} else {
-				findAllTargets(adjCell, pathlength - 1); 
+	private void addCellsToAdjList(BoardCell cell, boolean left, boolean right, boolean up, boolean down, int i, int j) {
+		if (left) { // add left cell to adjacency list
+			BoardCell leftCell = getCell(i,j-1);
+			if (testValidAdjacency(leftCell)) {
+				cell.addAdjacency(leftCell);
 			}
-			visited.remove(adjCell); 
+		}
+		if (right) { // add right cell to adjacency list
+			BoardCell rightCell = getCell(i,j+1);
+			if (testValidAdjacency(rightCell)) {
+				cell.addAdjacency(rightCell);
+			}
+		}
+		if (up) { // add above cell to adjacency list
+			BoardCell aboveCell = getCell(i-1,j);
+			if (testValidAdjacency(aboveCell)) {
+				cell.addAdjacency(aboveCell);
+			}
+		}
+		if (down) { // add below cell to adjacency list
+			BoardCell belowCell = getCell(i+1,j);
+			if (testValidAdjacency(belowCell)) {
+				cell.addAdjacency(belowCell);
+			}
 		}
 	}
-}
+	
+	// test whether cell is a valid adjacent cell
+	// essentially, if cell is part of a room (room center already dealt with) or is unused,
+	// it should not go in adjacency list
+	private boolean testValidAdjacency(BoardCell cell) {
+		if (cell.getInitial() == 'W') {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-public Set<BoardCell> getTargets() {
-	return targets;
-}
+	public Set<BoardCell> getAdjList(int i, int j) {
+		return grid[i][j].getAdjList();
+	}
+
+	public void calcTargets(BoardCell cell, int pathlength) {
+		// make sure data structures are cleared for new calculation
+		visited.clear(); 
+		targets.clear();
+		visited.add(cell); // visited current cell
+		findAllTargets(cell, pathlength);
+	}
+
+	private void findAllTargets(BoardCell cell, int pathlength) {
+		for (BoardCell adjCell: cell.getAdjList()) { // look at all adjacent cells
+			// can't go through same space twice in one turn & can't visit an occupied space
+			if ((!(visited.contains(adjCell))) && (!(adjCell.getOccupied()))) { 
+				visited.add(adjCell); 
+				if (adjCell.getRoom()) { // turn ends once room is entered
+					targets.add(adjCell);
+				} else if (pathlength == 1) { // end of roll
+					targets.add(adjCell);
+				} else {
+					findAllTargets(adjCell, pathlength - 1); 
+				}
+				visited.remove(adjCell); 
+			}
+		}
+	}
+
+	public Set<BoardCell> getTargets() {
+		return targets;
+	}
 
 
 }

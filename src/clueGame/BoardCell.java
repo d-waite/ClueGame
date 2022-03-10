@@ -42,7 +42,7 @@ public class BoardCell {
 	}
 
 	public void setOccupied(boolean occupied) {
-		if (!roomCenter) {
+		if (!roomCenter) { // multiple players can be in the same room
 			this.isOccupied = occupied;
 		}
 	}
