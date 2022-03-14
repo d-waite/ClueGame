@@ -128,7 +128,7 @@ public class Board {
 		FileReader inputCells = new FileReader("data/" + layoutConfigFile);
 		Scanner scanCells = new Scanner(inputCells);
 		//Loop through the file again
-		while (scanCells.hasNextLine()) {
+		
 			for (int row = 0; row < numRows; row++) {
 				//split the row along the commas
 				String symbolRow = scanCells.nextLine();
@@ -141,7 +141,7 @@ public class Board {
 					grid[row][column] = cell;
 				}
 			}
-		}
+
 		scanSize.close();
 		scanCells.close();
 	}
