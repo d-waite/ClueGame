@@ -82,17 +82,19 @@ public class Board {
 			String[] roomInfo = new String[setupLineLength];
 			roomInfo = roomLine.split(", ");
 			//If the first word in the line isn't Space or Room throw an Exception
-			if (!(roomInfo[0].equals("Room")) && !(roomInfo[0].equals("Space"))) {
+			String roomType = roomInfo[0];
+			if (!(roomType.equals("Room")) && !(roomType.equals("Space"))) {
 				throw new BadConfigFormatException("Bad room type in setup file.");
 			}
 			//if the initial for the cell is longer than 2 characters long, throw an Exception
-			if (roomInfo[2].length() > 2) {
+			String roomSymbol = roomInfo[2];
+			if (roomSymbol.length() > 2) {
 				throw new BadConfigFormatException("Bad initial in setup file.");
 			}
 			// Create a new room and insert it into the map
 			String roomName = roomInfo[1];
 			Room room = new Room(roomName);
-			char roomInitial = roomInfo[2].charAt(0);
+			char roomInitial = roomSymbol.charAt(0);
 			rooms.put(roomInitial, room);
 		}
 		scan.close();
