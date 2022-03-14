@@ -203,34 +203,8 @@ public class Board {
 			for(int j = 0; j < numCols; j++) {
 				BoardCell currentCell = grid[i][j];
 				if (currentCell.getInitial() == 'W') { // if cell is a walkway
-					int above = i-1; 
-					int below = i+1;
-					int right = j+1;
-					int left = j-1;
 					if(currentCell.isDoorway()) { 
-						switch (currentCell.getDoorDirection()) {
-						// add center cell of the room the doorway enters into to the adjacency list of the current cell
-						// & vice versa
-						case UP:
-							currentCell.addAdjacency(getRoom(grid[above][j].getInitial()).getCenterCell());
-							getRoom(grid[above][j].getInitial()).getCenterCell().addAdjacency(currentCell);
-							break;
-						case DOWN:
-							currentCell.addAdjacency(getRoom(grid[below][j].getInitial()).getCenterCell());
-							getRoom(grid[below][j].getInitial()).getCenterCell().addAdjacency(currentCell);
-							break;
-						case RIGHT:
-							currentCell.addAdjacency(getRoom(grid[i][right].getInitial()).getCenterCell());
-							getRoom(grid[i][right].getInitial()).getCenterCell().addAdjacency(currentCell);
-							break;
-						case LEFT:
-							currentCell.addAdjacency(getRoom(grid[i][left].getInitial()).getCenterCell());
-							getRoom(grid[i][left].getInitial()).getCenterCell().addAdjacency(currentCell);
-							break;
-						default:
-							break;
-						}
-
+						initializeDoorway(currentCell, i, j);
 					}
 					
 					if (i == 0) {
@@ -264,6 +238,35 @@ public class Board {
 					}
 				}
 			}
+		}
+	}
+	
+	private void initializeDoorway(BoardCell currentCell,int i,int j) {
+		int above = i-1; 
+		int below = i+1;
+		int right = j+1;
+		int left = j-1;
+		switch (currentCell.getDoorDirection()) {
+		// add center cell of the room the doorway enters into to the adjacency list of the current cell
+		// & vice versa
+		case UP:
+			currentCell.addAdjacency(getRoom(grid[above][j].getInitial()).getCenterCell());
+			getRoom(grid[above][j].getInitial()).getCenterCell().addAdjacency(currentCell);
+			break;
+		case DOWN:
+			currentCell.addAdjacency(getRoom(grid[below][j].getInitial()).getCenterCell());
+			getRoom(grid[below][j].getInitial()).getCenterCell().addAdjacency(currentCell);
+			break;
+		case RIGHT:
+			currentCell.addAdjacency(getRoom(grid[i][right].getInitial()).getCenterCell());
+			getRoom(grid[i][right].getInitial()).getCenterCell().addAdjacency(currentCell);
+			break;
+		case LEFT:
+			currentCell.addAdjacency(getRoom(grid[i][left].getInitial()).getCenterCell());
+			getRoom(grid[i][left].getInitial()).getCenterCell().addAdjacency(currentCell);
+			break;
+		default:
+			break;
 		}
 	}
 
