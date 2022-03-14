@@ -1,3 +1,4 @@
+// Authors: David Waite & Dillinger Day
 package clueGame;
 
 import java.util.*;
@@ -88,9 +89,6 @@ public class Board {
 			}
 			//if the initial for the cell is longer than 2 characters long, throw an Exception
 			String roomSymbol = roomInfo[2];
-			if (roomSymbol.length() > 2) {
-				throw new BadConfigFormatException("Bad initial in setup file.");
-			}
 			// Create a new room and insert it into the map
 			String roomName = roomInfo[1];
 			Room room = new Room(roomName);
