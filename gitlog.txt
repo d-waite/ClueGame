@@ -1,3 +1,41 @@
+commit 97b0da26f4120a7ce73bf198ccc024f3e4798707
+Author: David Waite <davidwaite@mines.edu>
+Date:   Wed Mar 9 17:26:44 2022 -0700
+
+    Refactored and commented
+
+commit d753434e8d2fab9f8ae4c56833b5722a4703fe46
+Author: David Waite <davidwaite@mines.edu>
+Date:   Wed Mar 9 16:29:55 2022 -0700
+
+    Passed adjacency and target tests
+
+commit 599863eea61fc64857133e1e7c8f6f46667dc98b
+Author: Dillinger Day <djday@mines.edu>
+Date:   Tue Mar 8 13:45:59 2022 -0700
+
+    Started to create Adjacency List
+
+commit 59636b02cecab76a10e6f0f17145f6332aed3a08
+Merge: 4f82a39 1fcd7da
+Author: Dillinger Day <djday@mines.edu>
+Date:   Tue Mar 8 12:44:07 2022 -0700
+
+    Fixing more conflicts in gitlog
+
+commit 4f82a39f432d94f566b73210a419eafa2a66c40e
+Merge: d0ae88a 1eadae8
+Author: Dillinger Day <djday@mines.edu>
+Date:   Tue Mar 8 12:41:54 2022 -0700
+
+    Fixed gitlog conflict
+
+commit 1fcd7da2b9c22434813d08eae8bb4a463ce4651d
+Author: Dillinger Day <djday@mines.edu>
+Date:   Sat Mar 5 17:20:36 2022 -0700
+
+    updated git log
+
 commit 1eadae87c080d192fdad0007881f0c5d3dfaf317
 Author: David Waite <davidwaite@mines.edu>
 Date:   Sat Mar 5 17:18:14 2022 -0700
@@ -30,6 +68,12 @@ Author: Dillinger Day <djday@mines.edu>
 Date:   Sat Mar 5 15:07:05 2022 -0700
 
     Removed bug testing lines
+
+commit d0ae88a9f8994d94d2716cad27c03c9ef059a74f
+Author: Dillinger Day <djday@mines.edu>
+Date:   Fri Mar 4 19:04:50 2022 -0700
+
+    updated git log
 
 commit a1350ae48ed5fc9ca522c12ab324485afedd6c55
 Author: Dillinger Day <djday@mines.edu>

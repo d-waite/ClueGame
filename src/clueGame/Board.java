@@ -44,8 +44,8 @@ public class Board {
 		this.setupConfigFile = setupConfigFile;
 	}
 
-	public BoardCell getCell(int i, int j) {
-		return grid[i][j];
+	public BoardCell getCell(int row, int column) {
+		return grid[row][column];
 	}
 
 	public int getNumRows() {
@@ -126,16 +126,16 @@ public class Board {
 		Scanner scanCells = new Scanner(inputCells);
 		//Loop through the file again
 		while (scanCells.hasNextLine()) {
-			for (int i = 0; i < numRows; i++) {
+			for (int row = 0; row < numRows; row++) {
 				//split the row along the commas
-				String row = scanCells.nextLine();
+				String symbolRow = scanCells.nextLine();
 				String[] seperatedRow = new String[numCols];
-				seperatedRow = row.split(",");
+				seperatedRow = symbolRow.split(",");
 				//make all of the cells in the row into BoardCells and add them to the grid
-				for (int j = 0; j < numCols; j++) {
-					BoardCell cell = new BoardCell(i,j);
-					initializeCell(cell, seperatedRow[j]);
-					grid[i][j] = cell;
+				for (int column = 0; column < numCols; column++) {
+					BoardCell cell = new BoardCell(row,column);
+					initializeCell(cell, seperatedRow[column]);
+					grid[row][column] = cell;
 				}
 			}
 		}
@@ -199,36 +199,36 @@ public class Board {
 	}
 
 	public void createAdjacencyList( BoardCell[][] grid) {
-		for(int i = 0; i < numRows; i++) { // go through every cell in the grid
-			for(int j = 0; j < numCols; j++) {
-				BoardCell currentCell = grid[i][j];
+		for(int row = 0; row < numRows; row++) { // go through every cell in the grid
+			for(int column = 0; column < numCols; column++) {
+				BoardCell currentCell = grid[row][column];
 				if (currentCell.getInitial() == 'W') { // if cell is a walkway
 					if(currentCell.isDoorway()) { 
-						initializeDoorway(currentCell, i, j);
+						initializeDoorway(currentCell, row, column);
 					}
 					
-					if (i == 0) {
-						if (j == 0) { // at top left, so we can only go down or right
-							addCellsToAdjList(currentCell, false, true, false, true, i, j);
-						} else if (j == numCols - 1) { // at top right, so we can only go down or left
-							addCellsToAdjList(currentCell, true, false, false, true, i, j);
+					if (row == 0) {
+						if (column == 0) { // at top left, so we can only go down or right
+							addCellsToAdjList(currentCell, false, true, false, true, row, column);
+						} else if (column == numCols - 1) { // at top right, so we can only go down or left
+							addCellsToAdjList(currentCell, true, false, false, true, row, column);
 						} else { // at top edge, so we can only go down,left, or right
-							addCellsToAdjList(currentCell, true, true, false, true, i, j);
+							addCellsToAdjList(currentCell, true, true, false, true, row, column);
 						}
-					} else if (i == numRows - 1) {
-						if (j == 0) { // // at bottom left, so we can only go up or right
-							addCellsToAdjList(currentCell, false, true, true, false, i, j);
-						} else if (j == numCols - 1) { // at bottom right, so we can only go up or left
-							addCellsToAdjList(currentCell, true, false, true, false, i, j);
+					} else if (row == numRows - 1) {
+						if (column == 0) { // // at bottom left, so we can only go up or right
+							addCellsToAdjList(currentCell, false, true, true, false, row, column);
+						} else if (column == numCols - 1) { // at bottom right, so we can only go up or left
+							addCellsToAdjList(currentCell, true, false, true, false, row, column);
 						} else { // at bottom edge, so we can only go up, right, and left
-							addCellsToAdjList(currentCell, true, true, true, false, i, j);
+							addCellsToAdjList(currentCell, true, true, true, false, row, column);
 						}
-					} else if (j == 0) { // at left edge, so we can only go up, down, or right
-						addCellsToAdjList(currentCell, false, true, true, true, i, j);
-					} else if (j == numCols -1) { // at right edge, so we can only go up, down, or left
-						addCellsToAdjList(currentCell, true, false, true, true, i, j);
+					} else if (column == 0) { // at left edge, so we can only go up, down, or right
+						addCellsToAdjList(currentCell, false, true, true, true, row, column);
+					} else if (column == numCols -1) { // at right edge, so we can only go up, down, or left
+						addCellsToAdjList(currentCell, true, false, true, true, row, column);
 					} else { // in middle, we have adjacent cells on all 4 sides
-						addCellsToAdjList(currentCell, true, true, true, true, i, j);
+						addCellsToAdjList(currentCell, true, true, true, true, row, column);
 					}
 					
 				} else {
@@ -241,56 +241,56 @@ public class Board {
 		}
 	}
 	
-	private void initializeDoorway(BoardCell currentCell,int i,int j) {
-		int above = i-1; 
-		int below = i+1;
-		int right = j+1;
-		int left = j-1;
+	private void initializeDoorway(BoardCell currentCell,int row,int column) {
+		int above = row-1; 
+		int below = row+1;
+		int right = column+1;
+		int left = column-1;
 		switch (currentCell.getDoorDirection()) {
 		// add center cell of the room the doorway enters into to the adjacency list of the current cell
 		// & vice versa
 		case UP:
-			currentCell.addAdjacency(getRoom(grid[above][j].getInitial()).getCenterCell());
-			getRoom(grid[above][j].getInitial()).getCenterCell().addAdjacency(currentCell);
+			currentCell.addAdjacency(getRoom(grid[above][column].getInitial()).getCenterCell());
+			getRoom(grid[above][column].getInitial()).getCenterCell().addAdjacency(currentCell);
 			break;
 		case DOWN:
-			currentCell.addAdjacency(getRoom(grid[below][j].getInitial()).getCenterCell());
-			getRoom(grid[below][j].getInitial()).getCenterCell().addAdjacency(currentCell);
+			currentCell.addAdjacency(getRoom(grid[below][column].getInitial()).getCenterCell());
+			getRoom(grid[below][column].getInitial()).getCenterCell().addAdjacency(currentCell);
 			break;
 		case RIGHT:
-			currentCell.addAdjacency(getRoom(grid[i][right].getInitial()).getCenterCell());
-			getRoom(grid[i][right].getInitial()).getCenterCell().addAdjacency(currentCell);
+			currentCell.addAdjacency(getRoom(grid[row][right].getInitial()).getCenterCell());
+			getRoom(grid[row][right].getInitial()).getCenterCell().addAdjacency(currentCell);
 			break;
 		case LEFT:
-			currentCell.addAdjacency(getRoom(grid[i][left].getInitial()).getCenterCell());
-			getRoom(grid[i][left].getInitial()).getCenterCell().addAdjacency(currentCell);
+			currentCell.addAdjacency(getRoom(grid[row][left].getInitial()).getCenterCell());
+			getRoom(grid[row][left].getInitial()).getCenterCell().addAdjacency(currentCell);
 			break;
 		default:
 			break;
 		}
 	}
 
-	private void addCellsToAdjList(BoardCell cell, boolean left, boolean right, boolean up, boolean down, int i, int j) {
+	private void addCellsToAdjList(BoardCell cell, boolean left, boolean right, boolean up, boolean down, int row, int column) {
 		if (left) { // add left cell to adjacency list
-			BoardCell leftCell = getCell(i,j-1);
+			BoardCell leftCell = getCell(row,column-1);
 			if (testValidAdjacency(leftCell)) {
 				cell.addAdjacency(leftCell);
 			}
 		}
 		if (right) { // add right cell to adjacency list
-			BoardCell rightCell = getCell(i,j+1);
+			BoardCell rightCell = getCell(row,column+1);
 			if (testValidAdjacency(rightCell)) {
 				cell.addAdjacency(rightCell);
 			}
 		}
 		if (up) { // add above cell to adjacency list
-			BoardCell aboveCell = getCell(i-1,j);
+			BoardCell aboveCell = getCell(row-1,column);
 			if (testValidAdjacency(aboveCell)) {
 				cell.addAdjacency(aboveCell);
 			}
 		}
 		if (down) { // add below cell to adjacency list
-			BoardCell belowCell = getCell(i+1,j);
+			BoardCell belowCell = getCell(row+1,column);
 			if (testValidAdjacency(belowCell)) {
 				cell.addAdjacency(belowCell);
 			}
@@ -308,8 +308,8 @@ public class Board {
 		}
 	}
 
-	public Set<BoardCell> getAdjList(int i, int j) {
-		return grid[i][j].getAdjList();
+	public Set<BoardCell> getAdjList(int row, int column) {
+		return grid[row][column].getAdjList();
 	}
 
 	public void calcTargets(BoardCell cell, int pathlength) {
