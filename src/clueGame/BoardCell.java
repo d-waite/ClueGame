@@ -14,11 +14,11 @@ public class BoardCell {
 	private DoorDirection doorDirection;
 	private boolean roomLabel;
 	private boolean roomCenter;
-	private Set<BoardCell> adjList = new HashSet<BoardCell>();
+	private Set<BoardCell> adjList = new HashSet<BoardCell>(); // each cell has its own adjacency list
 	private boolean isRoom;
 	private boolean isOccupied;
 	private boolean isDoorway;
-	private boolean isSecretPassage = false;
+	private boolean isSecretPassage = false; // will only be changed to true if setSecretPassage() is called
 	private char secretPassage;
 		
 	public BoardCell(int row, int column) {
@@ -85,7 +85,7 @@ public class BoardCell {
 	}
 	
 	public void setSecretPassage(char secretPassage) {
-		this.isSecretPassage = true;
+		this.isSecretPassage = true; 
 		this.secretPassage = secretPassage;
 	}
 

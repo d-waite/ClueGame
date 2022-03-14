@@ -8,28 +8,29 @@ import experiment.TestBoardCell;
 import java.io.*;
 
 public class Board {
+	// all our variables needed for the board
 	private String setupConfigFile;
 	private String layoutConfigFile;
 	private int numRows;
 	private int numCols;
 	private static Board theInstance = new Board();
-	private BoardCell[][] grid;
-	private Map<Character, Room> rooms;
-	private Set<BoardCell> targets = new HashSet<BoardCell>();
-	private Set<BoardCell> visited  = new HashSet<BoardCell>();
+	private BoardCell[][] grid; // contains all of our cells
+	private Map<Character, Room> rooms; // contains all of the rooms with their corresponding initial
+	private Set<BoardCell> targets = new HashSet<BoardCell>(); // stores all choices for player to move to
+	private Set<BoardCell> visited  = new HashSet<BoardCell>(); // helps us to get our target list
 
 	private Board() {
 		super();
 	}
 
 	public static Board getInstance() {
-		return theInstance;
+		return theInstance; // Singleton pattern
 	}
 
 	public void initialize() {
 		try {
 			//load the information in the files into the board
-			loadSetupConfig(null);
+			loadSetupConfig(null); // passing in null so tests pass
 			loadLayoutConfig(null);
 		}
 		catch (BadConfigFormatException e) {
