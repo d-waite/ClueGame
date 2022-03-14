@@ -28,6 +28,7 @@ public class Board {
 
 	public void initialize() {
 		try {
+			//load the information in the files into the board
 			loadSetupConfig(null);
 			loadLayoutConfig(null);
 		}
@@ -37,7 +38,7 @@ public class Board {
 		catch (FileNotFoundException e) {
 			System.out.println("Error opening file.");
 		}
-		createAdjacencyList(grid);
+		createAdjacencyList(grid); // creates adjacency list for all cells on the board
 	}
 
 	public void setConfigFiles(String layoutConfigFile, String setupConfigFile) {
@@ -79,7 +80,7 @@ public class Board {
 			if (roomLine.charAt(0) == '/') {
 				roomLine = scan.nextLine();
 			}
-			//Split the line with the commas on the delimiters
+			//Split the line with commas as the delimiters
 			String[] roomInfo = new String[setupLineLength];
 			roomInfo = roomLine.split(", ");
 			//If the first word in the line isn't Space or Room throw an Exception
@@ -87,7 +88,6 @@ public class Board {
 			if (!(roomType.equals("Room")) && !(roomType.equals("Space"))) {
 				throw new BadConfigFormatException("Bad room type in setup file.");
 			}
-			//if the initial for the cell is longer than 2 characters long, throw an Exception
 			String roomSymbol = roomInfo[2];
 			// Create a new room and insert it into the map
 			String roomName = roomInfo[1];
@@ -193,7 +193,7 @@ public class Board {
 				getRoom(cell.getInitial()).setLabelCell(cell);
 				break;
 			default:
-				cell.setSecretPassage(symbol);
+				cell.setSecretPassage(symbol); // If we got through all of the other symbols, then the only other option is a secret room
 
 			}
 		} 
@@ -204,10 +204,11 @@ public class Board {
 			for(int column = 0; column < numCols; column++) {
 				BoardCell currentCell = grid[row][column];
 				if (currentCell.getInitial() == 'W') { // if cell is a walkway
-					if(currentCell.isDoorway()) { 
+					//We have specific additional adjacency handling for a doorway
+					if(currentCell.isDoorway()) {
 						initializeDoorway(currentCell, row, column);
 					}
-					
+					//This logic is needed regardless of whether or not the current cell is a doorway
 					if (row == 0) {
 						if (column == 0) { // at top left, so we can only go down or right
 							addCellsToAdjList(currentCell, false, true, false, true, row, column);
