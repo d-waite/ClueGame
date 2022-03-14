@@ -65,6 +65,7 @@ public class Board {
 	}
 
 	public void loadSetupConfig(Object obj) throws FileNotFoundException, BadConfigFormatException {
+		int setupLineLength = 3; //The amount of entries that are in a single line in the setup file
 		//Open the file
 		FileReader input = new FileReader("data/" + setupConfigFile);
 		Scanner scan = new Scanner(input);
@@ -78,7 +79,7 @@ public class Board {
 				roomLine = scan.nextLine();
 			}
 			//Split the line with the commas on the delimiters
-			String[] roomInfo = new String[3];
+			String[] roomInfo = new String[setupLineLength];
 			roomInfo = roomLine.split(", ");
 			//If the first word in the line isn't Space or Room throw an Exception
 			if (!(roomInfo[0].equals("Room")) && !(roomInfo[0].equals("Space"))) {
