@@ -344,6 +344,11 @@ public class Board {
 		return targets;
 	}
 
+	public ArrayList<Player> getPlayers() {
+		ArrayList<Player> empty = new ArrayList<Player>();
+		return empty;
+	}
+
 
 }
 
