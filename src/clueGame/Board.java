@@ -344,9 +344,14 @@ public class Board {
 		return targets;
 	}
 
-	public ArrayList<Player> getPlayers() {
-		ArrayList<Player> empty = new ArrayList<Player>();
+	public ArrayList<ComputerPlayer> getComputerPlayers() {
+		ArrayList<ComputerPlayer> empty = new ArrayList<ComputerPlayer>();
 		return empty;
+	}
+
+	public HumanPlayer getHumanPlayer() {
+		HumanPlayer player = new HumanPlayer(null, null, -1, -1);
+		return player;
 	}
 
 
