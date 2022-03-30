@@ -4,6 +4,8 @@ package clueGame;
 import java.util.*;
 
 import experiment.TestBoardCell;
+import clueGame.Solution;
+import clueGame.Card;
 
 import java.io.*;
 
@@ -20,6 +22,7 @@ public class Board {
 	private Set<BoardCell> visited  = new HashSet<BoardCell>(); // helps us to get our target list
 	private HumanPlayer human;
 	private ArrayList<ComputerPlayer> computers = new ArrayList<ComputerPlayer>();
+	private ArrayList<Card> deck;
 
 	private Board() {
 		super();
@@ -98,6 +101,7 @@ public class Board {
 			Room room = new Room(roomName);
 			char roomInitial = roomSymbol.charAt(0);
 			rooms.put(roomInitial, room);
+			
 		}
 		
 		setupLineLength = 5; // amount of entries for player info
@@ -381,6 +385,21 @@ public class Board {
 
 	public HumanPlayer getHumanPlayer() {
 		return human;
+	}
+
+	public ArrayList<Card> getDeck() {
+		ArrayList<Card> empty = new ArrayList<Card>();
+		return empty;
+	}
+
+	public Solution getSolution() {
+		Solution solution = new Solution(null, null, null);
+		return solution;
+	}
+
+	public void deal() {
+		// TODO Auto-generated method stub
+		
 	}
 
 
