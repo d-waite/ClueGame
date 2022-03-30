@@ -18,6 +18,8 @@ public class Board {
 	private Map<Character, Room> rooms; // contains all of the rooms with their corresponding initial
 	private Set<BoardCell> targets = new HashSet<BoardCell>(); // stores all choices for player to move to
 	private Set<BoardCell> visited  = new HashSet<BoardCell>(); // helps us to get our target list
+	private HumanPlayer human;
+	private ArrayList<ComputerPlayer> computers = new ArrayList<ComputerPlayer>();
 
 	private Board() {
 		super();
@@ -68,15 +70,18 @@ public class Board {
 	}
 
 	public void loadSetupConfig(Object obj) throws FileNotFoundException, BadConfigFormatException {
-		int setupLineLength = 3; //The amount of entries that are in a single line in the setup file
+		int setupLineLength = 3; // amount of entries for room info
 		//Open the file
 		FileReader input = new FileReader("data/" + setupConfigFile);
 		Scanner scan = new Scanner(input);
 		//initialize room map
 		rooms = new HashMap<Character, Room>();
-		//Loop while the scanner has a next line, 
+		//Loop until all rooms have been read 
 		while (scan.hasNextLine()) {
 			String roomLine = scan.nextLine();
+			if (roomLine.contains("players")) {
+				break;
+			}
 			//Skip the line if the first character is a slash
 			if (roomLine.charAt(0) == '/') {
 				roomLine = scan.nextLine();
@@ -95,6 +100,36 @@ public class Board {
 			Room room = new Room(roomName);
 			char roomInitial = roomSymbol.charAt(0);
 			rooms.put(roomInitial, room);
+		}
+		
+		setupLineLength = 5; // amount of entries for player info
+		while (scan.hasNextLine()) {
+			String playerLine = scan.nextLine();
+			if (playerLine.contains("weapons")) {
+				break;
+			}
+			//Skip the line if the first character is a slash
+			if (playerLine.charAt(0) == '/') {
+				playerLine = scan.nextLine();
+			}
+			//Split the line with commas as the delimiters
+			String[] playerInfo = new String[setupLineLength];
+			playerInfo = playerLine.split(", ");
+			//If the first word in the line isn't Human or Computer throw an Exception
+			String playerType = playerInfo[0];
+			if (!(playerType.equals("Human")) && !(playerType.equals("Computer"))) {
+				throw new BadConfigFormatException("Bad player type in setup file.");
+			}
+			String playerName = playerInfo[1];
+			String playerColor = playerInfo[2];
+			int playerRow = Integer.parseInt(playerInfo[3]);
+			int playerColumn = Integer.parseInt(playerInfo[4]);
+			
+			if (playerType.equals("Human")) {
+				human = new HumanPlayer(playerName, playerColor, playerRow, playerColumn);
+			} else {
+				computers.add(new ComputerPlayer(playerName, playerColor, playerRow, playerColumn));
+			}
 		}
 		scan.close();
 	}
@@ -345,13 +380,11 @@ public class Board {
 	}
 
 	public ArrayList<ComputerPlayer> getComputerPlayers() {
-		ArrayList<ComputerPlayer> empty = new ArrayList<ComputerPlayer>();
-		return empty;
+		return computers;
 	}
 
 	public HumanPlayer getHumanPlayer() {
-		HumanPlayer player = new HumanPlayer(null, null, -1, -1);
-		return player;
+		return human;
 	}
 
 

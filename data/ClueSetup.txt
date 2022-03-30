@@ -17,7 +17,7 @@ Computer, King Bartholomew, Blue, 0, 5
 Computer, Sir Knight, Green, 0, 9
 Computer, The Queen, Magenta, 4, 24
 Computer, Dr. Leech, White, 28, 17
-Computer, Prof. Swords, Gray 28, 8
+Computer, Prof. Swords, Gray, 28, 8
 // weapons
 Knife
 Axe

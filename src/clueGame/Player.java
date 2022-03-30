@@ -2,24 +2,31 @@
 package clueGame;
 
 public class Player {
-
+	private String name;
+	private String color;
+	private int row;
+	private int column;
+	
 	public Player(String name, String color, int row, int column) {
-		
+		this.name = name;
+		this.color = color;
+		this.row = row;
+		this.column = column;
 	}
 	
 	public String getName() {
-		return "";
+		return name;
 	}
 
 	public String getColor() {
-		return "";
+		return color;
 	}
 
 	public int getRow() {
-		return -1;
+		return row;
 	}
 	
 	public int getColumn() {
-		return -1;
+		return column;
 	}
 }
