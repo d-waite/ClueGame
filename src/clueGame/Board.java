@@ -76,12 +76,10 @@ public class Board {
 		Scanner scan = new Scanner(input);
 		//initialize room map
 		rooms = new HashMap<Character, Room>();
-		//Loop until all rooms have been read 
-		while (scan.hasNextLine()) {
-			String roomLine = scan.nextLine();
-			if (roomLine.contains("players")) {
-				break;
-			}
+		//Loop until all rooms have been read
+		String roomLine = "";
+		while (!roomLine.contains("players")) {
+			roomLine = scan.nextLine();
 			//Skip the line if the first character is a slash
 			if (roomLine.charAt(0) == '/') {
 				roomLine = scan.nextLine();
@@ -103,11 +101,9 @@ public class Board {
 		}
 		
 		setupLineLength = 5; // amount of entries for player info
-		while (scan.hasNextLine()) {
-			String playerLine = scan.nextLine();
-			if (playerLine.contains("weapons")) {
-				break;
-			}
+		String playerLine = "";
+		while (!playerLine.contains("weapons")) {
+			playerLine = scan.nextLine();
 			//Skip the line if the first character is a slash
 			if (playerLine.charAt(0) == '/') {
 				playerLine = scan.nextLine();
