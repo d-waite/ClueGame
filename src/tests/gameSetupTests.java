@@ -65,6 +65,7 @@ public class gameSetupTests {
 		assertEquals(testSolution.getRoom().getCardType(), CardType.ROOM);
 		assertEquals(testSolution.getPerson().getCardType(), CardType.PERSON);
 		assertEquals(testSolution.getWeapon().getCardType(), CardType.WEAPON);
+		// testing randomness of solution
 		int roomMatch = 0;
 		int weaponMatch = 0;
 		int personMatch = 0;
@@ -73,6 +74,7 @@ public class gameSetupTests {
 			Card testPerson1 = testSolution.getPerson();
 			Card testWeapon1 = testSolution.getWeapon();
 			board.deal();
+			testSolution = board.getSolution();
 			Card testRoom2 = testSolution.getRoom();
 			Card testPerson2 = testSolution.getPerson();
 			Card testWeapon2 = testSolution.getWeapon();
@@ -86,7 +88,7 @@ public class gameSetupTests {
 				personMatch++;
 			}
 		}
-		assertTrue(roomMatch < 4);
+		assertTrue(roomMatch < 7);
 		assertTrue(personMatch < 4);
 		assertTrue(weaponMatch < 4);
 

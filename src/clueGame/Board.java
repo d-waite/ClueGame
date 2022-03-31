@@ -21,8 +21,9 @@ public class Board {
 	private Set<BoardCell> targets = new HashSet<BoardCell>(); // stores all choices for player to move to
 	private Set<BoardCell> visited  = new HashSet<BoardCell>(); // helps us to get our target list
 	private HumanPlayer human;
-	private ArrayList<ComputerPlayer> computers = new ArrayList<ComputerPlayer>();
+	private ArrayList<ComputerPlayer> computers;
 	private ArrayList<Card> deck;
+	private Solution theAnswer;
 
 	private Board() {
 		super();
@@ -45,6 +46,7 @@ public class Board {
 			System.out.println("Error opening file.");
 		}
 		createAdjacencyList(grid); // creates adjacency list for all cells on the board
+		deal();
 	}
 
 	public void setConfigFiles(String layoutConfigFile, String setupConfigFile) {
@@ -80,6 +82,7 @@ public class Board {
 		Scanner scan = new Scanner(input);
 		//initialize room map
 		rooms = new HashMap<Character, Room>();
+		computers = new ArrayList<ComputerPlayer>();
 		//Loop until all rooms have been read
 		
 		while (scan.hasNextLine()) {
@@ -412,13 +415,35 @@ public class Board {
 	}
 
 	public Solution getSolution() {
-		Solution solution = new Solution(new Card("", CardType.PERSON),new Card("", CardType.PERSON),new Card("", CardType.PERSON));
-		return solution;
+		return theAnswer;
 	}
 
 	public void deal() {
-		// TODO Auto-generated method stub
+		ArrayList<Integer> rooms = new ArrayList<Integer>();
+		ArrayList<Integer> people = new ArrayList<Integer>();
+		ArrayList<Integer> weapons = new ArrayList<Integer>();
 		
+		for (int i = 0; i < deck.size(); i++) {
+			if (deck.get(i).getCardType() == CardType.PERSON) {
+				people.add(i);
+			} else if (deck.get(i).getCardType() == CardType.WEAPON) {
+				weapons.add(i);
+			} else {
+				rooms.add(i);
+			}
+		}
+		
+		Random randomCard = new Random();
+		int roomNum = randomCard.nextInt(rooms.size());
+		Card solutionRoom = deck.get(rooms.get(roomNum));
+		randomCard.nextInt(people.size());
+		int weaponNum = randomCard.nextInt(weapons.size());
+		Card solutionWeapon = deck.get(weapons.get(weaponNum));
+		randomCard.nextInt(weapons.size());
+		int peopleNum = randomCard.nextInt(people.size());
+		Card solutionPerson = deck.get(people.get(peopleNum));
+		
+		theAnswer = new Solution(solutionRoom, solutionWeapon, solutionPerson);
 	}
 
 
