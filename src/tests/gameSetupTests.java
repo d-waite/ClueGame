@@ -25,7 +25,7 @@ public class gameSetupTests {
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
 	}
-	
+
 	@Test
 	public void testLoadPlayers() {
 		// testing human player
@@ -41,13 +41,13 @@ public class gameSetupTests {
 		assertEquals("Blue", computers.get(0).getColor());
 		assertEquals(0, computers.get(0).getRow());
 		assertEquals(5, computers.get(0).getColumn());
-		
+
 		assertEquals(computers.get(4).getName(), "Prof. Swords");
 		assertEquals("Gray", computers.get(4).getColor());
 		assertEquals(28, computers.get(4).getRow());
 		assertEquals(8, computers.get(4).getColumn());
 	}
-	
+
 	@Test
 	public void testCards() {
 		//test that all cards are made
@@ -57,39 +57,39 @@ public class gameSetupTests {
 		assertEquals(testDeck.get(9).getCardType(), CardType.PERSON);
 		assertEquals(testDeck.get(20).getCardType(), CardType.WEAPON);
 	}
-	
-//	@Test
-//	public void testSolution() {
-//		//test solution
-//		Solution testSolution = board.getSolution();
-//		assertEquals(testSolution.getRoom().getCardType(), CardType.ROOM);
-//		assertEquals(testSolution.getPerson().getCardType(), CardType.PERSON);
-//		assertEquals(testSolution.getWeapon().getCardType(), CardType.WEAPON);
-//		int roomMatch = 0;
-//		int weaponMatch = 0;
-//		int personMatch = 0;
-//		for(int i = 0; i < 10; i++) {
-//			Card testRoom1 = testSolution.getRoom();
-//			Card testPerson1 = testSolution.getPerson();
-//			Card testWeapon1 = testSolution.getWeapon();
-//			board.deal();
-//			Card testRoom2 = testSolution.getRoom();
-//			Card testPerson2 = testSolution.getPerson();
-//			Card testWeapon2 = testSolution.getWeapon();
-//			if (testRoom1.equals(testRoom2)) {
-//				roomMatch++;
-//			}
-//			if (testWeapon1.equals(testWeapon2)) {
-//				weaponMatch++;
-//			}
-//			if (testPerson1.equals(testPerson2)) {
-//				personMatch++;
-//			}
-//		}
-//		assertTrue(roomMatch < 4);
-//		assertTrue(personMatch < 4);
-//		assertTrue(weaponMatch < 4);
-//
-//	}
+
+	@Test
+	public void testSolution() {
+		//test solution
+		Solution testSolution = board.getSolution();
+		assertEquals(testSolution.getRoom().getCardType(), CardType.ROOM);
+		assertEquals(testSolution.getPerson().getCardType(), CardType.PERSON);
+		assertEquals(testSolution.getWeapon().getCardType(), CardType.WEAPON);
+		int roomMatch = 0;
+		int weaponMatch = 0;
+		int personMatch = 0;
+		for(int i = 0; i < 10; i++) {
+			Card testRoom1 = testSolution.getRoom();
+			Card testPerson1 = testSolution.getPerson();
+			Card testWeapon1 = testSolution.getWeapon();
+			board.deal();
+			Card testRoom2 = testSolution.getRoom();
+			Card testPerson2 = testSolution.getPerson();
+			Card testWeapon2 = testSolution.getWeapon();
+			if (testRoom1.equals(testRoom2)) {
+				roomMatch++;
+			}
+			if (testWeapon1.equals(testWeapon2)) {
+				weaponMatch++;
+			}
+			if (testPerson1.equals(testPerson2)) {
+				personMatch++;
+			}
+		}
+		assertTrue(roomMatch < 4);
+		assertTrue(personMatch < 4);
+		assertTrue(weaponMatch < 4);
+
+	}
 
 }

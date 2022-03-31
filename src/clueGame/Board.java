@@ -84,6 +84,7 @@ public class Board {
 		
 		while (scan.hasNextLine()) {
 			String roomLine = scan.nextLine();
+			//If we reach the line that says players, then we need to go to the next loop
 			if (roomLine.contains("players")) {
 				break;
 			}
@@ -105,6 +106,7 @@ public class Board {
 			Room room = new Room(roomName);
 			char roomInitial = roomSymbol.charAt(0);
 			rooms.put(roomInitial, room);
+			//We don't want to make cards for the spaces
 			if (!roomType.equals("Space")) {
 				deck.add(new Card(roomName, CardType.ROOM));
 			}
@@ -114,6 +116,7 @@ public class Board {
 		
 		while (scan.hasNextLine()) {
 			String playerLine = scan.nextLine();
+			//If we reach the line that says weapons, then we need to go to the next loop
 			if(playerLine.contains("weapons")) {
 				break;
 			}
@@ -143,7 +146,7 @@ public class Board {
 			
 		}
 		
-		setupLineLength = 1;
+		setupLineLength = 1; // amount of entries for weapon info
 		while(scan.hasNextLine()) {
 			String weaponName = scan.nextLine();
 			deck.add(new Card(weaponName, CardType.WEAPON));
@@ -409,7 +412,7 @@ public class Board {
 	}
 
 	public Solution getSolution() {
-		Solution solution = new Solution(null, null, null);
+		Solution solution = new Solution(new Card("", CardType.PERSON),new Card("", CardType.PERSON),new Card("", CardType.PERSON));
 		return solution;
 	}
 
