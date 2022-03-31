@@ -73,6 +73,7 @@ public class Board {
 	}
 
 	public void loadSetupConfig(Object obj) throws FileNotFoundException, BadConfigFormatException {
+		deck = new ArrayList<Card>();
 		int setupLineLength = 3; // amount of entries for room info
 		//Open the file
 		FileReader input = new FileReader("data/" + setupConfigFile);
@@ -80,9 +81,12 @@ public class Board {
 		//initialize room map
 		rooms = new HashMap<Character, Room>();
 		//Loop until all rooms have been read
-		String roomLine = "";
-		while (!roomLine.contains("players")) {
-			roomLine = scan.nextLine();
+		
+		while (scan.hasNextLine()) {
+			String roomLine = scan.nextLine();
+			if (roomLine.contains("players")) {
+				break;
+			}
 			//Skip the line if the first character is a slash
 			if (roomLine.charAt(0) == '/') {
 				roomLine = scan.nextLine();
@@ -101,13 +105,18 @@ public class Board {
 			Room room = new Room(roomName);
 			char roomInitial = roomSymbol.charAt(0);
 			rooms.put(roomInitial, room);
-			
+			if (!roomType.equals("Space")) {
+				deck.add(new Card(roomName, CardType.ROOM));
+			}
 		}
 		
 		setupLineLength = 5; // amount of entries for player info
-		String playerLine = "";
-		while (!playerLine.contains("weapons")) {
-			playerLine = scan.nextLine();
+		
+		while (scan.hasNextLine()) {
+			String playerLine = scan.nextLine();
+			if(playerLine.contains("weapons")) {
+				break;
+			}
 			//Skip the line if the first character is a slash
 			if (playerLine.charAt(0) == '/') {
 				playerLine = scan.nextLine();
@@ -130,8 +139,16 @@ public class Board {
 			} else {
 				computers.add(new ComputerPlayer(playerName, playerColor, playerRow, playerColumn));
 			}
+			deck.add(new Card(playerName, CardType.PERSON));
+			
 		}
-		scan.close();
+		
+		setupLineLength = 1;
+		while(scan.hasNextLine()) {
+			String weaponName = scan.nextLine();
+			deck.add(new Card(weaponName, CardType.WEAPON));
+		}
+			scan.close();
 	}
 
 	public void loadLayoutConfig(Object obj) throws BadConfigFormatException, FileNotFoundException{
@@ -388,8 +405,7 @@ public class Board {
 	}
 
 	public ArrayList<Card> getDeck() {
-		ArrayList<Card> empty = new ArrayList<Card>();
-		return empty;
+		return deck;
 	}
 
 	public Solution getSolution() {
