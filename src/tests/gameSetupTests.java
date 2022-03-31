@@ -2,6 +2,7 @@
 package tests;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -94,4 +95,42 @@ public class gameSetupTests {
 
 	}
 
+	@Test
+	public void testPlayerHands() {
+		HumanPlayer human = board.getHumanPlayer();
+		ArrayList<ComputerPlayer> computers = board.getComputerPlayers();
+		ArrayList<Card> playerHand = human.getHand();
+		//make sure the difference between evenly dividing the hands and the player's hand is one or less
+		//minus three because of the cards dealt to solution divided by six because six players
+		assertTrue(((board.getDeck().size() - 3) / 6) - playerHand.size() < 2);
+		//make sure the difference between evenly dividing the hands and the computer's hand is one or less
+		for (int i = 0; i < 5; i++) {
+			assertTrue(((board.getDeck().size() - 3) / 6) - computers.get(i).getHand().size() < 2);
+		}
+		
+		HashSet<Card> dealtCards = new HashSet<Card>();
+		Solution testSolution = board.getSolution();
+		//put the solution into the dealt cards
+		dealtCards.add(testSolution.getPerson());
+		dealtCards.add(testSolution.getWeapon());
+		dealtCards.add(testSolution.getRoom());
+		
+		//test that cards are unique for player
+		for (int i = 0; i < playerHand.size(); i++) {
+			assertFalse(dealtCards.contains(playerHand.get(i)));
+
+			dealtCards.add(playerHand.get(i));
+		}
+		//test that cards are unique for computers
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < computers.get(i).getHand().size(); j++) {
+				assertFalse(dealtCards.contains(computers.get(i).getHand().get(j)));
+
+				dealtCards.add(computers.get(i).getHand().get(j));
+			}
+		//check to make sure every card is dealt
+		assertEquals(dealtCards.size(), board.getDeck().size());
+		}
+	}
+	
 }
