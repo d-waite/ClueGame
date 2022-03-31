@@ -110,6 +110,7 @@ public class gameSetupTests {
 		
 		HashSet<Card> dealtCards = new HashSet<Card>();
 		Solution testSolution = board.getSolution();
+		
 		//put the solution into the dealt cards
 		dealtCards.add(testSolution.getPerson());
 		dealtCards.add(testSolution.getWeapon());

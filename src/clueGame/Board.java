@@ -422,6 +422,10 @@ public class Board {
 		ArrayList<Integer> rooms = new ArrayList<Integer>();
 		ArrayList<Integer> people = new ArrayList<Integer>();
 		ArrayList<Integer> weapons = new ArrayList<Integer>();
+		ArrayList<Card> newDeck = new ArrayList<Card>();
+		for (int i = 0; i < deck.size(); i++) {
+			newDeck.add(deck.get(i));
+		}
 		
 		for (int i = 0; i < deck.size(); i++) {
 			if (deck.get(i).getCardType() == CardType.PERSON) {
@@ -444,6 +448,47 @@ public class Board {
 		Card solutionPerson = deck.get(people.get(peopleNum));
 		
 		theAnswer = new Solution(solutionRoom, solutionWeapon, solutionPerson);
+		
+		//Take solution cards out of the new deck
+		newDeck.remove(newDeck.get(rooms.get(roomNum)));
+		newDeck.remove(newDeck.get(weapons.get(weaponNum)));
+		newDeck.remove(newDeck.get(people.get(peopleNum)));
+		Random randCard = new Random();
+		int deckSize = 0;
+		for (int playerNum = 6; playerNum >= 1; playerNum--) {
+			deckSize = newDeck.size();
+			for (int j = 0; j < (deckSize / playerNum); j++) {
+				int randCardNum = randCard.nextInt(deckSize);
+				switch (playerNum) {
+				case 1:
+					getHumanPlayer().updateHand(newDeck.get(randCardNum));
+					newDeck.remove(randCardNum);
+					break;
+				case 2:
+					getComputerPlayers().get(0).updateHand(newDeck.get(randCardNum));
+					newDeck.remove(randCardNum);
+					break;
+				case 3:
+					getComputerPlayers().get(1).updateHand(newDeck.get(randCardNum));
+					newDeck.remove(randCardNum);
+					break;
+				case 4:
+					getComputerPlayers().get(2).updateHand(newDeck.get(randCardNum));
+					newDeck.remove(randCardNum);
+					break;
+				case 5:
+					getComputerPlayers().get(3).updateHand(newDeck.get(randCardNum));
+					newDeck.remove(randCardNum);
+					break;
+				case 6:
+					getComputerPlayers().get(4).updateHand(newDeck.get(randCardNum));
+					newDeck.remove(randCardNum);
+					break;
+				default:
+					break;
+				}
+			}
+		}
 	}
 
 

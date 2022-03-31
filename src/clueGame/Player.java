@@ -37,4 +37,8 @@ public class Player {
 	public ArrayList<Card> getHand() {
 		return hand;
 	}
+	
+	public void updateHand(Card card) {
+		hand.add(card);
+	}
 }
