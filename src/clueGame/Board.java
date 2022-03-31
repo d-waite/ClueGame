@@ -45,7 +45,7 @@ public class Board {
 		catch (FileNotFoundException e) {
 			System.out.println("Error opening file.");
 		}
-		createAdjacencyList(grid); // creates adjacency list for all cells on the board
+		createAdjacencyList(); // creates adjacency list for all cells on the board
 		deal();
 	}
 
@@ -258,7 +258,7 @@ public class Board {
 		} 
 	}
 
-	public void createAdjacencyList( BoardCell[][] grid) {
+	public void createAdjacencyList() {
 		for(int row = 0; row < numRows; row++) { // go through every cell in the grid
 			for(int column = 0; column < numCols; column++) {
 				BoardCell currentCell = grid[row][column];
