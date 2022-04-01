@@ -46,7 +46,7 @@ public class Board {
 			System.out.println("Error opening file.");
 		}
 		createAdjacencyList(); // creates adjacency list for all cells on the board
-		deal();
+		deal(); // deals out solution and cards to players
 	}
 
 	public void setConfigFiles(String layoutConfigFile, String setupConfigFile) {
@@ -419,17 +419,17 @@ public class Board {
 	}
 
 	public void deal() {
-		clearHands();
+		clearHands(); // starting with empty hand
 		
-		//create a copy of the deck that we can remove from
+		//create a copy of the deck that we can remove from, leaving original deck alone for testing purposes
 		ArrayList<Card> newDeck = new ArrayList<Card>();
 		for (int i = 0; i < deck.size(); i++) {
 			newDeck.add(deck.get(i));
 		}
 		
-		dealSolution(newDeck);
+		dealSolution(newDeck); // deal the solution first
 
-		
+		// deal the rest of the cards to the players
 		Random randCard = new Random();
 		int deckSize = 0;
 		//loop through each of the players
@@ -444,27 +444,27 @@ public class Board {
 				switch (playerNum) {
 				case 1:
 					getHumanPlayer().updateHand(newDeck.get(randCardNum));
-					newDeck.remove(randCardNum);
+					newDeck.remove(newDeck.get(randCardNum));
 					break;
 				case 2:
 					getComputerPlayers().get(0).updateHand(newDeck.get(randCardNum));
-					newDeck.remove(randCardNum);
+					newDeck.remove(newDeck.get(randCardNum));
 					break;
 				case 3:
 					getComputerPlayers().get(1).updateHand(newDeck.get(randCardNum));
-					newDeck.remove(randCardNum);
+					newDeck.remove(newDeck.get(randCardNum));
 					break;
 				case 4:
 					getComputerPlayers().get(2).updateHand(newDeck.get(randCardNum));
-					newDeck.remove(randCardNum);
+					newDeck.remove(newDeck.get(randCardNum));
 					break;
 				case 5:
 					getComputerPlayers().get(3).updateHand(newDeck.get(randCardNum));
-					newDeck.remove(randCardNum);
+					newDeck.remove(newDeck.get(randCardNum));
 					break;
 				case 6:
 					getComputerPlayers().get(4).updateHand(newDeck.get(randCardNum));
-					newDeck.remove(randCardNum);
+					newDeck.remove(newDeck.get(randCardNum));
 					break;
 				default:
 					break;
@@ -472,7 +472,8 @@ public class Board {
 			}
 		}
 	}
-
+	
+	// clearing hands for when we test new deals
 	public void clearHands() {
 		getHumanPlayer().clearHand();
 		for (int i = 0; i < getComputerPlayers().size(); i++) {
@@ -481,11 +482,12 @@ public class Board {
 	}
 	
 	public void dealSolution(ArrayList<Card> newDeck) {
+		// these arraylists hold the position of cards with said card type in the deck
 		ArrayList<Integer> rooms = new ArrayList<Integer>();
 		ArrayList<Integer> people = new ArrayList<Integer>();
 		ArrayList<Integer> weapons = new ArrayList<Integer>();
 		
-		//seperate the deck into the different card types
+		//separate the deck into the different card types
 		for (int k = 0; k < deck.size(); k++) {
 			if (deck.get(k).getCardType() == CardType.PERSON) {
 				people.add(k);
@@ -498,13 +500,11 @@ public class Board {
 		
 		//select a random card of each type
 		Random randomCard = new Random();
-		int roomNum = randomCard.nextInt(rooms.size());
+		int roomNum = randomCard.nextInt(rooms.size()); // getting an index to get a position of a room card in the deck
 		Card solutionRoom = deck.get(rooms.get(roomNum));
-		randomCard.nextInt(people.size());
-		int weaponNum = randomCard.nextInt(weapons.size());
+		int weaponNum = randomCard.nextInt(weapons.size()); // getting an index to get a position of a weapon card in the deck
 		Card solutionWeapon = deck.get(weapons.get(weaponNum));
-		randomCard.nextInt(weapons.size());
-		int peopleNum = randomCard.nextInt(people.size());
+		int peopleNum = randomCard.nextInt(people.size()); // getting an index to get a position of a person card in the deck
 		Card solutionPerson = deck.get(people.get(peopleNum));
 		
 		//add the random cards to the solution

@@ -29,13 +29,13 @@ public class gameSetupTests {
 
 	@Test
 	public void testLoadPlayers() {
-		// testing human player
+		// testing human player is loaded in and data is correct
 		HumanPlayer human = board.getHumanPlayer();
 		assertEquals("You", human.getName());
 		assertEquals("Yellow", human.getColor());
 		assertEquals(8, human.getRow());
 		assertEquals(0, human.getColumn());
-		// testing computer players
+		// testing computer players are loaded in and data is correct
 		ArrayList<ComputerPlayer> computers = board.getComputerPlayers();
 		assertEquals(computers.size(), 5);
 		assertEquals(computers.get(0).getName(), "King Bartholomew");
@@ -54,6 +54,7 @@ public class gameSetupTests {
 		//test that all cards are made
 		ArrayList<Card> testDeck = board.getDeck();
 		assertEquals(21, testDeck.size());
+		// test that all types of cards are in the deck
 		assertEquals(testDeck.get(0).getCardType(), CardType.ROOM);
 		assertEquals(testDeck.get(9).getCardType(), CardType.PERSON);
 		assertEquals(testDeck.get(20).getCardType(), CardType.WEAPON);
@@ -71,12 +72,14 @@ public class gameSetupTests {
 		int roomMatch = 0;
 		int weaponMatch = 0;
 		int personMatch = 0;
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 10; i++) { // 11 deals including deal above
+			// previous solution
 			Card testRoom1 = testSolution.getRoom();
 			Card testPerson1 = testSolution.getPerson();
 			Card testWeapon1 = testSolution.getWeapon();
 			board.deal();
 			testSolution = board.getSolution();
+			// new solution
 			Card testRoom2 = testSolution.getRoom();
 			Card testPerson2 = testSolution.getPerson();
 			Card testWeapon2 = testSolution.getWeapon();
@@ -90,6 +93,7 @@ public class gameSetupTests {
 				personMatch++;
 			}
 		}
+		// making sure we are not getting the same solution a lot
 		assertTrue(roomMatch < 7);
 		assertTrue(personMatch < 4);
 		assertTrue(weaponMatch < 4);
@@ -120,7 +124,6 @@ public class gameSetupTests {
 		//test that cards are unique for player
 		for (int i = 0; i < playerHand.size(); i++) {
 			assertFalse(dealtCards.contains(playerHand.get(i)));
-
 			dealtCards.add(playerHand.get(i));
 		}
 		//test that cards are unique for computers
