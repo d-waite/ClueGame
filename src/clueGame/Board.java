@@ -419,50 +419,28 @@ public class Board {
 	}
 
 	public void deal() {
-		getHumanPlayer().clearHand();
-		for (int i = 0; i < getComputerPlayers().size(); i++) {
-			getComputerPlayers().get(i).clearHand();
-		}
-		ArrayList<Integer> rooms = new ArrayList<Integer>();
-		ArrayList<Integer> people = new ArrayList<Integer>();
-		ArrayList<Integer> weapons = new ArrayList<Integer>();
+		clearHands();
+		
+		//create a copy of the deck that we can remove from
 		ArrayList<Card> newDeck = new ArrayList<Card>();
 		for (int i = 0; i < deck.size(); i++) {
 			newDeck.add(deck.get(i));
 		}
 		
-		for (int k = 0; k < deck.size(); k++) {
-			if (deck.get(k).getCardType() == CardType.PERSON) {
-				people.add(k);
-			} else if (deck.get(k).getCardType() == CardType.WEAPON) {
-				weapons.add(k);
-			} else {
-				rooms.add(k);
-			}
-		}
+		dealSolution(newDeck);
+
 		
-		Random randomCard = new Random();
-		int roomNum = randomCard.nextInt(rooms.size());
-		Card solutionRoom = deck.get(rooms.get(roomNum));
-		randomCard.nextInt(people.size());
-		int weaponNum = randomCard.nextInt(weapons.size());
-		Card solutionWeapon = deck.get(weapons.get(weaponNum));
-		randomCard.nextInt(weapons.size());
-		int peopleNum = randomCard.nextInt(people.size());
-		Card solutionPerson = deck.get(people.get(peopleNum));
-		
-		theAnswer = new Solution(solutionRoom, solutionWeapon, solutionPerson);
-		
-		//Take solution cards out of the new deck
-		newDeck.remove(newDeck.get(weapons.get(weaponNum)));
-		newDeck.remove(newDeck.get(people.get(peopleNum)));
-		newDeck.remove(newDeck.get(rooms.get(roomNum)));
 		Random randCard = new Random();
 		int deckSize = 0;
+		//loop through each of the players
 		for (int playerNum = 6; playerNum >= 1; playerNum--) {
+			//update the deck size so that the right amount of cards are dealt to each person
 			deckSize = newDeck.size();
+			//loop through the amount of cards per player
 			for (int j = 0; j < (deckSize / playerNum); j++) {
+				//choose a random card 
 				int randCardNum = randCard.nextInt(deckSize - j);
+				//add it to the player's hand and remove it from newDeck
 				switch (playerNum) {
 				case 1:
 					getHumanPlayer().updateHand(newDeck.get(randCardNum));
@@ -495,6 +473,48 @@ public class Board {
 		}
 	}
 
+	public void clearHands() {
+		getHumanPlayer().clearHand();
+		for (int i = 0; i < getComputerPlayers().size(); i++) {
+			getComputerPlayers().get(i).clearHand();
+		}
+	}
+	
+	public void dealSolution(ArrayList<Card> newDeck) {
+		ArrayList<Integer> rooms = new ArrayList<Integer>();
+		ArrayList<Integer> people = new ArrayList<Integer>();
+		ArrayList<Integer> weapons = new ArrayList<Integer>();
+		
+		//seperate the deck into the different card types
+		for (int k = 0; k < deck.size(); k++) {
+			if (deck.get(k).getCardType() == CardType.PERSON) {
+				people.add(k);
+			} else if (deck.get(k).getCardType() == CardType.WEAPON) {
+				weapons.add(k);
+			} else {
+				rooms.add(k);
+			}
+		}
+		
+		//select a random card of each type
+		Random randomCard = new Random();
+		int roomNum = randomCard.nextInt(rooms.size());
+		Card solutionRoom = deck.get(rooms.get(roomNum));
+		randomCard.nextInt(people.size());
+		int weaponNum = randomCard.nextInt(weapons.size());
+		Card solutionWeapon = deck.get(weapons.get(weaponNum));
+		randomCard.nextInt(weapons.size());
+		int peopleNum = randomCard.nextInt(people.size());
+		Card solutionPerson = deck.get(people.get(peopleNum));
+		
+		//add the random cards to the solution
+		theAnswer = new Solution(solutionRoom, solutionWeapon, solutionPerson);
+		
+		//Take solution cards out of the new deck
+		newDeck.remove(newDeck.get(weapons.get(weaponNum)));
+		newDeck.remove(newDeck.get(people.get(peopleNum)));
+		newDeck.remove(newDeck.get(rooms.get(roomNum)));
+	}
 
 }
 
