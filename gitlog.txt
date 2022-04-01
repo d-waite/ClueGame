@@ -1,3 +1,141 @@
+commit 9b5b158b97fb97b41095e6faa480c0d6bc1992b6
+Author: David Waite <davidwaite@mines.edu>
+Date:   Fri Apr 1 17:54:25 2022 -0600
+
+    Additional refactoring
+
+commit 06eb04dc01baf0370144228f592486d1e21c372c
+Author: Dillinger Day <djday@mines.edu>
+Date:   Fri Apr 1 16:51:36 2022 -0600
+
+    Refactored previous commit.
+
+commit e094248d6c9c7eb214f48445e965f786bc95bdc3
+Author: Dillinger Day <djday@mines.edu>
+Date:   Fri Apr 1 16:44:40 2022 -0600
+
+    Passed player hand tests.
+
+commit a4f43e73a03ce659e68e2ffd725da70ff5388514
+Author: Dillinger Day <djday@mines.edu>
+Date:   Thu Mar 31 13:46:17 2022 -0600
+
+    Started passing player hand test.
+
+commit 6291650d02589d604445c361c29c79536a88e8d4
+Author: Dillinger Day <djday@mines.edu>
+Date:   Thu Mar 31 13:02:03 2022 -0600
+
+    Created Player Hand tests.
+
+commit 09436bf100fa6a726ac4cd6d00d1e129875c2255
+Author: David Waite <davidwaite@mines.edu>
+Date:   Wed Mar 30 19:28:14 2022 -0600
+
+    Refactored
+
+commit 2947bd30f2a3d1fc59829e827a312f3a262c69d2
+Author: David Waite <davidwaite@mines.edu>
+Date:   Wed Mar 30 19:22:11 2022 -0600
+
+    Passed Solution test
+
+commit d13409cb2d3255d517ec5ab7c72fe297ed22a150
+Author: Dillinger Day <djday@mines.edu>
+Date:   Wed Mar 30 18:35:14 2022 -0600
+
+    Created solution cards test.
+
+commit f5d8ca88c5faac7cb1cab7cf9900093e593858aa
+Author: Dillinger Day <djday@mines.edu>
+Date:   Wed Mar 30 18:27:41 2022 -0600
+
+    Passed test for Card Deck.
+
+commit fa605923042f6bca80f3205e893c4550d5a83ff4
+Author: Dillinger Day <djday@mines.edu>
+Date:   Wed Mar 30 17:47:53 2022 -0600
+
+    Created test for Card Deck.
+
+commit 20b9661c86e661113ac9edba459d17d698f692a3
+Author: David Waite <davidwaite@mines.edu>
+Date:   Wed Mar 30 17:02:20 2022 -0600
+
+    Refactored
+
+commit 153730152173c9ac1a531b4508c67e99c2ae440c
+Author: David Waite <davidwaite@mines.edu>
+Date:   Wed Mar 30 16:59:12 2022 -0600
+
+    Passed loading players test
+
+commit dd51b3e2fbf31df6b15f2f8da9695ee24672a6a9
+Author: David Waite <davidwaite@mines.edu>
+Date:   Wed Mar 30 16:08:48 2022 -0600
+
+    Created loading players test
+
+commit 78aa815e33fbae1bbf7b085534f35248a7250757
+Author: David Waite <davidwaite@mines.edu>
+Date:   Tue Mar 29 13:44:44 2022 -0600
+
+    Started testing
+
+commit 72038dac1828667790c932a01ed4f28048c5cbdd
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Mar 14 17:01:31 2022 -0600
+
+    Added additional comments to make variable declarations clearer
+
+commit 54260d3c0b50cdb05ff2c7b30fe95ca7f4968a79
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Mar 14 16:50:14 2022 -0600
+
+    Refactor #7. Changed the comments of the board file to better reflect the intentions of the functions.
+
+commit 5eb5232ce06aed09bfb33ed544ec5bbafa380cc0
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Mar 14 16:40:29 2022 -0600
+
+    Refactor #7. Changed the comments of the board file to better reflect the intentions of the functions.
+
+commit 6bcd10bd247235e6ab92d3bafa90bd31abbb2af8
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Mar 14 16:31:26 2022 -0600
+
+    Refactor #6: Deleted code that checks for error in setup file that actually won't be an issue for us
+
+commit 717295d46b689ef300c6ae0f4154e8fec016b3ee
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Mar 14 16:24:42 2022 -0600
+
+    Deleted useless while loop condition in the loadLayoutConfig method.
+
+commit 3b76b5ba25c79a5617dc99292815d7665a48e77e
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Mar 14 16:16:21 2022 -0600
+
+    Refactor #4: Extracted array accesses into local variables w/ descriptive names
+
+commit d6af0a2b364e419c2df6704c97138162b66e9dba
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Mar 14 16:07:54 2022 -0600
+
+    Created a local variable that got rid of a magic constant in the loadSetupConfig method.
+
+commit d0e41db75c0435225044b1fd68595f796a247077
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Mar 14 16:00:45 2022 -0600
+
+    Refactor #2: renamed i and j to row and column
+
+commit fa6836771e25aad9f941e0d1948ee3b7cc02810e
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Mar 14 15:52:13 2022 -0600
+
+    Refactor #1. Extracted doorway initialization code into a helper function.
+
 commit 97b0da26f4120a7ce73bf198ccc024f3e4798707
 Author: David Waite <davidwaite@mines.edu>
 Date:   Wed Mar 9 17:26:44 2022 -0700
