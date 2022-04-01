@@ -61,6 +61,7 @@ public class gameSetupTests {
 
 	@Test
 	public void testSolution() {
+		
 		//test solution
 		Solution testSolution = board.getSolution();
 		assertEquals(testSolution.getRoom().getCardType(), CardType.ROOM);
@@ -129,9 +130,9 @@ public class gameSetupTests {
 
 				dealtCards.add(computers.get(i).getHand().get(j));
 			}
+		}
 		//check to make sure every card is dealt
 		assertEquals(dealtCards.size(), board.getDeck().size());
-		}
 	}
 	
 }
