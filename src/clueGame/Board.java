@@ -2,6 +2,7 @@
 package clueGame;
 
 import java.util.*;
+import java.util.function.BooleanSupplier;
 
 import experiment.TestBoardCell;
 import clueGame.Solution;
@@ -516,5 +517,8 @@ public class Board {
 		newDeck.remove(newDeck.get(rooms.get(roomNum)));
 	}
 
+	public boolean checkAccusation(Card room, Card weapon, Card person) {
+		return false;
+	}
 }
 
