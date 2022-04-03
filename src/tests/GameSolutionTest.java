@@ -91,26 +91,34 @@ public class GameSolutionTest {
 	
 	@Test
 	public void testHandleSuggestion() {
+		// initialization
 		ArrayList<Player> players = new ArrayList<Player>();
-		Player player0 = new HumanPlayer("You","Blue",0,0);
+		Player player0 = new HumanPlayer("You","Blue",0,0); 
 		Player player1 = new ComputerPlayer("The Queen","Green",1,0);
 		Player player2 = new ComputerPlayer("Sir Knight","Red",0,1);
+		// simulate deal to players
 		player0.updateHand(armory);
 		player0.updateHand(axe);
 		player0.updateHand(queen);
+		
 		player1.updateHand(knight);
 		player1.updateHand(human);
 		player1.updateHand(knife);
+		
 		player2.updateHand(keep);
 		player2.updateHand(lookout);
 		player2.updateHand(sword);
+		
 		players.add(player0);
 		players.add(player1);
 		players.add(player2);
-		board.setAllPlayers(players);
+		board.setAllPlayers(players); // game has above 3 players now
 		
+		// test suggestion no one can disprove
 		assertEquals(board.handleSuggestion(hall,prof,poison,player0), null);
+		// test suggestion only suggesting player can disprove
 		assertEquals(board.handleSuggestion(keep, prof, poison, player2), null);
+		// test suggestion that human disproves & suggestion in which multiple people could disprove
 		assertTrue(board.handleSuggestion(armory,prof,poison, player1).equals(armory));
 		assertTrue(board.handleSuggestion(keep, knight, axe, player0).equals(knight));
 	}

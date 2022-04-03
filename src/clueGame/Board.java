@@ -87,7 +87,7 @@ public class Board {
 		computers = new ArrayList<ComputerPlayer>();
 		allPlayers = new ArrayList<Player>();
 		//Loop until all rooms have been read
-		
+
 		while (scan.hasNextLine()) {
 			String roomLine = scan.nextLine();
 			//If we reach the line that says players, then we need to go to the next loop
@@ -117,9 +117,9 @@ public class Board {
 				deck.add(new Card(roomName, CardType.ROOM));
 			}
 		}
-		
+
 		setupLineLength = 5; // amount of entries for player info
-		
+
 		while (scan.hasNextLine()) {
 			String playerLine = scan.nextLine();
 			//If we reach the line that says weapons, then we need to go to the next loop
@@ -142,7 +142,7 @@ public class Board {
 			String playerColor = playerInfo[2];
 			int playerRow = Integer.parseInt(playerInfo[3]);
 			int playerColumn = Integer.parseInt(playerInfo[4]);
-			
+
 			if (playerType.equals("Human")) {
 				human = new HumanPlayer(playerName, playerColor, playerRow, playerColumn);
 				allPlayers.add(human);
@@ -152,15 +152,15 @@ public class Board {
 				allPlayers.add(computer);
 			}
 			deck.add(new Card(playerName, CardType.PERSON));
-			
+
 		}
-		
+
 		setupLineLength = 1; // amount of entries for weapon info
 		while(scan.hasNextLine()) {
 			String weaponName = scan.nextLine();
 			deck.add(new Card(weaponName, CardType.WEAPON));
 		}
-			scan.close();
+		scan.close();
 	}
 
 	public void loadLayoutConfig(Object obj) throws BadConfigFormatException, FileNotFoundException{
@@ -191,19 +191,19 @@ public class Board {
 		FileReader inputCells = new FileReader("data/" + layoutConfigFile);
 		Scanner scanCells = new Scanner(inputCells);
 		//Loop through the file again
-		
-			for (int row = 0; row < numRows; row++) {
-				//split the row along the commas
-				String symbolRow = scanCells.nextLine();
-				String[] seperatedRow = new String[numCols];
-				seperatedRow = symbolRow.split(",");
-				//make all of the cells in the row into BoardCells and add them to the grid
-				for (int column = 0; column < numCols; column++) {
-					BoardCell cell = new BoardCell(row,column);
-					initializeCell(cell, seperatedRow[column]);
-					grid[row][column] = cell;
-				}
+
+		for (int row = 0; row < numRows; row++) {
+			//split the row along the commas
+			String symbolRow = scanCells.nextLine();
+			String[] seperatedRow = new String[numCols];
+			seperatedRow = symbolRow.split(",");
+			//make all of the cells in the row into BoardCells and add them to the grid
+			for (int column = 0; column < numCols; column++) {
+				BoardCell cell = new BoardCell(row,column);
+				initializeCell(cell, seperatedRow[column]);
+				grid[row][column] = cell;
 			}
+		}
 
 		scanSize.close();
 		scanCells.close();
@@ -297,7 +297,7 @@ public class Board {
 					} else { // in middle, we have adjacent cells on all 4 sides
 						addCellsToAdjList(currentCell, true, true, true, true, row, column);
 					}
-					
+
 				} else {
 					if(currentCell.isSecretPassage()) {
 						// connect center cells of rooms that have secret passages
@@ -307,7 +307,7 @@ public class Board {
 			}
 		}
 	}
-	
+
 	private void initializeDoorway(BoardCell currentCell,int row,int column) {
 		int above = row-1; 
 		int below = row+1;
@@ -363,7 +363,7 @@ public class Board {
 			}
 		}
 	}
-	
+
 	// test whether cell is a valid adjacent cell
 	// essentially, if cell is part of a room (room center already dealt with) or is unused,
 	// it should not go in adjacency list
@@ -426,13 +426,13 @@ public class Board {
 
 	public void deal() {
 		clearHands(); // starting with empty hand
-		
+
 		//create a copy of the deck that we can remove from, leaving original deck alone for testing purposes
 		ArrayList<Card> newDeck = new ArrayList<Card>();
 		for (int i = 0; i < deck.size(); i++) {
 			newDeck.add(deck.get(i));
 		}
-		
+
 		dealSolution(newDeck); // deal the solution first
 
 		// deal the rest of the cards to the players
@@ -478,7 +478,7 @@ public class Board {
 			}
 		}
 	}
-	
+
 	// clearing hands for when we test new deals
 	public void clearHands() {
 		getHumanPlayer().clearHand();
@@ -486,13 +486,13 @@ public class Board {
 			getComputerPlayers().get(i).clearHand();
 		}
 	}
-	
+
 	public void dealSolution(ArrayList<Card> newDeck) {
 		// these arraylists hold the position of cards with said card type in the deck
 		ArrayList<Integer> rooms = new ArrayList<Integer>();
 		ArrayList<Integer> people = new ArrayList<Integer>();
 		ArrayList<Integer> weapons = new ArrayList<Integer>();
-		
+
 		//separate the deck into the different card types
 		for (int k = 0; k < deck.size(); k++) {
 			if (deck.get(k).getCardType() == CardType.PERSON) {
@@ -503,7 +503,7 @@ public class Board {
 				rooms.add(k);
 			}
 		}
-		
+
 		//select a random card of each type
 		Random randomCard = new Random();
 		int roomNum = randomCard.nextInt(rooms.size()); // getting an index to get a position of a room card in the deck
@@ -512,16 +512,16 @@ public class Board {
 		Card solutionWeapon = deck.get(weapons.get(weaponNum));
 		int peopleNum = randomCard.nextInt(people.size()); // getting an index to get a position of a person card in the deck
 		Card solutionPerson = deck.get(people.get(peopleNum));
-		
+
 		//add the random cards to the solution
 		theAnswer = new Solution(solutionRoom, solutionWeapon, solutionPerson);
-		
+
 		//Take solution cards out of the new deck
 		newDeck.remove(newDeck.get(weapons.get(weaponNum)));
 		newDeck.remove(newDeck.get(people.get(peopleNum)));
 		newDeck.remove(newDeck.get(rooms.get(roomNum)));
 	}
-	
+
 	// passing in strings since player most likely won't have the cards in the solution (i.e. won't need to search through deck to get card)
 	public boolean checkAccusation(String room, String weapon, String person) { 
 		return room.equals(theAnswer.getRoom().getCardName()) && weapon.equals(theAnswer.getWeapon().getCardName()) && person.equals(theAnswer.getPerson().getCardName());
@@ -532,21 +532,24 @@ public class Board {
 	}
 
 	public Card handleSuggestion(Card room, Card person, Card weapon, Player playerSuggesting) {
-		int suggestIndex = allPlayers.indexOf(playerSuggesting);
-		for (int i = suggestIndex + 1; i < allPlayers.size(); i++) {
+		int startIndex = allPlayers.indexOf(playerSuggesting); // get index of person who is making the suggestion
+
+		for (int i = startIndex + 1; i < allPlayers.size(); i++) { // start with next person till end of list
 			if (allPlayers.get(i).disproveSuggestion(room, weapon, person) != null) {
 				return allPlayers.get(i).disproveSuggestion(room, weapon, person);
 			}
 		}
-		for (int i = 0; i < suggestIndex; i++) {
+
+		for (int i = 0; i < startIndex; i++) { // start at beginning and stop before person suggesting
 			if (allPlayers.get(i).disproveSuggestion(room, weapon, person) != null) {
 				return allPlayers.get(i).disproveSuggestion(room, weapon, person);
 			}
 		}
-		return null;
+
+		return null; // no one could disprove
 	}
 
-	public void setAllPlayers(ArrayList<Player> players) {
+	public void setAllPlayers(ArrayList<Player> players) { // for testing
 		allPlayers = players;
 	}
 }
