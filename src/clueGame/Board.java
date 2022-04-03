@@ -516,13 +516,10 @@ public class Board {
 		newDeck.remove(newDeck.get(people.get(peopleNum)));
 		newDeck.remove(newDeck.get(rooms.get(roomNum)));
 	}
-
-	public boolean checkAccusation(String room, String weapon, String person) {
-		if (room.equals(theAnswer.getRoom().getCardName()) && weapon.equals(theAnswer.getWeapon().getCardName()) && person.equals(theAnswer.getPerson().getCardName())) {
-			return true;
-		} else {
-			return false;
-		}
+	
+	// passing in strings since player most likely won't have the cards in the solution (i.e. won't need to search through deck to get card)
+	public boolean checkAccusation(String room, String weapon, String person) { 
+		return room.equals(theAnswer.getRoom().getCardName()) && weapon.equals(theAnswer.getWeapon().getCardName()) && person.equals(theAnswer.getPerson().getCardName());
 	}
 
 	public void setSolution(Solution solution) {

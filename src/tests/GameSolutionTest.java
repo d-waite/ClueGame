@@ -1,3 +1,4 @@
+// Authors: David Waite & Dillinger Day
 package tests;
 
 import org.junit.jupiter.api.Test;
@@ -31,10 +32,15 @@ public class GameSolutionTest {
 	
 	@Test
 	public void testAccusation() {
+		// create known solution
 		board.setSolution(new Solution(keep,axe,queen));
+		// check a correct accusation
 		assertTrue(board.checkAccusation("Keep","Axe","The Queen"));
+		// check wrong room
 		assertFalse(board.checkAccusation("Armory", "Axe", "The Queen"));
+		// check wrong person
 		assertFalse(board.checkAccusation("Keep", "Axe", "You"));
+		// check wrong weapon
 		assertFalse(board.checkAccusation("Keep", "Knife", "The Queen"));
 	}
 }
