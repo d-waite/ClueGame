@@ -525,5 +525,9 @@ public class Board {
 	public void setSolution(Solution solution) {
 		theAnswer = solution;		
 	}
+
+	public Card handleSuggestion(Card hall, Card prof, Card poison, Player playerSuggesting) {
+		return new Card("iLike2eat",CardType.WEAPON);
+	}
 }
 
