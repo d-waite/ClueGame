@@ -2,6 +2,7 @@
 package clueGame;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Player {
 	// variables needed to describe player
@@ -51,7 +52,23 @@ public class Player {
 	}
 	
 	public Card disproveSuggestion(Card room, Card weapon, Card person) {
-		Card card = new Card("AAAAAAAA", CardType.ROOM);
-		return card;
+		ArrayList<Card> matches = new ArrayList<Card>();
+		if (hand.contains(room)) {
+			matches.add(room);
+		}
+		if (hand.contains(weapon)) {
+			matches.add(weapon);
+		}
+		if (hand.contains(person)) {
+			matches.add(person);
+		}
+		if (matches.size() == 0) {
+			return null;
+		} else {
+			Random randInt = new Random();
+			int randCard = randInt.nextInt(matches.size());
+			return matches.get(randCard);
+		}
+		
 	}
 }
