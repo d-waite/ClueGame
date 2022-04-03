@@ -517,8 +517,16 @@ public class Board {
 		newDeck.remove(newDeck.get(rooms.get(roomNum)));
 	}
 
-	public boolean checkAccusation(Card room, Card weapon, Card person) {
-		return false;
+	public boolean checkAccusation(String room, String weapon, String person) {
+		if (room.equals(theAnswer.getRoom().getCardName()) && weapon.equals(theAnswer.getWeapon().getCardName()) && person.equals(theAnswer.getPerson().getCardName())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void setSolution(Solution solution) {
+		theAnswer = solution;		
 	}
 }
 

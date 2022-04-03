@@ -14,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameSolutionTest {
 	private static Board board;
 	private Card keep = new Card("Keep",CardType.ROOM);
-	private Card armory = new Card("Armory",CardType.ROOM);
-	private Card human = new Card("You",CardType.PERSON);
+	//private Card armory = new Card("Armory",CardType.ROOM);
+	//private Card human = new Card("You",CardType.PERSON);
 	private Card queen = new Card("The Queen",CardType.PERSON);
-	private Card knife = new Card("Knife",CardType.WEAPON);
+	//private Card knife = new Card("Knife",CardType.WEAPON);
 	private Card axe = new Card("Axe",CardType.WEAPON);
 	
 
@@ -31,10 +31,10 @@ public class GameSolutionTest {
 	
 	@Test
 	public void testAccusation() {
-		Solution testSolution = new Solution(keep,axe,queen);
-		assertTrue(board.checkAccusation(keep,axe,queen));
-		assertFalse(board.checkAccusation(armory, axe, queen));
-		assertFalse(board.checkAccusation(keep, axe, human));
-		assertFalse(board.checkAccusation(keep, knife, queen));
+		board.setSolution(new Solution(keep,axe,queen));
+		assertTrue(board.checkAccusation("Keep","Axe","The Queen"));
+		assertFalse(board.checkAccusation("Armory", "Axe", "The Queen"));
+		assertFalse(board.checkAccusation("Keep", "Axe", "You"));
+		assertFalse(board.checkAccusation("Keep", "Knife", "The Queen"));
 	}
 }
