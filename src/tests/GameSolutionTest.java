@@ -104,8 +104,14 @@ public class GameSolutionTest {
 		player2.updateHand(keep);
 		player2.updateHand(lookout);
 		player2.updateHand(sword);
+		players.add(player0);
+		players.add(player1);
+		players.add(player2);
+		board.setAllPlayers(players);
 		
 		assertEquals(board.handleSuggestion(hall,prof,poison,player0), null);
-		assertTrue(board)
+		assertEquals(board.handleSuggestion(keep, prof, poison, player2), null);
+		assertTrue(board.handleSuggestion(armory,prof,poison, player1).equals(armory));
+		assertTrue(board.handleSuggestion(keep, knight, axe, player0).equals(knight));
 	}
 }

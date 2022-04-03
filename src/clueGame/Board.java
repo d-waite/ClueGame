@@ -23,6 +23,7 @@ public class Board {
 	private Set<BoardCell> visited  = new HashSet<BoardCell>(); // helps us to get our target list
 	private HumanPlayer human;
 	private ArrayList<ComputerPlayer> computers;
+	private ArrayList<Player> allPlayers;
 	private ArrayList<Card> deck;
 	private Solution theAnswer;
 
@@ -84,6 +85,7 @@ public class Board {
 		//initialize room map
 		rooms = new HashMap<Character, Room>();
 		computers = new ArrayList<ComputerPlayer>();
+		allPlayers = new ArrayList<Player>();
 		//Loop until all rooms have been read
 		
 		while (scan.hasNextLine()) {
@@ -143,8 +145,11 @@ public class Board {
 			
 			if (playerType.equals("Human")) {
 				human = new HumanPlayer(playerName, playerColor, playerRow, playerColumn);
+				allPlayers.add(human);
 			} else {
-				computers.add(new ComputerPlayer(playerName, playerColor, playerRow, playerColumn));
+				ComputerPlayer computer = new ComputerPlayer(playerName, playerColor, playerRow, playerColumn);
+				computers.add(computer);
+				allPlayers.add(computer);
 			}
 			deck.add(new Card(playerName, CardType.PERSON));
 			
@@ -526,8 +531,23 @@ public class Board {
 		theAnswer = solution;		
 	}
 
-	public Card handleSuggestion(Card hall, Card prof, Card poison, Player playerSuggesting) {
-		return new Card("iLike2eat",CardType.WEAPON);
+	public Card handleSuggestion(Card room, Card person, Card weapon, Player playerSuggesting) {
+		int suggestIndex = allPlayers.indexOf(playerSuggesting);
+		for (int i = suggestIndex + 1; i < allPlayers.size(); i++) {
+			if (allPlayers.get(i).disproveSuggestion(room, weapon, person) != null) {
+				return allPlayers.get(i).disproveSuggestion(room, weapon, person);
+			}
+		}
+		for (int i = 0; i < suggestIndex; i++) {
+			if (allPlayers.get(i).disproveSuggestion(room, weapon, person) != null) {
+				return allPlayers.get(i).disproveSuggestion(room, weapon, person);
+			}
+		}
+		return null;
+	}
+
+	public void setAllPlayers(ArrayList<Player> players) {
+		allPlayers = players;
 	}
 }
 
