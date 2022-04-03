@@ -49,4 +49,9 @@ public class Player {
 	public void clearHand() {
 		hand = new ArrayList<Card>(); // reallocating space on a new deal
 	}
+	
+	public Card disproveSuggestion(Card room, Card weapon, Card person) {
+		Card card = new Card("AAAAAAAA", CardType.ROOM);
+		return card;
+	}
 }

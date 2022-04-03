@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import clueGame.Board;
 import clueGame.Card;
 import clueGame.CardType;
+import clueGame.HumanPlayer;
+import clueGame.Player;
 import clueGame.Solution;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -15,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameSolutionTest {
 	private static Board board;
 	private Card keep = new Card("Keep",CardType.ROOM);
-	//private Card armory = new Card("Armory",CardType.ROOM);
-	//private Card human = new Card("You",CardType.PERSON);
+	private Card armory = new Card("Armory",CardType.ROOM);
+	private Card human = new Card("You",CardType.PERSON);
 	private Card queen = new Card("The Queen",CardType.PERSON);
-	//private Card knife = new Card("Knife",CardType.WEAPON);
+	private Card knife = new Card("Knife",CardType.WEAPON);
 	private Card axe = new Card("Axe",CardType.WEAPON);
 	
 
@@ -42,5 +44,33 @@ public class GameSolutionTest {
 		assertFalse(board.checkAccusation("Keep", "Axe", "You"));
 		// check wrong weapon
 		assertFalse(board.checkAccusation("Keep", "Knife", "The Queen"));
+	}
+	
+	@Test
+	public void testDisproveSuggestion() {
+		Player player = new HumanPlayer("You", "Blue", 0, 0);
+		player.updateHand(axe);
+		player.updateHand(keep);
+		player.updateHand(queen);
+		assertEquals(player.disproveSuggestion(armory, knife, human), (null));
+		assertTrue(player.disproveSuggestion(keep, knife, human).equals(keep));
+		assertTrue(player.disproveSuggestion(armory, axe, human).equals(axe));
+		assertTrue(player.disproveSuggestion(armory, knife, queen).equals(queen));
+		
+		int roomCount = 0;
+		int weaponCount = 0;
+		int personCount = 0;
+		for (int i = 0; i < 20; i++) {
+			if (player.disproveSuggestion(axe, keep, queen).equals(axe)) {
+				weaponCount ++;
+			} else if (player.disproveSuggestion(axe, keep, queen).equals(keep)) {
+				roomCount++;
+			} else {
+				personCount++;
+			}
+		}
+		assertTrue(roomCount >= 1);
+		assertTrue(weaponCount >= 1);
+		assertTrue(personCount >= 1);
 	}
 }
