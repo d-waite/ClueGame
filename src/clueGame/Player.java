@@ -53,6 +53,7 @@ public class Player {
 	
 	public Card disproveSuggestion(Card room, Card weapon, Card person) {
 		ArrayList<Card> matches = new ArrayList<Card>();
+		//check if any of the cards in the player's hand match the suggestion, and add them to the array list
 		if (hand.contains(room)) {
 			matches.add(room);
 		}
@@ -62,9 +63,10 @@ public class Player {
 		if (hand.contains(person)) {
 			matches.add(person);
 		}
+		//if no cards have been added to the array list, then return null
 		if (matches.size() == 0) {
 			return null;
-		} else {
+		} else { //choose a random card from the array list (if the size is one it will always choose that card)
 			Random randInt = new Random();
 			int randCard = randInt.nextInt(matches.size());
 			return matches.get(randCard);

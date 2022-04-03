@@ -49,14 +49,18 @@ public class GameSolutionTest {
 	@Test
 	public void testDisproveSuggestion() {
 		Player player = new HumanPlayer("You", "Blue", 0, 0);
+		//add known cards to the player's hand
 		player.updateHand(axe);
 		player.updateHand(keep);
 		player.updateHand(queen);
+		//returns null when player doesn't have any of the cards
 		assertEquals(player.disproveSuggestion(armory, knife, human), (null));
+		//returns card that matches when only one card matches
 		assertTrue(player.disproveSuggestion(keep, knife, human).equals(keep));
 		assertTrue(player.disproveSuggestion(armory, axe, human).equals(axe));
 		assertTrue(player.disproveSuggestion(armory, knife, queen).equals(queen));
 		
+		//check randomness of return when multiple cards match
 		int roomCount = 0;
 		int weaponCount = 0;
 		int personCount = 0;
@@ -69,6 +73,7 @@ public class GameSolutionTest {
 				personCount++;
 			}
 		}
+		//make sure every card was returned at least once
 		assertTrue(roomCount >= 1);
 		assertTrue(weaponCount >= 1);
 		assertTrue(personCount >= 1);
