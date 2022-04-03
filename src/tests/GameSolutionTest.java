@@ -122,4 +122,6 @@ public class GameSolutionTest {
 		assertTrue(board.handleSuggestion(armory,prof,poison, player1).equals(armory));
 		assertTrue(board.handleSuggestion(keep, knight, axe, player0).equals(knight));
 	}
+	
+
 }

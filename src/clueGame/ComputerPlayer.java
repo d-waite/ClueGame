@@ -6,5 +6,9 @@ public class ComputerPlayer extends Player {
 		super(name, color, row, column);
 	}
 
+	public Solution createSuggestion() {
+		Solution suggestion = new Solution(null, null, null);
+		return suggestion;
+	}
 	
 }
