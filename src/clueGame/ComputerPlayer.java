@@ -7,7 +7,8 @@ public class ComputerPlayer extends Player {
 	}
 
 	public Solution createSuggestion() {
-		Solution suggestion = new Solution(null, null, null);
+		Card card1 = new Card("d", CardType.ROOM);
+		Solution suggestion = new Solution(card1, card1, card1);
 		return suggestion;
 	}
 	

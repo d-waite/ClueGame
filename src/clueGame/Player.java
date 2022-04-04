@@ -11,6 +11,7 @@ public class Player {
 	private int row;
 	private int column;
 	private ArrayList<Card> hand;
+	private ArrayList<Card> seen;
 	
 	public Player(String name, String color, int row, int column) {
 		this.name = name;
@@ -18,6 +19,7 @@ public class Player {
 		this.row = row;
 		this.column = column;
 		hand = new ArrayList<Card>(); // create space for the player to have cards
+		seen = new ArrayList<Card>(); // create space for the seen cards
 	}
 	
 	public String getName() {
@@ -72,5 +74,8 @@ public class Player {
 			return matches.get(randCard);
 		}
 		
+	}
+	public void updateSeen(Card seenCard) {
+		seen.add(seenCard);
 	}
 }
