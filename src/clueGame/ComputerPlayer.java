@@ -65,7 +65,38 @@ public class ComputerPlayer extends Player {
 	}
 
 	public BoardCell selectTarget(Set<BoardCell> targets) {		
-		return new BoardCell(-1,-1);
+		Board board = Board.getInstance();
+		ArrayList<BoardCell> unseenRooms = new ArrayList<BoardCell>();
+		ArrayList<BoardCell> targetsArray = new ArrayList<BoardCell>();
+		// check for any rooms in target list, if not seen add to unseen list
+		for (BoardCell target: targets) {
+			targetsArray.add(target);
+			if (target.isRoom()) {
+				boolean seenRoom = false;
+				for (int i = 0; i < getHand().size(); i++) {
+					if (board.getRoom(target).getName().equals(getHand().get(i).getCardName())) {
+						seenRoom = true;
+					}
+				}
+				for (int i = 0; i < getSeen().size(); i++) {
+					if (board.getRoom(target).getName().equals(getSeen().get(i).getCardName())) {
+						seenRoom = true;
+					}
+				}
+				if (!seenRoom) {
+					unseenRooms.add(target);
+				}
+			}
+		}
+		
+		Random rand = new Random();
+		if (unseenRooms.size() != 0) {
+			int randomRoom = rand.nextInt(unseenRooms.size());
+			return unseenRooms.get(randomRoom);
+		} else {
+			int randomTarget = rand.nextInt(targets.size());
+			return targetsArray.get(randomTarget);
+		}
 	}
 
 }

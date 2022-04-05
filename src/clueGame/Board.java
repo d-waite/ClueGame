@@ -400,7 +400,7 @@ public class Board {
 			// can't go through same space twice in one turn & can't visit an occupied space
 			if ((!(visited.contains(adjCell))) && (!(adjCell.getOccupied()))) { 
 				visited.add(adjCell); 
-				if (adjCell.getRoom()) { // turn ends once room is entered
+				if (adjCell.isRoom()) { // turn ends once room is entered
 					targets.add(adjCell);
 				} else if (pathlength == 1) { // end of roll
 					targets.add(adjCell);

@@ -119,13 +119,14 @@ public class ComputerAITest {
 		testPlayer3.updateSeen(lookout);
 		int cell1 = 0, cell2 = 0, cell3 = 0, cell4 = 0, cell5 = 0;
 		for (int i = 0; i < 20; i++) {
-			if (testPlayer3.selectTarget(targets) == board.getCell(27, 4)) {
+			BoardCell target = testPlayer3.selectTarget(targets);
+			if (target == board.getCell(27, 4)) {
 				cell1++;
-			} else if (testPlayer3.selectTarget(targets) == board.getCell(25, 2)) {
+			} else if (target == board.getCell(25, 2)) {
 				cell2++;
-			} else if (testPlayer3.selectTarget(targets) == board.getCell(25, 4)) {
+			} else if (target == board.getCell(25, 4)) {
 				cell3++;
-			} else if (testPlayer3.selectTarget(targets) == board.getCell(28, 5)) {
+			} else if (target == board.getCell(28, 5)) {
 				cell4++;
 			} else {
 				cell5++;
@@ -148,11 +149,12 @@ public class ComputerAITest {
 		cell4 = 0;
 		
 		for (int i = 0; i < 20; i++) {
-			if (testPlayer4.selectTarget(targets) == board.getCell(27, 4)) {
+			BoardCell target = testPlayer4.selectTarget(targets);
+			if (target == board.getCell(14,17)) {
 				cell1++;
-			} else if (testPlayer4.selectTarget(targets) == board.getCell(25, 2)) {
+			} else if (target == board.getCell(12,17)) {
 				cell2++;
-			} else if (testPlayer4.selectTarget(targets) == board.getCell(25, 4)) {
+			} else if (target == board.getCell(13,18)) {
 				cell3++;
 			} else {
 				cell4++;

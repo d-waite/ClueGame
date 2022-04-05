@@ -38,7 +38,7 @@ public class BoardCell {
 		this.isRoom = room;
 	}
 
-	public boolean getRoom() {
+	public boolean isRoom() {
 		return isRoom;
 	}
 
