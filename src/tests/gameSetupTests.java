@@ -64,6 +64,7 @@ public class gameSetupTests {
 	public void testSolution() {
 		
 		//test solution
+		board.deal();
 		Solution testSolution = board.getSolution();
 		assertEquals(testSolution.getRoom().getCardType(), CardType.ROOM);
 		assertEquals(testSolution.getPerson().getCardType(), CardType.PERSON);

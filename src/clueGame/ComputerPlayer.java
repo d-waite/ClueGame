@@ -74,12 +74,12 @@ public class ComputerPlayer extends Player {
 			if (target.isRoom()) {
 				boolean seenRoom = false;
 				for (int i = 0; i < getHand().size(); i++) {
-					if (board.getRoom(target).getName().equals(getHand().get(i).getCardName())) {
+					if (board.getRoom(target).getName().equals(getHand().get(i).getCardName())) { // room is in hand
 						seenRoom = true;
 					}
 				}
 				for (int i = 0; i < getSeen().size(); i++) {
-					if (board.getRoom(target).getName().equals(getSeen().get(i).getCardName())) {
+					if (board.getRoom(target).getName().equals(getSeen().get(i).getCardName())) { // room has been seen
 						seenRoom = true;
 					}
 				}

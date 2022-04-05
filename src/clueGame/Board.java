@@ -530,27 +530,27 @@ public class Board {
 		newDeck.remove(newDeck.get(rooms.get(roomNum)));
 	}
 
-	// passing in strings since player most likely won't have the cards in the solution (i.e. won't need to search through deck to get card)
-	public boolean checkAccusation(String room, String weapon, String person) { 
-		return room.equals(theAnswer.getRoom().getCardName()) && weapon.equals(theAnswer.getWeapon().getCardName()) && person.equals(theAnswer.getPerson().getCardName());
+	// if all cards match the accusation, return true
+	public boolean checkAccusation(Solution accusation) { 
+		return accusation.getRoom().equals(theAnswer.getRoom()) && accusation.getPerson().equals(theAnswer.getPerson()) && accusation.getWeapon().equals(theAnswer.getWeapon());
 	}
 
 	public void setSolution(Solution solution) {
 		theAnswer = solution;		
 	}
 
-	public Card handleSuggestion(Card room, Card person, Card weapon, Player playerSuggesting) {
+	public Card handleSuggestion(Solution suggestion, Player playerSuggesting) {
 		int startIndex = allPlayers.indexOf(playerSuggesting); // get index of person who is making the suggestion
 
 		for (int i = startIndex + 1; i < allPlayers.size(); i++) { // start with next person till end of list
-			if (allPlayers.get(i).disproveSuggestion(room, weapon, person) != null) {
-				return allPlayers.get(i).disproveSuggestion(room, weapon, person);
+			if (allPlayers.get(i).disproveSuggestion(suggestion) != null) {
+				return allPlayers.get(i).disproveSuggestion(suggestion);
 			}
 		}
 
 		for (int i = 0; i < startIndex; i++) { // start at beginning and stop before person suggesting
-			if (allPlayers.get(i).disproveSuggestion(room, weapon, person) != null) {
-				return allPlayers.get(i).disproveSuggestion(room, weapon, person);
+			if (allPlayers.get(i).disproveSuggestion(suggestion) != null) {
+				return allPlayers.get(i).disproveSuggestion(suggestion);
 			}
 		}
 

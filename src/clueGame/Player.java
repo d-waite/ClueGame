@@ -61,17 +61,17 @@ public class Player {
 		hand = new ArrayList<Card>(); // reallocating space on a new deal
 	}
 	
-	public Card disproveSuggestion(Card room, Card weapon, Card person) {
+	public Card disproveSuggestion(Solution suggestion) {
 		ArrayList<Card> matches = new ArrayList<Card>();
 		//check if any of the cards in the player's hand match the suggestion, and add them to the array list
-		if (hand.contains(room)) {
-			matches.add(room);
+		if (hand.contains(suggestion.getRoom())) {
+			matches.add(suggestion.getRoom());
 		}
-		if (hand.contains(weapon)) {
-			matches.add(weapon);
+		if (hand.contains(suggestion.getWeapon())) {
+			matches.add(suggestion.getWeapon());
 		}
-		if (hand.contains(person)) {
-			matches.add(person);
+		if (hand.contains(suggestion.getPerson())) {
+			matches.add(suggestion.getPerson());
 		}
 		//if no cards have been added to the array list, then return null
 		if (matches.size() == 0) {

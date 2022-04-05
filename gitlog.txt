@@ -1,3 +1,105 @@
+commit 4e68fb85bc8889dde23de81e1d87c322a745ea6f
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Apr 4 21:23:27 2022 -0600
+
+    Refactored
+
+commit 4bb5a3ae721bf619940869ec817a20935e84ed92
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Apr 4 19:26:54 2022 -0600
+
+    Passed select target test
+
+commit 4d22c3f8fba50ba8599678d51e50d57b105ed8b1
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Apr 4 18:51:31 2022 -0600
+
+    Created Computer Select Target List
+
+commit a2a3f6d2d51bfbb97e3f8e4834287ccc397fa2c6
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Apr 4 18:13:53 2022 -0600
+
+    Refactored last commit.
+
+commit e5218dec4f087420028f210c330a556c99667cdd
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Apr 4 18:05:17 2022 -0600
+
+    Passed Computer Player suggestion tests.
+
+commit a8def8322b05ec97b9d1628daffbcac01d0a9b1f
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Apr 4 17:01:24 2022 -0600
+
+    Created Computer Player Suggestion tests.
+
+commit 689f7ed15d61fcd57459feb8390ba6a487675697
+Author: Dillinger Day <djday@mines.edu>
+Date:   Sun Apr 3 16:03:04 2022 -0600
+
+    Started writing tests for computer suggestions.
+
+commit 3b43c158edd0aa1fe9f51a927cce64f0ea8f0b15
+Author: David Waite <davidwaite@mines.edu>
+Date:   Sun Apr 3 15:44:08 2022 -0600
+
+    Refactored
+
+commit e965e478be46b12eaa808480ca64e7da53d9a2fb
+Author: David Waite <davidwaite@mines.edu>
+Date:   Sun Apr 3 15:36:20 2022 -0600
+
+    Passed handle suggestion tests
+
+commit 82705a584bb36b7a7740f2868037a01dac84119f
+Author: David Waite <davidwaite@mines.edu>
+Date:   Sun Apr 3 15:19:52 2022 -0600
+
+    Created handle suggestion tests
+
+commit 7fb178d58d757c00ec362593a71dda25b48b9540
+Author: Dillinger Day <djday@mines.edu>
+Date:   Sun Apr 3 14:51:07 2022 -0600
+
+    Refactored last commit.
+
+commit 9fab2f29f0dcca5806ae6253cd2a5b131d8154bf
+Author: Dillinger Day <djday@mines.edu>
+Date:   Sun Apr 3 14:45:21 2022 -0600
+
+    Passed disproveSuggestion Tests.
+
+commit 8beccf1b74e29779f91baf80b1db382d2f62dd9c
+Author: Dillinger Day <djday@mines.edu>
+Date:   Sun Apr 3 14:30:00 2022 -0600
+
+    Created test for disproveSuggestion method.
+
+commit db2dd470d4e3801e82679ebf3bfd68ecd1e40755
+Author: David Waite <davidwaite@mines.edu>
+Date:   Sun Apr 3 14:05:42 2022 -0600
+
+    Refactored
+
+commit 43ced208ed461abf4a1051f4a66c9485b99a26be
+Author: David Waite <davidwaite@mines.edu>
+Date:   Sun Apr 3 14:00:52 2022 -0600
+
+    Passed accusation test
+
+commit fe18dcb5e1cc2331e28ec6e84e81d7cc18a68e83
+Author: David Waite <davidwaite@mines.edu>
+Date:   Sun Apr 3 13:46:09 2022 -0600
+
+    Created accusation test
+
+commit bf392a17388c59686ba21b4f7f0c0adf52e65471
+Author: David Waite <davidwaite@mines.edu>
+Date:   Fri Apr 1 17:55:36 2022 -0600
+
+    gitlog
+
 commit 9b5b158b97fb97b41095e6faa480c0d6bc1992b6
 Author: David Waite <davidwaite@mines.edu>
 Date:   Fri Apr 1 17:54:25 2022 -0600

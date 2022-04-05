@@ -47,13 +47,13 @@ public class GameSolutionTest {
 		// create known solution
 		board.setSolution(new Solution(keep,axe,queen));
 		// check a correct accusation
-		assertTrue(board.checkAccusation("Keep","Axe","The Queen"));
+		assertTrue(board.checkAccusation(new Solution(keep,axe,queen)));
 		// check wrong room
-		assertFalse(board.checkAccusation("Armory", "Axe", "The Queen"));
+		assertFalse(board.checkAccusation(new Solution(armory,axe,queen)));
 		// check wrong person
-		assertFalse(board.checkAccusation("Keep", "Axe", "You"));
+		assertFalse(board.checkAccusation(new Solution(keep,axe,human)));
 		// check wrong weapon
-		assertFalse(board.checkAccusation("Keep", "Knife", "The Queen"));
+		assertFalse(board.checkAccusation(new Solution(keep,knife,queen)));
 	}
 	
 	@Test
@@ -64,20 +64,20 @@ public class GameSolutionTest {
 		player.updateHand(keep);
 		player.updateHand(queen);
 		//returns null when player doesn't have any of the cards
-		assertEquals(player.disproveSuggestion(armory, knife, human), (null));
+		assertEquals(player.disproveSuggestion(new Solution(armory, knife, human)), (null));
 		//returns card that matches when only one card matches
-		assertTrue(player.disproveSuggestion(keep, knife, human).equals(keep));
-		assertTrue(player.disproveSuggestion(armory, axe, human).equals(axe));
-		assertTrue(player.disproveSuggestion(armory, knife, queen).equals(queen));
+		assertTrue(player.disproveSuggestion(new Solution(keep, knife, human)).equals(keep));
+		assertTrue(player.disproveSuggestion(new Solution(armory, axe, human)).equals(axe));
+		assertTrue(player.disproveSuggestion(new Solution(armory, knife, queen)).equals(queen));
 		
 		//check randomness of return when multiple cards match
 		int roomCount = 0;
 		int weaponCount = 0;
 		int personCount = 0;
 		for (int i = 0; i < 20; i++) {
-			if (player.disproveSuggestion(axe, keep, queen).equals(axe)) {
+			if (player.disproveSuggestion(new Solution(axe, keep, queen)).equals(axe)) {
 				weaponCount ++;
-			} else if (player.disproveSuggestion(axe, keep, queen).equals(keep)) {
+			} else if (player.disproveSuggestion(new Solution(axe, keep, queen)).equals(keep)) {
 				roomCount++;
 			} else {
 				personCount++;
@@ -115,12 +115,12 @@ public class GameSolutionTest {
 		board.setAllPlayers(players); // game has above 3 players now
 		
 		// test suggestion no one can disprove
-		assertEquals(board.handleSuggestion(hall,prof,poison,player0), null);
+		assertEquals(board.handleSuggestion(new Solution(hall,prof,poison),player0), null);
 		// test suggestion only suggesting player can disprove
-		assertEquals(board.handleSuggestion(keep, prof, poison, player2), null);
+		assertEquals(board.handleSuggestion(new Solution(keep, prof, poison), player2), null);
 		// test suggestion that human disproves & suggestion in which multiple people could disprove
-		assertTrue(board.handleSuggestion(armory,prof,poison, player1).equals(armory));
-		assertTrue(board.handleSuggestion(keep, knight, axe, player0).equals(knight));
+		assertTrue(board.handleSuggestion(new Solution(armory,prof,poison), player1).equals(armory));
+		assertTrue(board.handleSuggestion(new Solution(keep, knight, axe), player0).equals(knight));
 	}
 	
 
