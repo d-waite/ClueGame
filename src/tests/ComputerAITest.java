@@ -103,6 +103,7 @@ public class ComputerAITest {
 			}
 		}
 		
+		// everything should be chosen at least once
 		assertTrue(poisonCount >= 1);
 		assertTrue(spearCount >= 1);
 		assertTrue(profCount >= 1);
@@ -111,11 +112,15 @@ public class ComputerAITest {
 	
 	@Test
 	public void testSelectTarget() {
+		// creating new computer player to test the AI for selecting a target
 		ComputerPlayer testPlayer3 = new ComputerPlayer("Comp","Red",28,4);
+		
+		// testing with unseen room in target list
 		board.calcTargets(board.getCell(28, 4), 3);
 		Set<BoardCell> targets = board.getTargets();
 		assertEquals(testPlayer3.selectTarget(targets),board.getCell(25, 2));
 		
+		// putting room as seen, should now be a random selection of the target
 		testPlayer3.updateSeen(lookout);
 		int cell1 = 0, cell2 = 0, cell3 = 0, cell4 = 0, cell5 = 0;
 		for (int i = 0; i < 20; i++) {
@@ -133,13 +138,14 @@ public class ComputerAITest {
 			}		
 		}
 		
+		// making sure all get chosen at some point
 		assertTrue(cell1 >= 1);
 		assertTrue(cell2 >= 1);
 		assertTrue(cell3 >= 1);
 		assertTrue(cell4 >= 1);
 		assertTrue(cell5 >= 1);
 		
-		ComputerPlayer testPlayer4 = new ComputerPlayer("Comp","red",13,17);
+		// checking for randomness when there are no rooms in the list 
 		board.calcTargets(board.getCell(13, 17), 1);
 		targets = board.getTargets();
 		
@@ -149,7 +155,7 @@ public class ComputerAITest {
 		cell4 = 0;
 		
 		for (int i = 0; i < 20; i++) {
-			BoardCell target = testPlayer4.selectTarget(targets);
+			BoardCell target = testPlayer3.selectTarget(targets);
 			if (target == board.getCell(14,17)) {
 				cell1++;
 			} else if (target == board.getCell(12,17)) {
@@ -161,6 +167,7 @@ public class ComputerAITest {
 			}
 		}
 		
+		// making sure all get chosen at some point
 		assertTrue(cell1 >= 1);
 		assertTrue(cell2 >= 1);
 		assertTrue(cell3 >= 1);

@@ -66,8 +66,8 @@ public class ComputerPlayer extends Player {
 
 	public BoardCell selectTarget(Set<BoardCell> targets) {		
 		Board board = Board.getInstance();
-		ArrayList<BoardCell> unseenRooms = new ArrayList<BoardCell>();
-		ArrayList<BoardCell> targetsArray = new ArrayList<BoardCell>();
+		ArrayList<BoardCell> unseenRooms = new ArrayList<BoardCell>(); // for choosing room if not seen
+		ArrayList<BoardCell> targetsArray = new ArrayList<BoardCell>(); // since don't have indices for sets
 		// check for any rooms in target list, if not seen add to unseen list
 		for (BoardCell target: targets) {
 			targetsArray.add(target);
@@ -83,6 +83,7 @@ public class ComputerPlayer extends Player {
 						seenRoom = true;
 					}
 				}
+				// if room card not in hand or shown to player through a suggestion, add to list of targets we want to go to
 				if (!seenRoom) {
 					unseenRooms.add(target);
 				}
@@ -90,10 +91,10 @@ public class ComputerPlayer extends Player {
 		}
 		
 		Random rand = new Random();
-		if (unseenRooms.size() != 0) {
-			int randomRoom = rand.nextInt(unseenRooms.size());
+		if (unseenRooms.size() != 0) { // if there are unseen rooms, choose a random one
+			int randomRoom = rand.nextInt(unseenRooms.size()); // if size is 1, will always return 0 so we always choose that room
 			return unseenRooms.get(randomRoom);
-		} else {
+		} else { // if there are no unseen rooms, just choose a random target
 			int randomTarget = rand.nextInt(targets.size());
 			return targetsArray.get(randomTarget);
 		}
