@@ -48,26 +48,31 @@ public class ComputerAITest {
 	@Test
 	public void testComputerSuggestion() {
 		ComputerPlayer testPlayer = new ComputerPlayer("dsf", "Green", 0, 11);
-		
+		//give the player all weapons except the bow in both hand and seen
 		testPlayer.updateHand(knife);
 		testPlayer.updateHand(axe);
 		testPlayer.updateSeen(sword);
 		testPlayer.updateSeen(poison);
 		testPlayer.updateSeen(spear);
-		
+		//give the player all people except the king in both hand and seen
 		testPlayer.updateHand(human);
 		testPlayer.updateSeen(queen);
 		testPlayer.updateSeen(knight);
 		testPlayer.updateSeen(prof);
 		testPlayer.updateSeen(dr);
-		
+		//create a new suggestion
 		Solution testSuggestion = testPlayer.createSuggestion();
+		//test if the suggested room is the room that the player is currently in
 		assertTrue(board.getRoom(board.getCell(testPlayer.getRow(), testPlayer.getColumn())).getName().equals(testSuggestion.getRoom().getCardName()));
+		//make sure the computer chose the only options we gave it, the king and the bow
 		assertTrue(testSuggestion.getPerson().equals(king));
 		assertTrue(testSuggestion.getWeapon().equals(bow));
 		
+		
+		//create a new player
 		ComputerPlayer testPlayer2 = new ComputerPlayer("2", "Blue", 0, 1);
 		
+		//give it only some weapons and people in seen
 		testPlayer2.updateHand(knife);
 		testPlayer2.updateHand(axe);
 		testPlayer2.updateSeen(sword);
@@ -80,7 +85,7 @@ public class ComputerAITest {
 		int spearCount = 0;
 		int profCount = 0;
 		int drCount = 0;
-		
+		//check for the randomness of the returned weapon and person in the suggestion
 		for (int i = 0; i < 12; i++) {
 			Solution testSuggestion2 = testPlayer2.createSuggestion();
 			if (testSuggestion2.getPerson().equals(prof)){
