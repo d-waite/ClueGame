@@ -62,11 +62,11 @@ public class ComputerAITest {
 		testPlayer.updateSeen(dr);
 		
 		Solution testSuggestion = testPlayer.createSuggestion();
-		assertTrue(board.getRoom(board.getCell(testPlayer.getRow(), testPlayer.getColumn())).getName().equals(testSuggestion.getRoom()));
+		assertTrue(board.getRoom(board.getCell(testPlayer.getRow(), testPlayer.getColumn())).getName().equals(testSuggestion.getRoom().getCardName()));
 		assertTrue(testSuggestion.getPerson().equals(king));
 		assertTrue(testSuggestion.getWeapon().equals(bow));
 		
-		ComputerPlayer testPlayer2 = new ComputerPlayer("2", "Blue", 0, 26); // should be in the lookout
+		ComputerPlayer testPlayer2 = new ComputerPlayer("2", "Blue", 0, 1);
 		
 		testPlayer2.updateHand(knife);
 		testPlayer2.updateHand(axe);

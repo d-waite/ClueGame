@@ -19,6 +19,8 @@ public class Board {
 	private static Board theInstance = new Board();
 	private BoardCell[][] grid; // contains all of our cells
 	private Map<Character, Room> rooms; // contains all of the rooms with their corresponding initial
+	private ArrayList<Card> people; // contains all of the people cards
+	private ArrayList<Card> weapons; // contains all of the weapon cards
 	private Set<BoardCell> targets = new HashSet<BoardCell>(); // stores all choices for player to move to
 	private Set<BoardCell> visited  = new HashSet<BoardCell>(); // helps us to get our target list
 	private HumanPlayer human;
@@ -86,6 +88,8 @@ public class Board {
 		rooms = new HashMap<Character, Room>();
 		computers = new ArrayList<ComputerPlayer>();
 		allPlayers = new ArrayList<Player>();
+		people = new ArrayList<Card>();
+		weapons = new ArrayList<Card>();
 		//Loop until all rooms have been read
 
 		while (scan.hasNextLine()) {
@@ -115,6 +119,7 @@ public class Board {
 			//We don't want to make cards for the spaces
 			if (!roomType.equals("Space")) {
 				deck.add(new Card(roomName, CardType.ROOM));
+				
 			}
 		}
 
@@ -151,14 +156,17 @@ public class Board {
 				computers.add(computer);
 				allPlayers.add(computer);
 			}
-			deck.add(new Card(playerName, CardType.PERSON));
-
+			Card currentPerson = new Card(playerName, CardType.PERSON);
+			deck.add(currentPerson);
+			people.add(currentPerson);
 		}
 
 		setupLineLength = 1; // amount of entries for weapon info
 		while(scan.hasNextLine()) {
 			String weaponName = scan.nextLine();
-			deck.add(new Card(weaponName, CardType.WEAPON));
+			Card currentWeapon = new Card(weaponName, CardType.WEAPON);
+			deck.add(currentWeapon);
+			weapons.add(currentWeapon);
 		}
 		scan.close();
 	}

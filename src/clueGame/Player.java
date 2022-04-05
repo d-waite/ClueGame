@@ -42,8 +42,16 @@ public class Player {
 		return hand;
 	}
 	
+	public ArrayList<Card> getSeen() {
+		return seen;
+	}
+	
 	public void updateHand(Card card) { // card is dealt to player
 		hand.add(card);
+	}
+	
+	public void updateSeen(Card seenCard) {
+		seen.add(seenCard);
 	}
 	
 	// for testing purposes
@@ -75,7 +83,5 @@ public class Player {
 		}
 		
 	}
-	public void updateSeen(Card seenCard) {
-		seen.add(seenCard);
-	}
+	
 }
