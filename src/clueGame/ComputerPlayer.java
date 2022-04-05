@@ -2,6 +2,7 @@ package clueGame;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 public class ComputerPlayer extends Player {
 
@@ -63,5 +64,8 @@ public class ComputerPlayer extends Player {
 		return suggestion;
 	}
 
+	public BoardCell selectTarget(Set<BoardCell> targets) {		
+		return new BoardCell(-1,-1);
+	}
 
 }

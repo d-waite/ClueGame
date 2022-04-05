@@ -4,6 +4,7 @@ package tests;
 import org.junit.jupiter.api.Test;
 
 import clueGame.Board;
+import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Set;
 public class ComputerAITest {
 	private static Board board;
 	private Card keep = new Card("Keep",CardType.ROOM);
@@ -86,7 +88,7 @@ public class ComputerAITest {
 		int profCount = 0;
 		int drCount = 0;
 		//check for the randomness of the returned weapon and person in the suggestion
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 24; i++) {
 			Solution testSuggestion2 = testPlayer2.createSuggestion();
 			if (testSuggestion2.getPerson().equals(prof)){
 				profCount++;
@@ -105,6 +107,63 @@ public class ComputerAITest {
 		assertTrue(spearCount >= 1);
 		assertTrue(profCount >= 1);
 		assertTrue(drCount >= 1);
+	}
+	
+	@Test
+	public void testSelectTarget() {
+		ComputerPlayer testPlayer3 = new ComputerPlayer("Comp","Red",28,4);
+		board.calcTargets(board.getCell(28, 4), 3);
+		Set<BoardCell> targets = board.getTargets();
+		assertEquals(testPlayer3.selectTarget(targets),board.getCell(25, 2));
+		
+		testPlayer3.updateSeen(lookout);
+		int cell1 = 0, cell2 = 0, cell3 = 0, cell4 = 0, cell5 = 0;
+		for (int i = 0; i < 20; i++) {
+			if (testPlayer3.selectTarget(targets) == board.getCell(27, 4)) {
+				cell1++;
+			} else if (testPlayer3.selectTarget(targets) == board.getCell(25, 2)) {
+				cell2++;
+			} else if (testPlayer3.selectTarget(targets) == board.getCell(25, 4)) {
+				cell3++;
+			} else if (testPlayer3.selectTarget(targets) == board.getCell(28, 5)) {
+				cell4++;
+			} else {
+				cell5++;
+			}		
+		}
+		
+		assertTrue(cell1 >= 1);
+		assertTrue(cell2 >= 1);
+		assertTrue(cell3 >= 1);
+		assertTrue(cell4 >= 1);
+		assertTrue(cell5 >= 1);
+		
+		ComputerPlayer testPlayer4 = new ComputerPlayer("Comp","red",13,17);
+		board.calcTargets(board.getCell(13, 17), 1);
+		targets = board.getTargets();
+		
+		cell1 = 0;
+		cell2 = 0;
+		cell3 = 0;
+		cell4 = 0;
+		
+		for (int i = 0; i < 20; i++) {
+			if (testPlayer4.selectTarget(targets) == board.getCell(27, 4)) {
+				cell1++;
+			} else if (testPlayer4.selectTarget(targets) == board.getCell(25, 2)) {
+				cell2++;
+			} else if (testPlayer4.selectTarget(targets) == board.getCell(25, 4)) {
+				cell3++;
+			} else {
+				cell4++;
+			}
+		}
+		
+		assertTrue(cell1 >= 1);
+		assertTrue(cell2 >= 1);
+		assertTrue(cell3 >= 1);
+		assertTrue(cell4 >= 1);
+		
 	}
 	
 }
