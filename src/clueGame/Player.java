@@ -1,13 +1,14 @@
 // Authors: David Waite & Dillinger Day
 package clueGame;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
 	// variables needed to describe player
 	private String name;
-	private String color;
+	private Color color;
 	private int row;
 	private int column;
 	private ArrayList<Card> hand;
@@ -15,18 +16,19 @@ public class Player {
 	
 	public Player(String name, String color, int row, int column) {
 		this.name = name;
-		this.color = color;
 		this.row = row;
+		this.color = stringToColor(color);
 		this.column = column;
 		hand = new ArrayList<Card>(); // create space for the player to have cards
 		seen = new ArrayList<Card>(); // create space for the seen cards
+		
 	}
 	
 	public String getName() {
 		return name;
 	}
 
-	public String getColor() {
+	public Color getColor() {
 		return color;
 	}
 
@@ -52,6 +54,26 @@ public class Player {
 	
 	public void updateSeen(Card seenCard) {
 		seen.add(seenCard);
+	}
+	
+	public Color stringToColor(String colorStr) {
+		switch(colorStr) {
+			case "Yellow":
+				return Color.yellow;
+			case "Blue":
+				return Color.blue;
+			case "Green":
+				return Color.green;
+			case "White":
+				return Color.white;
+			case "Gray":
+				return Color.gray;
+			case "Magenta":
+				return Color.magenta;
+			default:
+				return Color.black;
+				
+		}
 	}
 	
 	// for testing purposes
