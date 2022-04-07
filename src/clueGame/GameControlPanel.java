@@ -12,6 +12,8 @@ public class GameControlPanel extends JPanel {
 	private JTextField displayRoll;
 	private JTextField displayGuess;
 	private JTextField displayGuessResult;
+	private JButton nextTurnButton;
+	private JButton accusationButton;
 	
 	public GameControlPanel() {
 		setLayout(new GridLayout(2, 0));
@@ -33,9 +35,9 @@ public class GameControlPanel extends JPanel {
 		rollPanel.add(displayRoll);
 		buttonPanel.add(turnPanel);
 		buttonPanel.add(rollPanel);
-		JButton nextTurnButton = new JButton("Next Turn");
+		nextTurnButton = new JButton("Next Turn");
 		buttonPanel.add(nextTurnButton);
-		JButton accusationButton = new JButton("Make Accusation");
+		accusationButton = new JButton("Make Accusation");
 		buttonPanel.add(accusationButton);
 		add(buttonPanel);
 		
@@ -56,6 +58,14 @@ public class GameControlPanel extends JPanel {
 		guessPanel.add(userGuessPanel);
 		guessPanel.add(guessResultPanel);
 		add(guessPanel);
+		
+	}
+	
+	public JLabel createLabel(String text) {
+		return new JLabel(text);
+	}
+	
+	public JPanel createTurnPanel() {
 		
 	}
 	
