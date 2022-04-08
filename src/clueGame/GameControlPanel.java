@@ -1,3 +1,4 @@
+// Authors: David Waite and Dillinger Day
 package clueGame;
 
 import java.awt.BorderLayout;

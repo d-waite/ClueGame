@@ -1,3 +1,33 @@
+commit da600f0c0c9d7c344b674c7d00f20821dc5820e3
+Author: David Waite <davidwaite@mines.edu>
+Date:   Thu Apr 7 19:34:51 2022 -0600
+
+    Finished refactoring
+
+commit 4fbe00e7d1a1ad09b2ffd0fc81133eba05e6235c
+Author: David Waite <davidwaite@mines.edu>
+Date:   Thu Apr 7 13:43:11 2022 -0600
+
+    Started refactoring
+
+commit de0ac94df3ea3a35dee08e4141cf0f4a421a41e8
+Author: Dillinger Day <djday@mines.edu>
+Date:   Thu Apr 7 13:30:52 2022 -0600
+
+    Finished control GUI.
+
+commit 2a6acef1f25b8513d9df029c411befdf3125880b
+Author: David Waite <davidwaite@mines.edu>
+Date:   Tue Apr 5 13:40:20 2022 -0600
+
+    Created buttons and roll display
+
+commit 223ecfd532221239b532cfadd033ab3a7de24980
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Apr 4 21:46:15 2022 -0600
+
+    gitlog
+
 commit 4e68fb85bc8889dde23de81e1d87c322a745ea6f
 Author: David Waite <davidwaite@mines.edu>
 Date:   Mon Apr 4 21:23:27 2022 -0600
