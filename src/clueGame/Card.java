@@ -6,7 +6,7 @@ import java.awt.Color;
 public class Card {
 	private String cardName;
 	private CardType cardType;
-	private Color playerColor;
+	private Color playerColor; //color of the player who owns the card
 	
 	public Card(String cardName, CardType cardType) {
 		this.cardName = cardName;

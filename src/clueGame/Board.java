@@ -457,7 +457,9 @@ public class Board {
 				//add it to the player's hand and remove it from newDeck
 				switch (playerNum) {
 				case 1:
+					//set the player color of the card
 					newDeck.get(randCardNum).setPlayerColor(getHumanPlayer().getColor());
+					//add the card to the hand and remove it from newDeck
 					getHumanPlayer().updateHand(newDeck.get(randCardNum));
 					newDeck.remove(newDeck.get(randCardNum));
 					break;
