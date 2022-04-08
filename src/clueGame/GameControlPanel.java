@@ -17,59 +17,73 @@ public class GameControlPanel extends JPanel {
 	
 	public GameControlPanel() {
 		setLayout(new GridLayout(2, 0));
+		add(createButtonPanel());
+		add(createGuessPanel(createUserGuessPanel(), createGuessResultPanel()));		
+	}
+	
+	public JPanel createButtonPanel() {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1,4));
-		JLabel rollLabel = new JLabel("Roll:");
-		displayRoll = new JTextField(10);
-		displayRoll.setEditable(false);
-		JPanel rollPanel = new JPanel();
-		JPanel turnPanel = new JPanel();
-		rollPanel.setLayout(new GridLayout(2,1));
-		turnPanel.setLayout(new GridLayout(2,1));
-		JLabel turnLabel = new JLabel("Whose turn?");
-		displayTurn = new JTextField(10);
-		displayTurn.setEditable(false);
-		turnPanel.add(turnLabel);
-		turnPanel.add(displayTurn);
-		rollPanel.add(rollLabel);
-		rollPanel.add(displayRoll);
-		buttonPanel.add(turnPanel);
-		buttonPanel.add(rollPanel);
+		buttonPanel.add(createTurnPanel());
+		buttonPanel.add(createRollPanel());
+		// making buttons on right side
 		nextTurnButton = new JButton("Next Turn");
 		buttonPanel.add(nextTurnButton);
 		accusationButton = new JButton("Make Accusation");
 		buttonPanel.add(accusationButton);
-		add(buttonPanel);
-		
-		JPanel guessPanel = new JPanel();
-		guessPanel.setLayout(new GridLayout(0,2));
+		return buttonPanel;
+	}
+	
+	public JPanel createTurnPanel() { // creates turn label and displays what player's turn it is
+		JPanel turnPanel = new JPanel();
+		turnPanel.setLayout(new GridLayout(2,1));
+		turnPanel.add(new JLabel("Whose turn?"));
+		displayTurn = new JTextField();
+		displayTurn.setEditable(false);
+		turnPanel.add(displayTurn);
+		return turnPanel;
+	}
+	
+	public JPanel createRollPanel() { // creates roll label and displays the roll for that person
+		JPanel rollPanel = new JPanel();
+		rollPanel.setLayout(new GridLayout(2,1));
+		rollPanel.add(new JLabel("Roll:"));
+		displayRoll = new JTextField();
+		displayRoll.setEditable(false);
+		rollPanel.add(displayRoll);
+		return rollPanel;
+	}
+	
+	public JPanel createUserGuessPanel() { // creates place to display the player's guess
 		JPanel userGuessPanel = new JPanel();
 		userGuessPanel.setLayout(new GridLayout(1, 0));
 		userGuessPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
-		JPanel guessResultPanel = new JPanel();
-		guessResultPanel.setLayout(new GridLayout(1,0));
-		guessResultPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
 		displayGuess = new JTextField("No Guess");
 		displayGuess.setEditable(false);
 		userGuessPanel.add(displayGuess);
+		return userGuessPanel;
+	}
+	
+	public JPanel createGuessResultPanel() { // creates place to display the result, i.e. was it disproven
+		JPanel guessResultPanel = new JPanel();
+		guessResultPanel.setLayout(new GridLayout(1,0));
+		guessResultPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
 		displayGuessResult = new JTextField("No Result");
 		displayGuessResult.setEditable(false);
 		guessResultPanel.add(displayGuessResult);
+		return guessResultPanel;
+	}
+	
+	public JPanel createGuessPanel(JPanel userGuessPanel, JPanel guessResultPanel) { // puts the two subpanels together
+		JPanel guessPanel = new JPanel();
+		guessPanel.setLayout(new GridLayout(0,2));
 		guessPanel.add(userGuessPanel);
 		guessPanel.add(guessResultPanel);
-		add(guessPanel);
-		
-	}
-	
-	public JLabel createLabel(String text) {
-		return new JLabel(text);
-	}
-	
-	public JPanel createTurnPanel() {
-		
+		return guessPanel;
 	}
 	
 	public static void main(String[] args) {
+		// creating our bottom panel for the game
 		GameControlPanel clueDisplay = new GameControlPanel();
 		JFrame clueFrame = new JFrame();
 		clueFrame.setContentPane(clueDisplay);

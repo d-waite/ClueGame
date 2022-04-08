@@ -57,7 +57,7 @@ public class Player {
 	}
 	
 	public Color stringToColor(String colorStr) {
-		switch(colorStr) {
+		switch(colorStr) { // all the colors in our ClueSetup.txt
 			case "Yellow":
 				return Color.yellow;
 			case "Blue":
