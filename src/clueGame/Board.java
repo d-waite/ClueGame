@@ -457,26 +457,32 @@ public class Board {
 				//add it to the player's hand and remove it from newDeck
 				switch (playerNum) {
 				case 1:
+					newDeck.get(randCardNum).setPlayerColor(getHumanPlayer().getColor());
 					getHumanPlayer().updateHand(newDeck.get(randCardNum));
 					newDeck.remove(newDeck.get(randCardNum));
 					break;
 				case 2:
+					newDeck.get(randCardNum).setPlayerColor(getComputerPlayers().get(0).getColor());
 					getComputerPlayers().get(0).updateHand(newDeck.get(randCardNum));
 					newDeck.remove(newDeck.get(randCardNum));
 					break;
 				case 3:
+					newDeck.get(randCardNum).setPlayerColor(getComputerPlayers().get(1).getColor());
 					getComputerPlayers().get(1).updateHand(newDeck.get(randCardNum));
 					newDeck.remove(newDeck.get(randCardNum));
 					break;
 				case 4:
+					newDeck.get(randCardNum).setPlayerColor(getComputerPlayers().get(2).getColor());
 					getComputerPlayers().get(2).updateHand(newDeck.get(randCardNum));
 					newDeck.remove(newDeck.get(randCardNum));
 					break;
 				case 5:
+					newDeck.get(randCardNum).setPlayerColor(getComputerPlayers().get(3).getColor());
 					getComputerPlayers().get(3).updateHand(newDeck.get(randCardNum));
 					newDeck.remove(newDeck.get(randCardNum));
 					break;
 				case 6:
+					newDeck.get(randCardNum).setPlayerColor(getComputerPlayers().get(4).getColor());
 					getComputerPlayers().get(4).updateHand(newDeck.get(randCardNum));
 					newDeck.remove(newDeck.get(randCardNum));
 					break;

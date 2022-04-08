@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -53,6 +54,7 @@ public class GameCardPanel extends JPanel {
 	public JTextField newKnownCard(Card card) {
 		JTextField knownCard = new JTextField(card.getCardName());
 		knownCard.setEditable(false);
+		knownCard.setBackground(card.getPlayerColor());
 		return knownCard;
 	}
 	
@@ -115,12 +117,23 @@ public class GameCardPanel extends JPanel {
 	public static void main(String[] args) {
 		ArrayList<Card> hand = new ArrayList<Card>();
 		ArrayList<Card> seen = new ArrayList<Card>();
-		hand.add(new Card("A", CardType.PERSON));
+		Card A = new Card("A", CardType.PERSON);
+		A.setPlayerColor(Color.white);
+		hand.add(A);
 		hand.add(new Card("C", CardType.ROOM));
 		hand.add(new Card("E", CardType.WEAPON));
-		seen.add(new Card("B", CardType.PERSON));
-		seen.add(new Card("D", CardType.ROOM));
-		seen.add(new Card("F", CardType.WEAPON));
+		Card B = new Card("B", CardType.PERSON);
+		B.setPlayerColor(Color.magenta);
+		seen.add(B);
+		Card D = new Card("D", CardType.ROOM);
+		D.setPlayerColor(Color.blue);
+		seen.add(D);
+		Card F = new Card("F", CardType.WEAPON);
+		F.setPlayerColor(Color.magenta);
+		seen.add(F);
+		Card G = new Card("G", CardType.WEAPON);
+		G.setPlayerColor(Color.red);
+		seen.add(G);
 		GameCardPanel cardDisplay = new GameCardPanel();
 		JFrame clueFrame = new JFrame();
 		clueFrame.setContentPane(cardDisplay);
