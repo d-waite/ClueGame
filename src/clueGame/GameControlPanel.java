@@ -85,19 +85,19 @@ public class GameControlPanel extends JPanel {
 	
 	public static void main(String[] args) {
 		// creating our bottom panel for the game
-		GameControlPanel clueDisplay = new GameControlPanel();
+		GameControlPanel controlDisplay = new GameControlPanel();
 		JFrame clueFrame = new JFrame();
-		clueFrame.setContentPane(clueDisplay);
+		clueFrame.setContentPane(controlDisplay);
 		clueFrame.setSize(750,180);
 		clueFrame.setTitle("Clue--Medieval Theme");
 		clueFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		clueFrame.setVisible(true);
 		
 		//testing the setters
-		clueDisplay.setTurn(new ComputerPlayer("A", "Green", 0, 0));
-		clueDisplay.setGuess("You");
-		clueDisplay.setRoll(3);
-		clueDisplay.setGuessResult("you're wrong");
+		controlDisplay.setTurn(new ComputerPlayer("A", "Green", 0, 0));
+		controlDisplay.setGuess("You");
+		controlDisplay.setRoll(3);
+		controlDisplay.setGuessResult("you're wrong");
 	}
 
 	public void setTurn(Player player) {
