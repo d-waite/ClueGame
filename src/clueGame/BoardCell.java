@@ -2,6 +2,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
@@ -112,8 +113,28 @@ public class BoardCell {
 			g.setColor(Color.yellow);
 			g.fillRect(x, y, cellSize, cellSize);
 			g.setColor(Color.black);
-			g.drawRect(x,y,cellSize, cellSize);
+			g.drawRect(x, y, cellSize, cellSize);
 		}
 	}
 	
+public void drawRoomName(Graphics g, String roomName, int fontSize, int x, int y) {
+		g.setFont(new Font("Serif", Font.PLAIN, fontSize));
+		g.setColor(Color.blue);
+		g.drawString(roomName, x, y);
+	}
+
+public void drawRoom(Graphics g, int x, int y, int cellSize) {
+		g.setColor(Color.gray);
+		g.fillRect(x, y, cellSize, cellSize);
+		g.setColor(Color.gray);
+		g.drawRect(x, y, cellSize, cellSize);
+	}
+
+public int getRow() {
+	return row;
+}
+
+public int getColumn() {
+	return column;
+}
 }

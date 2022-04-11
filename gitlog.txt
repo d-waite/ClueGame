@@ -1,3 +1,33 @@
+commit e406714a1e3ad1e25e89d612ac1f21275ad1b65c
+Author: Dillinger Day <djday@mines.edu>
+Date:   Fri Apr 8 16:36:50 2022 -0600
+
+    Refactored the previous commit.
+
+commit 2ec0330a2d1dcefbc021d875731f02ed5beffa9c
+Author: Dillinger Day <djday@mines.edu>
+Date:   Fri Apr 8 16:06:28 2022 -0600
+
+    Got player colors to display with cards.
+
+commit 5803cd73b26523041b5ad331cfef0602bf95933e
+Author: Dillinger Day <djday@mines.edu>
+Date:   Fri Apr 8 15:50:32 2022 -0600
+
+    Got update panel functions to work.
+
+commit 9a3659709d87a837feb18b8a848680af4950c30e
+Author: David Waite <davidwaite@mines.edu>
+Date:   Thu Apr 7 22:30:08 2022 -0600
+
+    Started making card panel
+
+commit 1a15bba5f584695af0cf89a878872152e341772e
+Author: David Waite <davidwaite@mines.edu>
+Date:   Thu Apr 7 19:36:44 2022 -0600
+
+    git
+
 commit da600f0c0c9d7c344b674c7d00f20821dc5820e3
 Author: David Waite <davidwaite@mines.edu>
 Date:   Thu Apr 7 19:34:51 2022 -0600

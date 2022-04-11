@@ -585,11 +585,26 @@ public class Board extends JPanel {
 		int x = offsetX, y = offsetY; 
 		for (int row = 0; row < numRows; row++) {
 			for (int column = 0; column < numCols; column++) {
-				getCell(row, column).draw(g, x, y, cellSize);
+				if (getCell(row, column).isRoom()) {
+					getCell(row, column).drawRoom(g, x, y, cellSize);
+				}else {
+					getCell(row, column).draw(g, x, y, cellSize);
+				}	
 				x += cellSize;
 			}
 			y += cellSize;
 			x = offsetX;
+		}
+		for (char c: rooms.keySet()) {
+			if (c == 'X' || c == 'W') {
+				continue;
+			}
+			BoardCell labelCell = rooms.get(c).getLabelCell();			
+			int fontSize = cellSize / 2;
+			int roomLabelY = labelCell.getRow() * cellSize + offsetY;
+			int roomLabelX = labelCell.getColumn() * cellSize + offsetX;
+			String roomName = rooms.get(c).getName();
+			labelCell.drawRoomName(g, roomName, fontSize, roomLabelX, roomLabelY);
 		}
 	}
 }
