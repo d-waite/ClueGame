@@ -4,13 +4,17 @@ package clueGame;
 import java.util.*;
 import java.util.function.BooleanSupplier;
 
+import javax.swing.JPanel;
+
 import experiment.TestBoardCell;
 import clueGame.Solution;
 import clueGame.Card;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.io.*;
 
-public class Board {
+public class Board extends JPanel {
 	// all our variables needed for the board
 	private String setupConfigFile;
 	private String layoutConfigFile;
@@ -31,6 +35,7 @@ public class Board {
 
 	private Board() {
 		super();
+		setBackground(Color.black);
 	}
 
 	public static Board getInstance() {
@@ -567,6 +572,16 @@ public class Board {
 
 	public void setAllPlayers(ArrayList<Player> players) { // for testing
 		allPlayers = players;
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		for (int row = 0; row < numRows; row++) {
+			for (int column = 0; column < numCols; column++) {
+				getCell(row, column).draw(g, 5, 10);
+			}
+		}
 	}
 }
 

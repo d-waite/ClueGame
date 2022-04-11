@@ -1,6 +1,8 @@
 // Authors: David Waite & Dillinger Day
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -103,6 +105,11 @@ public class BoardCell {
 	
 	public void setInitial(char initial) {
 		this.initial = initial;
+	}
+
+	public void draw(Graphics g, int cellSize, int offset) {
+		g.setColor(Color.yellow);
+		g.fillRect(10, 10, 10, 10);
 	}
 	
 }
