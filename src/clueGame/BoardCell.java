@@ -107,9 +107,13 @@ public class BoardCell {
 		this.initial = initial;
 	}
 
-	public void draw(Graphics g, int cellSize, int offset) {
-		g.setColor(Color.yellow);
-		g.fillRect(10, 10, 10, 10);
+	public void draw(Graphics g, int x, int y, int cellSize) {
+		if (initial != 'X') {
+			g.setColor(Color.yellow);
+			g.fillRect(x, y, cellSize, cellSize);
+			g.setColor(Color.black);
+			g.drawRect(x,y,cellSize, cellSize);
+		}
 	}
 	
 }

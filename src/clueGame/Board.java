@@ -577,10 +577,19 @@ public class Board extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		int width = getWidth();
+		int height = getHeight();
+		int cellSize = Math.min(width / numCols, height / numRows);
+		int offsetX = (width - (numCols * cellSize)) / 2;
+		int offsetY = (height - (numRows * cellSize)) / 2;
+		int x = offsetX, y = offsetY; 
 		for (int row = 0; row < numRows; row++) {
 			for (int column = 0; column < numCols; column++) {
-				getCell(row, column).draw(g, 5, 10);
+				getCell(row, column).draw(g, x, y, cellSize);
+				x += cellSize;
 			}
+			y += cellSize;
+			x = offsetX;
 		}
 	}
 }

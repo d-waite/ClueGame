@@ -45,7 +45,7 @@ public class GameCardPanel extends JPanel {
 	
 	public JTextField createNoneField() {
 		//Default for when there are no cards
-		JTextField none = new JTextField("none");
+		JTextField none = new JTextField("   none   ");
 		none.setEditable(false);
 		return none;
 	}
