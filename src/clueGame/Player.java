@@ -2,6 +2,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -104,6 +105,13 @@ public class Player {
 			return matches.get(randCard);
 		}
 		
+	}
+
+	public void draw(Graphics g, int cellSize, int offsetX, int offsetY) {
+		g.setColor(color);
+		g.fillOval(column * cellSize + offsetX, row * cellSize + offsetY, cellSize, cellSize);
+		g.setColor(Color.black);
+		g.drawOval(column * cellSize + offsetX, row * cellSize + offsetY, cellSize, cellSize);
 	}
 	
 }

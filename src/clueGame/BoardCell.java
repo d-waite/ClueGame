@@ -23,7 +23,7 @@ public class BoardCell {
 	private boolean isDoorway;
 	private boolean isSecretPassage = false; // will only be changed to true if setSecretPassage() is called
 	private char secretPassage;
-		
+
 	public BoardCell(int row, int column) {
 		this.row = row;
 		this.column = column;
@@ -58,11 +58,11 @@ public class BoardCell {
 	public boolean isDoorway() {
 		return isDoorway;
 	}
-	
+
 	public void setDoorway(boolean isDoorway) {
 		this.isDoorway = isDoorway;
 	}
-	
+
 	public void setDoorDirection(DoorDirection direction) {
 		this.doorDirection = direction;
 	}
@@ -70,11 +70,11 @@ public class BoardCell {
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
-	
+
 	public void setLabel(boolean label) {
 		this.roomLabel = label;
 	}
-	
+
 	public void setRoomCenter(boolean center) {
 		this.roomCenter = center;
 	}
@@ -86,7 +86,7 @@ public class BoardCell {
 	public boolean isRoomCenter() {
 		return roomCenter;
 	}
-	
+
 	public void setSecretPassage(char secretPassage) {
 		this.isSecretPassage = true; 
 		this.secretPassage = secretPassage;
@@ -95,7 +95,7 @@ public class BoardCell {
 	public char getSecretPassage() {
 		return secretPassage;
 	}
-	
+
 	public boolean isSecretPassage() {
 		return isSecretPassage;
 	}
@@ -103,7 +103,7 @@ public class BoardCell {
 	public char getInitial() {
 		return initial;
 	}
-	
+
 	public void setInitial(char initial) {
 		this.initial = initial;
 	}
@@ -116,25 +116,49 @@ public class BoardCell {
 			g.drawRect(x, y, cellSize, cellSize);
 		}
 	}
-	
-public void drawRoomName(Graphics g, String roomName, int fontSize, int x, int y) {
-		g.setFont(new Font("Serif", Font.PLAIN, fontSize));
-		g.setColor(Color.blue);
+
+	public void drawRoomName(Graphics g, String roomName, int fontSize, int x, int y) {
+		g.setFont(new Font("SansSerif", Font.PLAIN, fontSize));
+		g.setColor(Color.CYAN);
 		g.drawString(roomName, x, y);
 	}
 
-public void drawRoom(Graphics g, int x, int y, int cellSize) {
+	public void drawRoom(Graphics g, int x, int y, int cellSize) {
 		g.setColor(Color.gray);
 		g.fillRect(x, y, cellSize, cellSize);
 		g.setColor(Color.gray);
 		g.drawRect(x, y, cellSize, cellSize);
 	}
+	
+	public void drawDoor(Graphics g, int x, int y, int cellSize) {
+		g.setColor(Color.CYAN);
+		switch (doorDirection) {
+		case DOWN:
+			y += cellSize;
+			g.fillRect(x, y, cellSize, cellSize / 6);
+			break;
+		case UP:
+			y -= cellSize / 6;
+			g.fillRect(x, y, cellSize, cellSize / 6);
+			break;
+		case LEFT:
+			x -= cellSize / 6;
+			g.fillRect(x, y, cellSize / 6, cellSize);
+			break;
+		case RIGHT:
+			x += cellSize;
+			g.fillRect(x, y, cellSize / 6, cellSize);
+			break;
+		default:
+			break;
+		}
+	}
 
-public int getRow() {
-	return row;
-}
+	public int getRow() {
+		return row;
+	}
 
-public int getColumn() {
-	return column;
-}
+	public int getColumn() {
+		return column;
+	}
 }

@@ -587,9 +587,21 @@ public class Board extends JPanel {
 			for (int column = 0; column < numCols; column++) {
 				if (getCell(row, column).isRoom()) {
 					getCell(row, column).drawRoom(g, x, y, cellSize);
-				}else {
+				} else {
 					getCell(row, column).draw(g, x, y, cellSize);
 				}	
+				x += cellSize;
+			}
+			y += cellSize;
+			x = offsetX;
+		}
+		x = offsetX;
+		y = offsetY;
+		for (int row = 0; row < numRows; row++) {
+			for (int column = 0; column < numCols; column++) {
+				if (getCell(row, column).isDoorway()) {
+					getCell(row, column).drawDoor(g, x, y, cellSize);
+				}
 				x += cellSize;
 			}
 			y += cellSize;
@@ -605,6 +617,10 @@ public class Board extends JPanel {
 			int roomLabelX = labelCell.getColumn() * cellSize + offsetX;
 			String roomName = rooms.get(c).getName();
 			labelCell.drawRoomName(g, roomName, fontSize, roomLabelX, roomLabelY);
+		}
+		
+		for (Player player: allPlayers) {
+			player.draw(g, cellSize, offsetX, offsetY);
 		}
 	}
 }

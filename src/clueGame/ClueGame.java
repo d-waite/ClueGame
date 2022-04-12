@@ -18,7 +18,9 @@ public class ClueGame extends JFrame {
 		board.setConfigFiles("ClueLayout.csv","ClueSetup.txt");
 		board.initialize();
 		ClueGame game = new ClueGame(board);
-		game.setSize(500,500);
+		game.setSize(750,750);
+		game.setTitle("Clue--Medieval Theme");
+		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		game.setVisible(true);
 	}
 }
