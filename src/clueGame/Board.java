@@ -35,7 +35,7 @@ public class Board extends JPanel {
 
 	private Board() {
 		super();
-		setBackground(Color.black);
+		setBackground(Color.black); // to have something where there is no board
 	}
 
 	public static Board getInstance() {
@@ -576,52 +576,79 @@ public class Board extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		int width = getWidth();
-		int height = getHeight();
-		int cellSize = Math.min(width / numCols, height / numRows);
-		int offsetX = (width - (numCols * cellSize)) / 2;
-		int offsetY = (height - (numRows * cellSize)) / 2;
-		int x = offsetX, y = offsetY; 
-		for (int row = 0; row < numRows; row++) {
-			for (int column = 0; column < numCols; column++) {
-				if (getCell(row, column).isRoom()) {
-					getCell(row, column).drawRoom(g, x, y, cellSize);
-				} else {
-					getCell(row, column).draw(g, x, y, cellSize);
-				}	
-				x += cellSize;
-			}
-			y += cellSize;
-			x = offsetX;
-		}
-		x = offsetX;
-		y = offsetY;
-		for (int row = 0; row < numRows; row++) {
+		super.paintComponent(g); // need to call for its functionality
+		// getting the size of the board JPanel
+		int panelWidth = getWidth();
+		int panelHeight = getHeight();
+		// whole board needs to fit in the minimum length of the frame, each cell should take up the same amount of space
+		int cellSize = Math.min(panelWidth / numCols, panelHeight / numRows);
+		// need an offset for x-direction and y-direction so board stays in center of panel, no matter any resizing
+		// if board takes up less space than the panel width or height, make it centered in that direction
+		int offsetX = (panelWidth - (numCols * cellSize)) / 2; // get any space left in panel, distribute half of the space to both sides of the board
+		int offsetY = (panelHeight - (numRows * cellSize)) / 2;
+		// first, draw walkways and rooms
+		drawCellsAndRooms(g, cellSize, offsetX, offsetY);
+		// then, draw doors to rooms; doors drawn on top of rooms so different function
+		drawDoors(g, cellSize, offsetX, offsetY);
+		// next, draw room names on rooms
+		drawRoomLabels(g, cellSize, offsetX, offsetY);
+		// finally, draw players
+		drawPlayers(g, cellSize, offsetX, offsetY);
+	}
+	
+	private void drawDoors(Graphics g, int cellSize, int offsetX, int offsetY) { // private since it is a helper function for paintComponent()
+		int x = offsetX, y = offsetY; // start at our offset so we are centered
+		for (int row = 0; row < numRows; row++) { // go through grid
 			for (int column = 0; column < numCols; column++) {
 				if (getCell(row, column).isDoorway()) {
 					getCell(row, column).drawDoor(g, x, y, cellSize);
 				}
-				x += cellSize;
+				x += cellSize; // move to next column
 			}
-			y += cellSize;
-			x = offsetX;
+			y += cellSize; // move to next row
+			x = offsetX; // go back to first column
 		}
+	}
+
+	private void drawCellsAndRooms(Graphics g, int cellSize, int offsetX, int offsetY) {
+		int x = offsetX, y = offsetY; 
+		for (int row = 0; row < numRows; row++) {
+			for (int column = 0; column < numCols; column++) {
+				if (getCell(row, column).isRoom()) { // separating rooms from walkways
+					getCell(row, column).drawRoom(g, x, y, cellSize);
+				} else {
+					getCell(row, column).draw(g, x, y, cellSize);
+				}	
+				x += cellSize; // move to next column
+			}
+			y += cellSize; // move to next row
+			x = offsetX; // go back to first column
+		}
+	}
+
+	private void drawRoomLabels(Graphics g, int cellSize, int offsetX, int offsetY) {
 		for (char c: rooms.keySet()) {
-			if (c == 'X' || c == 'W') {
-				continue;
+			if (!(c == 'X') && !(c == 'W')) { // if not a walkway or unused space, we are in a true room and need to draw its label
+				BoardCell labelCell = rooms.get(c).getLabelCell();	// get the cell in the room marked to hold label		
+				int fontSize = cellSize / 2; // we found that cellSize / 2 kept the names within the space of the rooms, even w/ resizing
+				// calculating coordinates for name
+				int roomLabelY = labelCell.getRow() * cellSize + offsetY; // find our label cell's drawn position and start writing name there
+				int roomLabelX = labelCell.getColumn() * cellSize + offsetX;
+				String roomName = rooms.get(c).getName(); // find out the name of the room
+				labelCell.drawRoomName(g, roomName, fontSize, roomLabelX, roomLabelY);
 			}
-			BoardCell labelCell = rooms.get(c).getLabelCell();			
-			int fontSize = cellSize / 2;
-			int roomLabelY = labelCell.getRow() * cellSize + offsetY;
-			int roomLabelX = labelCell.getColumn() * cellSize + offsetX;
-			String roomName = rooms.get(c).getName();
-			labelCell.drawRoomName(g, roomName, fontSize, roomLabelX, roomLabelY);
 		}
-		
+	}
+	
+	
+
+	private void drawPlayers(Graphics g, int cellSize, int offsetX, int offsetY) {
+		// tell each player to draw themselves on the board
 		for (Player player: allPlayers) {
 			player.draw(g, cellSize, offsetX, offsetY);
 		}
 	}
+	
+	
 }
 

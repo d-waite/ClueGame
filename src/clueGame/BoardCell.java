@@ -109,9 +109,10 @@ public class BoardCell {
 	}
 
 	public void draw(Graphics g, int x, int y, int cellSize) {
-		if (initial != 'X') {
+		if (initial != 'X') { // only draw if we are a walkway; unused spaces are skipped, leaving the black background visible
+			// draw a yellow rectangle with a black border (to separate it from other cells) at position (x,y) of size cellSize x cellSize
 			g.setColor(Color.yellow);
-			g.fillRect(x, y, cellSize, cellSize);
+			g.fillRect(x, y, cellSize, cellSize); 
 			g.setColor(Color.black);
 			g.drawRect(x, y, cellSize, cellSize);
 		}
@@ -119,11 +120,12 @@ public class BoardCell {
 
 	public void drawRoomName(Graphics g, String roomName, int fontSize, int x, int y) {
 		g.setFont(new Font("SansSerif", Font.PLAIN, fontSize));
-		g.setColor(Color.CYAN);
+		g.setColor(Color.CYAN); // cyan contrasts really well with the grey of the rooms :)
 		g.drawString(roomName, x, y);
 	}
 
-	public void drawRoom(Graphics g, int x, int y, int cellSize) {
+	public void drawRoom(Graphics g, int x, int y, int cellSize) { 
+		// no borders to separate room cells, since we do not move around in room
 		g.setColor(Color.gray);
 		g.fillRect(x, y, cellSize, cellSize);
 		g.setColor(Color.gray);
@@ -132,22 +134,23 @@ public class BoardCell {
 	
 	public void drawDoor(Graphics g, int x, int y, int cellSize) {
 		g.setColor(Color.CYAN);
+		int partOfCell = cellSize / 6; // doors will be drawn on cell that door opens into; using 1/6 of the cell size was good enough to show a door
 		switch (doorDirection) {
 		case DOWN:
-			y += cellSize;
-			g.fillRect(x, y, cellSize, cellSize / 6);
+			y += cellSize; // draw door on cell below
+			g.fillRect(x, y, cellSize, partOfCell);
 			break;
 		case UP:
-			y -= cellSize / 6;
-			g.fillRect(x, y, cellSize, cellSize / 6);
+			y -= partOfCell; // draw door on cell above
+			g.fillRect(x, y, cellSize, partOfCell);
 			break;
 		case LEFT:
-			x -= cellSize / 6;
-			g.fillRect(x, y, cellSize / 6, cellSize);
+			x -= partOfCell; // draw door on cell to the left
+			g.fillRect(x, y, partOfCell, cellSize);
 			break;
 		case RIGHT:
-			x += cellSize;
-			g.fillRect(x, y, cellSize / 6, cellSize);
+			x += cellSize; // draw door on cell to the right
+			g.fillRect(x, y, partOfCell, cellSize);
 			break;
 		default:
 			break;

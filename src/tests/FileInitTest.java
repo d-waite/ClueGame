@@ -122,7 +122,7 @@ class FileInitTest {
 		assertFalse(cell2.isLabel());
 		assertFalse(room2.getCenterCell() == cell2);
 		assertFalse(room2.getLabelCell() == cell2);
-		BoardCell label2 = board.getCell(24,1);
+		BoardCell label2 = board.getCell(25,1);
 		assertTrue(label2.isLabel());
 		assertFalse(label2.isRoomCenter());
 		assertTrue(room2.getLabelCell() == label2);
