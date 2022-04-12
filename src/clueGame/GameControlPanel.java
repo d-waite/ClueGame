@@ -3,6 +3,8 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -117,5 +119,12 @@ public class GameControlPanel extends JPanel {
 		this.displayGuessResult.setText(guessResult);
 	}
 	
-	
+	private class nextButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+		
+	}
 }

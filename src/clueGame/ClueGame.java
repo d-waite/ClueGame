@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame {
 	
@@ -25,5 +26,7 @@ public class ClueGame extends JFrame {
 		game.setTitle("Clue--Medieval Theme");
 		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		game.setVisible(true);
+		JOptionPane.showMessageDialog(game, "Find who commited the crime before the other players!");
+		
 	}
 }
