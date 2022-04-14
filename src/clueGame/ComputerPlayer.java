@@ -100,4 +100,10 @@ public class ComputerPlayer extends Player {
 		}
 	}
 
+	public void move(Set<BoardCell> targets) {
+		BoardCell movedTo = selectTarget(targets);
+		super.setRow(movedTo.getRow());
+		super.setColumn(movedTo.getColumn());		
+	}
+
 }

@@ -156,6 +156,16 @@ public class BoardCell {
 			break;
 		}
 	}
+	
+	public void drawTarget(Graphics g, int x, int y, int cellSize) {
+		g.setColor(Color.darkGray);
+		g.fillRect(x, y, cellSize, cellSize);
+		if (!isRoom) {
+			g.setColor(Color.black);
+			g.drawRect(x, y, cellSize, cellSize);
+		}
+	}
+
 
 	public int getRow() {
 		return row;

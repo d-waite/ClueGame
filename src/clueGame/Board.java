@@ -32,6 +32,13 @@ public class Board extends JPanel {
 	private ArrayList<Player> allPlayers;
 	private ArrayList<Card> deck;
 	private Solution theAnswer;
+	private boolean humanFinished = true; // so we know whether it is okay to move to next player
+	private Player whoseTurn;
+	private int whoseTurnNum;
+	private int roll;
+	private boolean highlightTargets;
+	private Solution guess;
+	private Player whoDisproved;
 
 	private Board() {
 		super();
@@ -56,6 +63,8 @@ public class Board extends JPanel {
 		}
 		createAdjacencyList(); // creates adjacency list for all cells on the board
 		deal(); // deals out solution and cards to players
+		whoseTurn = human; // human player starts first in the game
+		whoseTurnNum = -1; // negative number indicates it is human's turn
 	}
 
 	public void setConfigFiles(String layoutConfigFile, String setupConfigFile) {
@@ -556,17 +565,23 @@ public class Board extends JPanel {
 		int startIndex = allPlayers.indexOf(playerSuggesting); // get index of person who is making the suggestion
 
 		for (int i = startIndex + 1; i < allPlayers.size(); i++) { // start with next person till end of list
-			if (allPlayers.get(i).disproveSuggestion(suggestion) != null) {
-				return allPlayers.get(i).disproveSuggestion(suggestion);
+			Card cardShown = allPlayers.get(i).disproveSuggestion(suggestion);
+			if (cardShown != null) {
+				whoDisproved = allPlayers.get(i);
+				playerSuggesting.updateSeen(cardShown);
+				return cardShown;
 			}
 		}
 
 		for (int i = 0; i < startIndex; i++) { // start at beginning and stop before person suggesting
-			if (allPlayers.get(i).disproveSuggestion(suggestion) != null) {
-				return allPlayers.get(i).disproveSuggestion(suggestion);
+			Card cardShown = allPlayers.get(i).disproveSuggestion(suggestion);
+			if (cardShown != null) {
+				whoDisproved = allPlayers.get(i);
+				playerSuggesting.updateSeen(cardShown);
+				return cardShown;
 			}
 		}
-
+		
 		return null; // no one could disprove
 	}
 
@@ -587,13 +602,15 @@ public class Board extends JPanel {
 		int offsetX = (panelWidth - (numCols * cellSize)) / 2; // get any space left in panel, distribute half of the space to both sides of the board
 		int offsetY = (panelHeight - (numRows * cellSize)) / 2;
 		// first, draw walkways and rooms
-		drawCellsAndRooms(g, cellSize, offsetX, offsetY);
+		drawCellsAndRooms(g, cellSize, offsetX, offsetY, highlightTargets);
 		// then, draw doors to rooms; doors drawn on top of rooms so different function
 		drawDoors(g, cellSize, offsetX, offsetY);
 		// next, draw room names on rooms
 		drawRoomLabels(g, cellSize, offsetX, offsetY);
 		// finally, draw players
 		drawPlayers(g, cellSize, offsetX, offsetY);
+		
+		highlightTargets = false;
 	}
 	
 	private void drawDoors(Graphics g, int cellSize, int offsetX, int offsetY) { // private since it is a helper function for paintComponent()
@@ -610,12 +627,18 @@ public class Board extends JPanel {
 		}
 	}
 
-	private void drawCellsAndRooms(Graphics g, int cellSize, int offsetX, int offsetY) {
+	private void drawCellsAndRooms(Graphics g, int cellSize, int offsetX, int offsetY, boolean highlight) {
 		int x = offsetX, y = offsetY; 
 		for (int row = 0; row < numRows; row++) {
 			for (int column = 0; column < numCols; column++) {
 				if (getCell(row, column).isRoom()) { // separating rooms from walkways
-					getCell(row, column).drawRoom(g, x, y, cellSize);
+					if (targets.contains(rooms.get(getCell(row,column).getInitial()).getCenterCell()) && highlight == true) {
+						getCell(row, column).drawTarget(g, x, y, cellSize);
+					} else {
+						getCell(row, column).drawRoom(g, x, y, cellSize);
+					}
+				} else if (targets.contains(getCell(row,column)) && highlight == true) {
+					getCell(row,column).drawTarget(g, x, y, cellSize);
 				} else {
 					getCell(row, column).draw(g, x, y, cellSize);
 				}	
@@ -649,6 +672,66 @@ public class Board extends JPanel {
 		}
 	}
 	
+	public boolean isHumanPlayerFinished() {
+		return humanFinished;
+	}
+
+	public void displayTargets() {
+		highlightTargets = true;
+		repaint();
+	}
+
+	public void rollDie() {
+		Random random = new Random();
+		roll = random.nextInt(6) + 1; // 6-sided die from 1 - 6
+	}
+	
+	public int getRoll() {
+		return roll;
+	}
+
+	public void setUpNextTurn() {
+		if (whoseTurnNum < computers.size() - 1) {
+			whoseTurnNum++;
+			whoseTurn = computers.get(whoseTurnNum);
+		} else {
+			whoseTurnNum = -1;
+			whoseTurn = human;
+		}
+		rollDie();
+		calcTargets(getCell(whoseTurn.getRow(),whoseTurn.getColumn()), roll);
+	}
+
+	public Player getWhoseTurn() {
+		return whoseTurn;
+	}
+
+	public void processTurn() {
+		if (whoseTurn.getName().equals("You")) {
+			displayTargets();
+			humanFinished = false;
+		} else {
+			// accusation???
+			ComputerPlayer currentComputerPlayer = computers.get(whoseTurnNum);
+			currentComputerPlayer.move(targets);
+			repaint();
+			if (getCell(currentComputerPlayer.getRow(),currentComputerPlayer.getColumn()).isRoom()) {
+				guess = currentComputerPlayer.createSuggestion();
+				Card cardShown = handleSuggestion(guess, currentComputerPlayer);
+			} else {
+				guess = null;
+				whoDisproved = null;
+			}
+		}
+	}
+
+	public Solution getGuess() {
+		return guess;
+	}
+
+	public Player getWhoDisproved() {
+		return whoDisproved;
+	}
 	
 }
 

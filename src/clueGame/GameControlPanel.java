@@ -2,6 +2,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +22,7 @@ public class GameControlPanel extends JPanel {
 	public GameControlPanel() {
 		setLayout(new GridLayout(2, 0));
 		add(createButtonPanel());
-		add(createGuessPanel(createUserGuessPanel(), createGuessResultPanel()));		
+		add(createGuessPanel(createUserGuessPanel(), createGuessResultPanel()));
 	}
 	
 	public JPanel createButtonPanel() {
@@ -31,6 +32,7 @@ public class GameControlPanel extends JPanel {
 		buttonPanel.add(createRollPanel());
 		// making buttons on right side
 		nextTurnButton = new JButton("Next Turn");
+		nextTurnButton.addActionListener(new nextButtonListener());
 		buttonPanel.add(nextTurnButton);
 		accusationButton = new JButton("Make Accusation");
 		buttonPanel.add(accusationButton);
@@ -99,7 +101,7 @@ public class GameControlPanel extends JPanel {
 		controlDisplay.setTurn(new ComputerPlayer("A", "Green", 0, 0));
 		controlDisplay.setGuess("You");
 		controlDisplay.setRoll(3);
-		controlDisplay.setGuessResult("you're wrong");
+		controlDisplay.setGuessResult("you're wrong", Color.blue);
 	}
 
 	public void setTurn(Player player) {
@@ -115,15 +117,38 @@ public class GameControlPanel extends JPanel {
 		this.displayGuess.setText(guess);
 	}
 
-	public void setGuessResult(String guessResult) {
+	public void setGuessResult(String guessResult, Color color) {
 		this.displayGuessResult.setText(guessResult);
+		this.displayGuessResult.setBackground(color);
 	}
 	
 	private class nextButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			Board board = Board.getInstance();
+			if (!board.isHumanPlayerFinished()) {
+				JOptionPane.showMessageDialog(board, "You haven't finished your turn yet!");
+			} else {
+				board.setUpNextTurn();
+				setRoll(board.getRoll());
+				setTurn(board.getWhoseTurn());
+				board.processTurn();
+				Solution guess = board.getGuess();
+				if (guess != null) {
+					setGuess(board.getGuess().getPerson().getCardName() + " in the " + board.getGuess().getRoom().getCardName() + " with the " + board.getGuess().getWeapon().getCardName());
+				} else {
+					setGuess("No Guess");
+				}
+				Player whoDisproved = board.getWhoDisproved();
+				if (whoDisproved != null) {
+					setGuessResult("Guess was disproven.",whoDisproved.getColor());
+				} else if (guess != null){
+					setGuessResult("Guess was not disproven.",Color.white);
+				} else {
+					setGuessResult("No Result",Color.white);
+				}
+			}
 		}
 		
 	}
