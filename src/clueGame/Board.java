@@ -32,7 +32,7 @@ public class Board extends JPanel {
 	private ArrayList<Player> allPlayers;
 	private ArrayList<Card> deck;
 	private Solution theAnswer;
-	private boolean humanFinished = true; // so we know whether it is okay to move to next player
+	private boolean humanFinished; // so we know whether it is okay to move to next player
 	private Player whoseTurn;
 	private int whoseTurnNum;
 	private int roll;
@@ -567,8 +567,9 @@ public class Board extends JPanel {
 		for (int i = startIndex + 1; i < allPlayers.size(); i++) { // start with next person till end of list
 			Card cardShown = allPlayers.get(i).disproveSuggestion(suggestion);
 			if (cardShown != null) {
-				whoDisproved = allPlayers.get(i);
-				playerSuggesting.updateSeen(cardShown);
+				// future code
+//				whoDisproved = allPlayers.get(i);
+//				playerSuggesting.updateSeen(cardShown);
 				return cardShown;
 			}
 		}
@@ -576,8 +577,9 @@ public class Board extends JPanel {
 		for (int i = 0; i < startIndex; i++) { // start at beginning and stop before person suggesting
 			Card cardShown = allPlayers.get(i).disproveSuggestion(suggestion);
 			if (cardShown != null) {
-				whoDisproved = allPlayers.get(i);
-				playerSuggesting.updateSeen(cardShown);
+				// future code
+//				whoDisproved = allPlayers.get(i);
+//				playerSuggesting.updateSeen(cardShown);
 				return cardShown;
 			}
 		}
@@ -689,8 +691,8 @@ public class Board extends JPanel {
 	public int getRoll() {
 		return roll;
 	}
-
-	public void setUpNextTurn() {
+	
+	public void next() {
 		if (whoseTurnNum < computers.size() - 1) {
 			whoseTurnNum++;
 			whoseTurn = computers.get(whoseTurnNum);
@@ -698,6 +700,9 @@ public class Board extends JPanel {
 			whoseTurnNum = -1;
 			whoseTurn = human;
 		}
+	}
+
+	public void setUpTurn() {
 		rollDie();
 		calcTargets(getCell(whoseTurn.getRow(),whoseTurn.getColumn()), roll);
 	}
@@ -715,13 +720,14 @@ public class Board extends JPanel {
 			ComputerPlayer currentComputerPlayer = computers.get(whoseTurnNum);
 			currentComputerPlayer.move(targets);
 			repaint();
-			if (getCell(currentComputerPlayer.getRow(),currentComputerPlayer.getColumn()).isRoom()) {
-				guess = currentComputerPlayer.createSuggestion();
-				Card cardShown = handleSuggestion(guess, currentComputerPlayer);
-			} else {
-				guess = null;
-				whoDisproved = null;
-			}
+			// future code
+//			if (getCell(currentComputerPlayer.getRow(),currentComputerPlayer.getColumn()).isRoom()) {
+//				guess = currentComputerPlayer.createSuggestion();
+//				Card cardShown = handleSuggestion(guess, currentComputerPlayer);
+//			} else {
+//				guess = null;
+//				whoDisproved = null;
+//			}
 		}
 	}
 

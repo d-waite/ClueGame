@@ -130,24 +130,26 @@ public class GameControlPanel extends JPanel {
 			if (!board.isHumanPlayerFinished()) {
 				JOptionPane.showMessageDialog(board, "You haven't finished your turn yet!");
 			} else {
-				board.setUpNextTurn();
+				board.next();
+				board.setUpTurn();
 				setRoll(board.getRoll());
 				setTurn(board.getWhoseTurn());
 				board.processTurn();
-				Solution guess = board.getGuess();
-				if (guess != null) {
-					setGuess(board.getGuess().getPerson().getCardName() + " in the " + board.getGuess().getRoom().getCardName() + " with the " + board.getGuess().getWeapon().getCardName());
-				} else {
-					setGuess("No Guess");
-				}
-				Player whoDisproved = board.getWhoDisproved();
-				if (whoDisproved != null) {
-					setGuessResult("Guess was disproven.",whoDisproved.getColor());
-				} else if (guess != null){
-					setGuessResult("Guess was not disproven.",Color.white);
-				} else {
-					setGuessResult("No Result",Color.white);
-				}
+				// future code
+//				Solution guess = board.getGuess();
+//				if (guess != null) {
+//					setGuess(board.getGuess().getPerson().getCardName() + " in the " + board.getGuess().getRoom().getCardName() + " with the " + board.getGuess().getWeapon().getCardName());
+//				} else {
+//					setGuess("No Guess");
+//				}
+//				Player whoDisproved = board.getWhoDisproved();
+//				if (whoDisproved != null) {
+//					setGuessResult("Guess was disproven.",whoDisproved.getColor());
+//				} else if (guess != null){
+//					setGuessResult("Guess was not disproven.",Color.white);
+//				} else {
+//					setGuessResult("No Result",Color.white);
+//				}
 			}
 		}
 		

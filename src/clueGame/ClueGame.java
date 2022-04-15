@@ -9,24 +9,30 @@ import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame {
 	
-	public ClueGame(Board board) {
-		add(new GameCardPanel(), BorderLayout.EAST); // cards on the right
-		add(new GameControlPanel(), BorderLayout.SOUTH); // roll, button, who's turn it is, etc. at the bottom
+	public ClueGame(Board board, GameCardPanel cardPanel, GameControlPanel controlPanel) {
+		add(cardPanel, BorderLayout.EAST); // cards on the right
+		add(controlPanel, BorderLayout.SOUTH); // roll, button, who's turn it is, etc. at the bottom
 		add(board, BorderLayout.CENTER); // board in the top left
 	}
 
 	public static void main(String[] args) {
-		// get the board and set it up so that grid is made
+		// get the board and panels and set it up so that grid is made
 		Board board = Board.getInstance();
+		GameCardPanel cardPanel = new GameCardPanel();
+		GameControlPanel controlPanel = new GameControlPanel();
 		board.setConfigFiles("ClueLayout.csv","ClueSetup.txt");
 		board.initialize(); 
-		ClueGame game = new ClueGame(board); // pass in board as opposed to getting the instance again in constructor
+		ClueGame game = new ClueGame(board,cardPanel,controlPanel); // pass in board and panels to create GUI
 		// setting up JFrame
 		game.setSize(750,750); // big enough size to start so you can see everything
 		game.setTitle("Clue--Medieval Theme");
 		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		game.setVisible(true);
 		JOptionPane.showMessageDialog(game, "Find who commited the crime before the other players!");
-		
+		// executing first player's turn
+		board.setUpTurn();
+		controlPanel.setRoll(board.getRoll());
+		controlPanel.setTurn(board.getWhoseTurn());
+		board.processTurn();
 	}
 }
