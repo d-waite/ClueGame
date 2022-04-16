@@ -180,7 +180,7 @@ public class BoardCell {
 	public int getColumn() {
 		return column;
 	}
-	
+	//coordinates on screen
 	public int getX() {
 		return x;
 	}

@@ -101,7 +101,10 @@ public class ComputerPlayer extends Player {
 	}
 
 	public void move(Set<BoardCell> targets) {
+		Board board = Board.getInstance();
 		BoardCell movedTo = selectTarget(targets);
+		movedTo.setOccupied(true);
+		board.getCell(super.getRow(), super.getColumn()).setOccupied(false);
 		super.setRow(movedTo.getRow());
 		super.setColumn(movedTo.getColumn());		
 	}

@@ -751,41 +751,51 @@ public class Board extends JPanel {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			
-			int xCoord1;
-			int xCoord2;
-			int yCoord1;
-			int yCoord2;
+			//moves the player to the target clicked, or displays an error message
 			for (BoardCell cell: targets) {
+				//check every cell in the room for a click
 				if (cell.isRoom()) {
-					System.out.println(getRoom(cell.getInitial()).getRoomCells().size());
 					for (BoardCell roomCell: getRoom(cell.getInitial()).getRoomCells()) {
-						xCoord1 = roomCell.getX();
-						xCoord2 = roomCell.getX() + cellSize;
-						yCoord1 = roomCell.getY();
-						yCoord2 = roomCell.getY() + cellSize;
-						if ((e.getX() > xCoord1 && e.getX() < xCoord2) && (e.getY() > yCoord1 && e.getY() < yCoord2)) {
-							human.movePlayer(getRoom(roomCell).getCenterCell().getRow(), getRoom(roomCell).getCenterCell().getColumn());
-							humanFinished = true;
+						clickCheck(e, roomCell);
+						if (humanFinished) {
 							break;
 						}
 					}
-					if (humanFinished) {
-						break;
-					}
 				}
-				xCoord1 = cell.getX();
-				xCoord2 = cell.getX() + cellSize;
-				yCoord1 = cell.getY();
-				yCoord2 = cell.getY() + cellSize;
-				if ((e.getX() > xCoord1 && e.getX() < xCoord2) && (e.getY() > yCoord1 && e.getY() < yCoord2)) {
-					human.movePlayer(cell.getRow(), cell.getColumn());
-					humanFinished = true;
+				//check all of the other targets
+				clickCheck(e, cell);
+				if (humanFinished) {
 					break;
 				}
 			}
+			//humanFinished will be false if none of the targets were clicked on
 			if (!humanFinished) {
 				JOptionPane.showMessageDialog(null, "Invalid Space!", "Error",  JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+		public void clickCheck(MouseEvent e, BoardCell cell) {
+			//get the bounds of the cell
+			int xCoord1 = cell.getX();
+			int xCoord2 = cell.getX() + cellSize;
+			int yCoord1 = cell.getY();
+			int yCoord2 = cell.getY() + cellSize;
+			//if it is a room, you have to move the player to the center of the cell
+			if (cell.isRoom()) {
+				if ((e.getX() > xCoord1 && e.getX() < xCoord2) && (e.getY() > yCoord1 && e.getY() < yCoord2)) {
+					human.movePlayer(getRoom(cell).getCenterCell().getRow(), getRoom(cell).getCenterCell().getColumn());
+					humanFinished = true;
+					grid[human.getRow()][human.getColumn()].setOccupied(false);
+					cell.setOccupied(true);
+				}
+			//otherwise, move the player to the cell clicked on
+			} else {
+				if ((e.getX() > xCoord1 && e.getX() < xCoord2) && (e.getY() > yCoord1 && e.getY() < yCoord2)) {
+					human.movePlayer(cell.getRow(), cell.getColumn());
+					cell.setOccupied(true);
+					grid[human.getRow()][human.getColumn()].setOccupied(false);
+					humanFinished = true;
+				}
 			}
 		}
 
