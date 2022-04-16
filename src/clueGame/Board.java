@@ -4,6 +4,7 @@ package clueGame;
 import java.util.*;
 import java.util.function.BooleanSupplier;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import experiment.TestBoardCell;
@@ -12,6 +13,10 @@ import clueGame.Card;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.*;
 
 public class Board extends JPanel {
@@ -39,10 +44,12 @@ public class Board extends JPanel {
 	private boolean highlightTargets;
 	private Solution guess;
 	private Player whoDisproved;
+	private int cellSize;
 
 	private Board() {
 		super();
 		setBackground(Color.black); // to have something where there is no board
+		addMouseListener(new clickListener());
 	}
 
 	public static Board getInstance() {
@@ -246,6 +253,7 @@ public class Board extends JPanel {
 			//If not, the cell is a room
 		} else {
 			cell.setRoom(true);
+			getRoom(cell.getInitial()).addRoomCell(cell); //adds cell to the room's array list of cells
 			cell.setDoorway(false);
 			cell.setDoorDirection(DoorDirection.NONE);
 			cell.setRoomCenter(false);
@@ -518,7 +526,7 @@ public class Board extends JPanel {
 	}
 
 	public void dealSolution(ArrayList<Card> newDeck) {
-		// these arraylists hold the position of cards with said card type in the deck
+		// these array lists hold the position of cards with said card type in the deck
 		ArrayList<Integer> rooms = new ArrayList<Integer>();
 		ArrayList<Integer> people = new ArrayList<Integer>();
 		ArrayList<Integer> weapons = new ArrayList<Integer>();
@@ -598,24 +606,23 @@ public class Board extends JPanel {
 		int panelWidth = getWidth();
 		int panelHeight = getHeight();
 		// whole board needs to fit in the minimum length of the frame, each cell should take up the same amount of space
-		int cellSize = Math.min(panelWidth / numCols, panelHeight / numRows);
+		cellSize = Math.min(panelWidth / numCols, panelHeight / numRows);
 		// need an offset for x-direction and y-direction so board stays in center of panel, no matter any resizing
 		// if board takes up less space than the panel width or height, make it centered in that direction
 		int offsetX = (panelWidth - (numCols * cellSize)) / 2; // get any space left in panel, distribute half of the space to both sides of the board
 		int offsetY = (panelHeight - (numRows * cellSize)) / 2;
 		// first, draw walkways and rooms
-		drawCellsAndRooms(g, cellSize, offsetX, offsetY, highlightTargets);
+		drawCellsAndRooms(g, offsetX, offsetY, highlightTargets);
 		// then, draw doors to rooms; doors drawn on top of rooms so different function
-		drawDoors(g, cellSize, offsetX, offsetY);
+		drawDoors(g, offsetX, offsetY);
 		// next, draw room names on rooms
-		drawRoomLabels(g, cellSize, offsetX, offsetY);
+		drawRoomLabels(g, offsetX, offsetY);
 		// finally, draw players
-		drawPlayers(g, cellSize, offsetX, offsetY);
+		drawPlayers(g, offsetX, offsetY);	
 		
-		highlightTargets = false;
 	}
 	
-	private void drawDoors(Graphics g, int cellSize, int offsetX, int offsetY) { // private since it is a helper function for paintComponent()
+	private void drawDoors(Graphics g, int offsetX, int offsetY) { // private since it is a helper function for paintComponent()
 		int x = offsetX, y = offsetY; // start at our offset so we are centered
 		for (int row = 0; row < numRows; row++) { // go through grid
 			for (int column = 0; column < numCols; column++) {
@@ -629,7 +636,7 @@ public class Board extends JPanel {
 		}
 	}
 
-	private void drawCellsAndRooms(Graphics g, int cellSize, int offsetX, int offsetY, boolean highlight) {
+	private void drawCellsAndRooms(Graphics g, int offsetX, int offsetY, boolean highlight) {
 		int x = offsetX, y = offsetY; 
 		for (int row = 0; row < numRows; row++) {
 			for (int column = 0; column < numCols; column++) {
@@ -651,7 +658,7 @@ public class Board extends JPanel {
 		}
 	}
 
-	private void drawRoomLabels(Graphics g, int cellSize, int offsetX, int offsetY) {
+	private void drawRoomLabels(Graphics g, int offsetX, int offsetY) {
 		for (char c: rooms.keySet()) {
 			if (!(c == 'X') && !(c == 'W')) { // if not a walkway or unused space, we are in a true room and need to draw its label
 				BoardCell labelCell = rooms.get(c).getLabelCell();	// get the cell in the room marked to hold label		
@@ -667,7 +674,7 @@ public class Board extends JPanel {
 	
 	
 
-	private void drawPlayers(Graphics g, int cellSize, int offsetX, int offsetY) {
+	private void drawPlayers(Graphics g, int offsetX, int offsetY) {
 		// tell each player to draw themselves on the board
 		for (Player player: allPlayers) {
 			player.draw(g, cellSize, offsetX, offsetY);
@@ -696,6 +703,7 @@ public class Board extends JPanel {
 		if (whoseTurnNum < computers.size() - 1) {
 			whoseTurnNum++;
 			whoseTurn = computers.get(whoseTurnNum);
+			highlightTargets = false; //moved here so that when you resize the window, the targets are still on screen
 		} else {
 			whoseTurnNum = -1;
 			whoseTurn = human;
@@ -738,6 +746,63 @@ public class Board extends JPanel {
 	public Player getWhoDisproved() {
 		return whoDisproved;
 	}
+	
+	private class clickListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			
+			int xCoord1;
+			int xCoord2;
+			int yCoord1;
+			int yCoord2;
+			for (BoardCell cell: targets) {
+				if (cell.isRoom()) {
+					System.out.println(getRoom(cell.getInitial()).getRoomCells().size());
+					for (BoardCell roomCell: getRoom(cell.getInitial()).getRoomCells()) {
+						xCoord1 = roomCell.getX();
+						xCoord2 = roomCell.getX() + cellSize;
+						yCoord1 = roomCell.getY();
+						yCoord2 = roomCell.getY() + cellSize;
+						if ((e.getX() > xCoord1 && e.getX() < xCoord2) && (e.getY() > yCoord1 && e.getY() < yCoord2)) {
+							human.movePlayer(getRoom(roomCell).getCenterCell().getRow(), getRoom(roomCell).getCenterCell().getColumn());
+							humanFinished = true;
+							break;
+						}
+					}
+					if (humanFinished) {
+						break;
+					}
+				}
+				xCoord1 = cell.getX();
+				xCoord2 = cell.getX() + cellSize;
+				yCoord1 = cell.getY();
+				yCoord2 = cell.getY() + cellSize;
+				if ((e.getX() > xCoord1 && e.getX() < xCoord2) && (e.getY() > yCoord1 && e.getY() < yCoord2)) {
+					human.movePlayer(cell.getRow(), cell.getColumn());
+					humanFinished = true;
+					break;
+				}
+			}
+			if (!humanFinished) {
+				JOptionPane.showMessageDialog(null, "Invalid Space!", "Error",  JOptionPane.ERROR_MESSAGE);
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+	}
+	
+
 	
 }
 

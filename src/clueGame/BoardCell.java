@@ -13,6 +13,8 @@ public class BoardCell {
 	// variables describing the cell
 	private int row;
 	private int column;
+	private int x;
+	private int y;
 	private char initial;
 	private DoorDirection doorDirection;
 	private boolean roomLabel;
@@ -27,6 +29,8 @@ public class BoardCell {
 	public BoardCell(int row, int column) {
 		this.row = row;
 		this.column = column;
+		x = 0;
+		y = 0;
 	}
 
 	public void addAdjacency(BoardCell cell) {
@@ -111,7 +115,7 @@ public class BoardCell {
 	public void draw(Graphics g, int x, int y, int cellSize) {
 		if (initial != 'X') { // only draw if we are a walkway; unused spaces are skipped, leaving the black background visible
 			// draw a yellow rectangle with a black border (to separate it from other cells) at position (x,y) of size cellSize x cellSize
-			g.setColor(Color.yellow);
+			g.setColor(new Color(0, 76, 153));
 			g.fillRect(x, y, cellSize, cellSize); 
 			g.setColor(Color.black);
 			g.drawRect(x, y, cellSize, cellSize);
@@ -119,7 +123,7 @@ public class BoardCell {
 	}
 
 	public void drawRoomName(Graphics g, String roomName, int fontSize, int x, int y) {
-		g.setFont(new Font("SansSerif", Font.PLAIN, fontSize));
+		g.setFont(new Font("SansSerif", Font.BOLD, fontSize));
 		g.setColor(Color.CYAN); // cyan contrasts really well with the grey of the rooms :)
 		g.drawString(roomName, x, y);
 	}
@@ -158,7 +162,9 @@ public class BoardCell {
 	}
 	
 	public void drawTarget(Graphics g, int x, int y, int cellSize) {
-		g.setColor(Color.darkGray);
+		this.x = x;
+		this.y = y;
+		g.setColor(new Color(204, 30, 102));
 		g.fillRect(x, y, cellSize, cellSize);
 		if (!isRoom) {
 			g.setColor(Color.black);
@@ -173,5 +179,13 @@ public class BoardCell {
 
 	public int getColumn() {
 		return column;
+	}
+	
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
 	}
 }

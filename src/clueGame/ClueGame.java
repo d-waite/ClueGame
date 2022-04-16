@@ -28,7 +28,7 @@ public class ClueGame extends JFrame {
 		game.setTitle("Clue--Medieval Theme");
 		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		game.setVisible(true);
-		JOptionPane.showMessageDialog(game, "Find who commited the crime before the other players!");
+		JOptionPane.showMessageDialog(game, "Find who commited the crime before the other players!", "Welcome to Clue",  JOptionPane.PLAIN_MESSAGE);
 		// executing first player's turn
 		board.setUpTurn();
 		controlPanel.setRoll(board.getRoll());
