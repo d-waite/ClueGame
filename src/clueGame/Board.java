@@ -452,10 +452,7 @@ public class Board extends JPanel {
 		clearHands(); // starting with empty hand
 
 		//create a copy of the deck that we can remove from, leaving original deck alone for testing purposes
-		ArrayList<Card> newDeck = new ArrayList<Card>();
-		for (int i = 0; i < deck.size(); i++) {
-			newDeck.add(deck.get(i));
-		}
+		ArrayList<Card> newDeck = new ArrayList<Card>(deck);
 
 		dealSolution(newDeck); // deal the solution first
 
