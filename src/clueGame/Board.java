@@ -45,7 +45,6 @@ public class Board extends JPanel {
 	private Solution guess;
 	private Player whoDisproved;
 	private int cellSize;
-	//private String overlappingPlayers = "Players: ";
 
 	private Board() {
 		super();
@@ -619,9 +618,7 @@ public class Board extends JPanel {
 		// next, draw room names on rooms
 		drawRoomLabels(g, offsetX, offsetY);
 		// finally, draw players
-		drawPlayers(g, offsetX, offsetY);	
-		// and deal with the overlapping players in rooms
-		
+		drawPlayers(g, offsetX, offsetY);		
 	}
 	
 	private void drawDoors(Graphics g, int offsetX, int offsetY) { // private since it is a helper function for paintComponent()
@@ -674,24 +671,15 @@ public class Board extends JPanel {
 		}
 	}
 	
+	// instead of offsetting player positioning, this function displays the names of the players in the room
 	public void drawOverlappingPlayers(Player player, Graphics g) {
-//		if (getCell(player.getRow(), player.getColumn()).isRoom()) {
-//			for (Player p: allPlayers) {
-//				if ((player.getRow() == p.getRow()) && (player.getColumn() == p.getColumn()) && !(player.getName().equals(p.getName()) && !(overlappingPlayers.contains(player.getName())))) {
-//					overlappingPlayers += player.getName() + ", ";
-//					g.setColor(Color.white);
-//					g.drawString(overlappingPlayers, getRoom(getCell(player.getRow(), player.getColumn())).getCenterCell().getX() - cellSize, getRoom(getCell(player.getRow(), player.getColumn())).getCenterCell().getY() + cellSize);
-//				}
-//			}
-//		}
-		
-		if (getCell(player.getRow(), player.getColumn()).isRoom()) {
-			String overlappingPlayers = "Players: ";
+		if (getCell(player.getRow(), player.getColumn()).isRoom()) { // if a player is in the room, check to see if others are in the room
+			String overlappingPlayers = "Players: "; // creating a string to hold a list of the players currently in the room
 			BoardCell cell = grid[player.getRow()][player.getColumn()];
 			for (Player p: allPlayers) {
-				if ((p.getRow() == cell.getRow()) && (p.getColumn() == cell.getColumn())) {
+				if ((p.getRow() == cell.getRow()) && (p.getColumn() == cell.getColumn())) { // if multiple players in same room
 					overlappingPlayers += p.getName() + ", ";
-					
+					// display list of players in the room
 					g.setColor(Color.white);
 					g.drawString(overlappingPlayers, getRoom(getCell(player.getRow(), player.getColumn())).getCenterCell().getX() - cellSize, getRoom(getCell(player.getRow(), player.getColumn())).getCenterCell().getY() + 2 * cellSize);
 				}
@@ -703,7 +691,7 @@ public class Board extends JPanel {
 		// tell each player to draw themselves on the board
 		for (Player player: allPlayers) {
 			player.draw(g, cellSize, offsetX, offsetY);
-			drawOverlappingPlayers(player, g);
+			drawOverlappingPlayers(player, g); // deal with the overlapping players in rooms
 		}
 	}
 	
@@ -725,17 +713,19 @@ public class Board extends JPanel {
 		return roll;
 	}
 	
+	// function to move to the next person's turn
 	public void next() {
-		if (whoseTurnNum < computers.size() - 1) {
+		if (whoseTurnNum < computers.size() - 1) { // stay in bounds of computer player array
 			whoseTurnNum++;
 			whoseTurn = computers.get(whoseTurnNum);
 			highlightTargets = false; //moved here so that when you resize the window, the targets are still on screen
 		} else {
-			whoseTurnNum = -1;
+			whoseTurnNum = -1; // if at the end of the computer player array, human is up next
 			whoseTurn = human;
 		}
 	}
-
+	
+	// gets the player ready to move
 	public void setUpTurn() {
 		rollDie();
 		calcTargets(getCell(whoseTurn.getRow(),whoseTurn.getColumn()), roll);
@@ -746,14 +736,14 @@ public class Board extends JPanel {
 	}
 
 	public void processTurn() {
-		if (whoseTurn.getName().equals("You")) {
+		if (whoseTurn.getName().equals("You")) { // human's turn, so show targets and set turn finished flag to false
 			displayTargets();
 			humanFinished = false;
 		} else {
 			// accusation???
 			ComputerPlayer currentComputerPlayer = computers.get(whoseTurnNum);
 			currentComputerPlayer.move(targets);
-			repaint();
+			repaint(); // display player's new position
 			// future code
 //			if (getCell(currentComputerPlayer.getRow(),currentComputerPlayer.getColumn()).isRoom()) {
 //				guess = currentComputerPlayer.createSuggestion();
