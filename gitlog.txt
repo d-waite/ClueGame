@@ -1,3 +1,39 @@
+commit 8564f988e3ae8d9692477b04c1f6893e0513fe94
+Author: Dillinger Day <djday@mines.edu>
+Date:   Fri Apr 15 21:17:29 2022 -0600
+
+    Refactored last commit and added comments.
+
+commit 08fde40ee29c5f90dcccfca71e379bb908c13188
+Author: Dillinger Day <djday@mines.edu>
+Date:   Fri Apr 15 18:38:50 2022 -0600
+
+    Implemented moving human player and changed some other small things.
+
+commit 6104e7b7a5f7f1813eba631ee9405500512f815a
+Author: David Waite <davidwaite@mines.edu>
+Date:   Fri Apr 15 14:29:08 2022 -0600
+
+    Initialized first player's turn
+
+commit aabade115d41a06be73e24292989e4912399d070
+Author: David Waite <davidwaite@mines.edu>
+Date:   Wed Apr 13 22:55:07 2022 -0600
+
+    Implemented most of computer turn, updating control panel, andhighlighting targets for player
+
+commit 5a414a25decae02593c536b4158e5c7f54828017
+Author: Dillinger Day <djday@mines.edu>
+Date:   Tue Apr 12 13:37:21 2022 -0600
+
+    Created splash message and started next button listener.
+
+commit 4e5598b85494b0c6d3d8091399c1b6ae41d7e4e1
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Apr 11 19:18:40 2022 -0600
+
+    log
+
 commit 0b30b9b12b2baf3aa1b19f5b005fcb12f4f95370
 Author: David Waite <davidwaite@mines.edu>
 Date:   Mon Apr 11 19:18:22 2022 -0600

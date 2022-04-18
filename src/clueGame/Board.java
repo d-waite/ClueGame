@@ -751,6 +751,10 @@ public class Board extends JPanel {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			if (humanFinished) {
+				JOptionPane.showMessageDialog(null, "You already moved.", "Error",  JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			//moves the player to the target clicked, or displays an error message
 			for (BoardCell cell: targets) {
 				//check every cell in the room for a click
@@ -782,11 +786,12 @@ public class Board extends JPanel {
 			int yCoord2 = cell.getY() + cellSize;
 			//if it is a room, you have to move the player to the center of the cell
 			if (cell.isRoom()) {
-				if ((e.getX() > xCoord1 && e.getX() < xCoord2) && (e.getY() > yCoord1 && e.getY() < yCoord2)) {
+				if ((e.getX() >= xCoord1 && e.getX() <= xCoord2) && (e.getY() >= yCoord1 && e.getY() <= yCoord2)) {
 					human.movePlayer(getRoom(cell).getCenterCell().getRow(), getRoom(cell).getCenterCell().getColumn());
 					humanFinished = true;
 					grid[human.getRow()][human.getColumn()].setOccupied(false);
 					cell.setOccupied(true);
+					highlightTargets = false;
 				}
 			//otherwise, move the player to the cell clicked on
 			} else {
@@ -795,6 +800,7 @@ public class Board extends JPanel {
 					cell.setOccupied(true);
 					grid[human.getRow()][human.getColumn()].setOccupied(false);
 					humanFinished = true;
+					highlightTargets = false;
 				}
 			}
 		}

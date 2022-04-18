@@ -113,6 +113,8 @@ public class BoardCell {
 	}
 
 	public void draw(Graphics g, int x, int y, int cellSize) {
+		this.x = x;
+		this.y = y;
 		if (initial != 'X') { // only draw if we are a walkway; unused spaces are skipped, leaving the black background visible
 			// draw a yellow rectangle with a black border (to separate it from other cells) at position (x,y) of size cellSize x cellSize
 			g.setColor(new Color(0, 76, 153));
@@ -129,6 +131,8 @@ public class BoardCell {
 	}
 
 	public void drawRoom(Graphics g, int x, int y, int cellSize) { 
+		this.x = x;
+		this.y = y;
 		// no borders to separate room cells, since we do not move around in room
 		g.setColor(Color.gray);
 		g.fillRect(x, y, cellSize, cellSize);
@@ -162,8 +166,6 @@ public class BoardCell {
 	}
 	
 	public void drawTarget(Graphics g, int x, int y, int cellSize) {
-		this.x = x;
-		this.y = y;
 		g.setColor(new Color(204, 30, 102));
 		g.fillRect(x, y, cellSize, cellSize);
 		if (!isRoom) {
