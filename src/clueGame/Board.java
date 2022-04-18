@@ -129,6 +129,7 @@ public class Board extends JPanel {
 			//If the first word in the line isn't Space or Room throw an Exception
 			String roomType = roomInfo[0];
 			if (!(roomType.equals("Room")) && !(roomType.equals("Space"))) {
+				scan.close();
 				throw new BadConfigFormatException("Bad room type in setup file.");
 			}
 			String roomSymbol = roomInfo[2];
@@ -162,6 +163,7 @@ public class Board extends JPanel {
 			//If the first word in the line isn't Human or Computer throw an Exception
 			String playerType = playerInfo[0];
 			if (!(playerType.equals("Human")) && !(playerType.equals("Computer"))) {
+				scan.close();
 				throw new BadConfigFormatException("Bad player type in setup file.");
 			}
 			String playerName = playerInfo[1];
@@ -211,6 +213,7 @@ public class Board extends JPanel {
 			numRows++;
 			rowCells = scanSize.nextLine();
 			if ((rowCells.split(",").length) != (numCols)) {
+				scanSize.close();
 				throw new BadConfigFormatException("Layout file did not have the same number of columns per row.");
 			}
 
