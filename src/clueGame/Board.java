@@ -750,33 +750,7 @@ public class Board extends JPanel {
 	private class clickListener implements MouseListener{
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
-			if (humanFinished) {
-				JOptionPane.showMessageDialog(null, "You already moved.", "Error",  JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			//moves the player to the target clicked, or displays an error message
-			for (BoardCell cell: targets) {
-				//check every cell in the room for a click
-				if (cell.isRoom()) {
-					for (BoardCell roomCell: getRoom(cell.getInitial()).getRoomCells()) {
-						clickCheck(e, roomCell);
-						if (humanFinished) {
-							break;
-						}
-					}
-				}
-				//check all of the other targets
-				clickCheck(e, cell);
-				if (humanFinished) {
-					break;
-				}
-			}
-			//humanFinished will be false if none of the targets were clicked on
-			if (!humanFinished) {
-				JOptionPane.showMessageDialog(null, "Invalid Space!", "Error",  JOptionPane.ERROR_MESSAGE);
-			}
-		}
+		public void mouseClicked(MouseEvent e) {}
 		
 		public void clickCheck(MouseEvent e, BoardCell cell) {
 			//get the bounds of the cell
@@ -806,7 +780,33 @@ public class Board extends JPanel {
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {}
+		public void mousePressed(MouseEvent e) {
+			if (humanFinished) {
+				JOptionPane.showMessageDialog(null, "You already moved.", "Error",  JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			//moves the player to the target clicked, or displays an error message
+			for (BoardCell cell: targets) {
+				//check every cell in the room for a click
+				if (cell.isRoom()) {
+					for (BoardCell roomCell: getRoom(cell.getInitial()).getRoomCells()) {
+						clickCheck(e, roomCell);
+						if (humanFinished) {
+							break;
+						}
+					}
+				} else {//check all of the other targets
+					clickCheck(e, cell);
+					if (humanFinished) {
+						break;
+					}
+				}
+			}
+			//humanFinished will be false if none of the targets were clicked on
+			if (!humanFinished) {
+				JOptionPane.showMessageDialog(null, "Invalid Space!", "Error",  JOptionPane.ERROR_MESSAGE);
+			}
+		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {}
