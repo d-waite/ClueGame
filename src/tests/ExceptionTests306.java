@@ -24,9 +24,9 @@ public class ExceptionTests306 {
 		board.setConfigFiles("ClueLayoutBadColumns306.csv", "ClueSetup306.txt");
 		// Instead of initialize, we call the two load functions directly.
 		// This is necessary because initialize contains a try-catch.
-		board.loadSetupConfig(null);
+		board.loadSetupConfig();
 		// This one should throw an exception
-		board.loadLayoutConfig(null);
+		board.loadLayoutConfig();
 	}
 
 	// Test that an exception is thrown for a config file that specifies
@@ -36,8 +36,8 @@ public class ExceptionTests306 {
 	public void testBadRoom() throws BadConfigFormatException, FileNotFoundException {
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayoutBadRoom306.csv", "ClueSetup306.txt");
-		board.loadSetupConfig(null);
-		board.loadLayoutConfig(null);
+		board.loadSetupConfig();
+		board.loadLayoutConfig();
 	}
 
 	// Test that an exception is thrown for a config file with a room type
@@ -46,8 +46,8 @@ public class ExceptionTests306 {
 	public void testBadRoomFormat() throws BadConfigFormatException, FileNotFoundException {
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayout306.csv", "ClueSetupBadFormat306.txt");
-		board.loadSetupConfig(null);
-		board.loadLayoutConfig(null);
+		board.loadSetupConfig();
+		board.loadLayoutConfig();
 	}
 
 }

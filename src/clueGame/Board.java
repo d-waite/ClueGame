@@ -59,8 +59,8 @@ public class Board extends JPanel {
 	public void initialize() {
 		try {
 			//load the information in the files into the board
-			loadSetupConfig(null); // passing in null so tests pass
-			loadLayoutConfig(null);
+			loadSetupConfig();
+			loadLayoutConfig();
 		}
 		catch (BadConfigFormatException e) {
 			System.out.println(e.getMessage());
@@ -99,7 +99,7 @@ public class Board extends JPanel {
 		return rooms.get(cell.getInitial());
 	}
 
-	public void loadSetupConfig(Object obj) throws FileNotFoundException, BadConfigFormatException {
+	public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
 		deck = new ArrayList<Card>();
 		int setupLineLength = 3; // amount of entries for room info
 		//Open the file
@@ -192,7 +192,7 @@ public class Board extends JPanel {
 		scan.close();
 	}
 
-	public void loadLayoutConfig(Object obj) throws BadConfigFormatException, FileNotFoundException{
+	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException{
 		//Open the file
 		FileReader inputSize = new FileReader("data/" + layoutConfigFile);
 		Scanner scanSize = new Scanner(inputSize);
