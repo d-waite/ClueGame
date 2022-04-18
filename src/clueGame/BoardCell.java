@@ -55,7 +55,7 @@ public class BoardCell {
 		}
 	}
 
-	public boolean getOccupied() {
+	public boolean isOccupied() {
 		return isOccupied;
 	}
 

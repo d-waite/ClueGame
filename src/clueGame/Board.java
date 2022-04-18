@@ -45,6 +45,7 @@ public class Board extends JPanel {
 	private Solution guess;
 	private Player whoDisproved;
 	private int cellSize;
+	//private String overlappingPlayers = "Players: ";
 
 	private Board() {
 		super();
@@ -420,7 +421,7 @@ public class Board extends JPanel {
 	private void findAllTargets(BoardCell cell, int pathlength) {
 		for (BoardCell adjCell: cell.getAdjList()) { // look at all adjacent cells
 			// can't go through same space twice in one turn & can't visit an occupied space
-			if ((!(visited.contains(adjCell))) && (!(adjCell.getOccupied()))) { 
+			if ((!(visited.contains(adjCell))) && (!(adjCell.isOccupied()))) { 
 				visited.add(adjCell); 
 				if (adjCell.isRoom()) { // turn ends once room is entered
 					targets.add(adjCell);
@@ -619,6 +620,7 @@ public class Board extends JPanel {
 		drawRoomLabels(g, offsetX, offsetY);
 		// finally, draw players
 		drawPlayers(g, offsetX, offsetY);	
+		// and deal with the overlapping players in rooms
 		
 	}
 	
@@ -672,12 +674,36 @@ public class Board extends JPanel {
 		}
 	}
 	
-	
+	public void drawOverlappingPlayers(Player player, Graphics g) {
+//		if (getCell(player.getRow(), player.getColumn()).isRoom()) {
+//			for (Player p: allPlayers) {
+//				if ((player.getRow() == p.getRow()) && (player.getColumn() == p.getColumn()) && !(player.getName().equals(p.getName()) && !(overlappingPlayers.contains(player.getName())))) {
+//					overlappingPlayers += player.getName() + ", ";
+//					g.setColor(Color.white);
+//					g.drawString(overlappingPlayers, getRoom(getCell(player.getRow(), player.getColumn())).getCenterCell().getX() - cellSize, getRoom(getCell(player.getRow(), player.getColumn())).getCenterCell().getY() + cellSize);
+//				}
+//			}
+//		}
+		
+		if (getCell(player.getRow(), player.getColumn()).isRoom()) {
+			String overlappingPlayers = "Players: ";
+			BoardCell cell = grid[player.getRow()][player.getColumn()];
+			for (Player p: allPlayers) {
+				if ((p.getRow() == cell.getRow()) && (p.getColumn() == cell.getColumn())) {
+					overlappingPlayers += p.getName() + ", ";
+					
+					g.setColor(Color.white);
+					g.drawString(overlappingPlayers, getRoom(getCell(player.getRow(), player.getColumn())).getCenterCell().getX() - cellSize, getRoom(getCell(player.getRow(), player.getColumn())).getCenterCell().getY() + 2 * cellSize);
+				}
+			}
+		}
+	}
 
 	private void drawPlayers(Graphics g, int offsetX, int offsetY) {
 		// tell each player to draw themselves on the board
 		for (Player player: allPlayers) {
 			player.draw(g, cellSize, offsetX, offsetY);
+			drawOverlappingPlayers(player, g);
 		}
 	}
 	
@@ -817,8 +843,6 @@ public class Board extends JPanel {
 		@Override
 		public void mouseExited(MouseEvent e) {}
 	}
-	
-
 	
 }
 
