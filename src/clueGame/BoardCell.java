@@ -7,8 +7,6 @@ import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
-import experiment.TestBoardCell;
-
 public class BoardCell {
 	// variables describing the cell
 	private int row;
