@@ -97,9 +97,9 @@ public class gameSetupTests {
 			}
 		}
 		// making sure we are not getting the same solution a lot
-		assertTrue(roomMatch < 7);
-		assertTrue(personMatch < 4);
-		assertTrue(weaponMatch < 4);
+		assertTrue(roomMatch < 8);
+		assertTrue(personMatch < 5);
+		assertTrue(weaponMatch < 5);
 
 	}
 
