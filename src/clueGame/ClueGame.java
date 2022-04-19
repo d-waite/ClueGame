@@ -19,7 +19,10 @@ public class ClueGame extends JFrame {
 		GameCardPanel cardPanel = new GameCardPanel();
 		GameControlPanel controlPanel = new GameControlPanel();
 		board.setConfigFiles("ClueLayout.csv","ClueSetup.txt");
-		board.initialize(); 
+		board.initialize();
+		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getPeopleCards());
+		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getRoomCards());
+		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getWeaponCards());
 		ClueGame game = new ClueGame(board,cardPanel,controlPanel); // pass in board and panels to create GUI
 		// setting up JFrame
 		game.setSize(750,750); // big enough size to start so you can see everything
