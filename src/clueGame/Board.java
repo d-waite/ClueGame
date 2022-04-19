@@ -33,9 +33,8 @@ public class Board extends JPanel {
 	private int whoseTurnNum; // helps move from human player to computer player while keeping them separate
 	private int roll;
 	private boolean highlightTargets; // tells us whether we need to show possible moves for human
-	// future code
-//	private Solution guess;
-//	private Player whoDisproved;
+	private Solution guess;
+	private Player whoDisproved;
 	private int cellSize;
 
 	private Board() {
@@ -536,9 +535,8 @@ public class Board extends JPanel {
 		for (int i = startIndex + 1; i < allPlayers.size(); i++) { // start with next person till end of list
 			Card cardShown = allPlayers.get(i).disproveSuggestion(suggestion);
 			if (cardShown != null) {
-				// future code
-//				whoDisproved = allPlayers.get(i);
-//				playerSuggesting.updateSeen(cardShown);
+				whoDisproved = allPlayers.get(i);
+				playerSuggesting.updateSeen(cardShown);
 				return cardShown;
 			}
 		}
@@ -546,9 +544,8 @@ public class Board extends JPanel {
 		for (int i = 0; i < startIndex; i++) { // start at beginning and stop before person suggesting
 			Card cardShown = allPlayers.get(i).disproveSuggestion(suggestion);
 			if (cardShown != null) {
-				// future code
-//				whoDisproved = allPlayers.get(i);
-//				playerSuggesting.updateSeen(cardShown);
+				whoDisproved = allPlayers.get(i);
+				playerSuggesting.updateSeen(cardShown);
 				return cardShown;
 			}
 		}
@@ -705,25 +702,24 @@ public class Board extends JPanel {
 			ComputerPlayer currentComputerPlayer = computers.get(whoseTurnNum);
 			currentComputerPlayer.move(targets);
 			repaint(); // display player's new position
-			// future code
-//			if (getCell(currentComputerPlayer.getRow(),currentComputerPlayer.getColumn()).isRoom()) {
-//				guess = currentComputerPlayer.createSuggestion();
-//				Card cardShown = handleSuggestion(guess, currentComputerPlayer);
-//			} else {
-//				guess = null;
-//				whoDisproved = null;
-//			}
+			if (getCell(currentComputerPlayer.getRow(),currentComputerPlayer.getColumn()).isRoom()) {
+				guess = currentComputerPlayer.createSuggestion();
+				handleSuggestion(guess, currentComputerPlayer);
+			} else {
+				guess = null;
+				whoDisproved = null;
+			}
 		}
 	}
 
-	// future code
-//	public Solution getGuess() {
-//		return guess;
-//	}
-//
-//	public Player getWhoDisproved() {
-//		return whoDisproved;
-//	}
+	
+	public Solution getGuess() {
+		return guess;
+	}
+
+	public Player getWhoDisproved() {
+		return whoDisproved;
+	}
 	
 	private class clickListener implements MouseListener{
 

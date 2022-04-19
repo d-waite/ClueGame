@@ -4,7 +4,9 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class Player {
 	// variables needed to describe player
@@ -12,16 +14,16 @@ public class Player {
 	private Color color;
 	private int row;
 	private int column;
-	private ArrayList<Card> hand;
-	private ArrayList<Card> seen;
+	private Set<Card> hand;
+	private Set<Card> seen;
 	
 	public Player(String name, String color, int row, int column) {
 		this.name = name;
 		this.row = row;
 		this.color = stringToColor(color);
 		this.column = column;
-		hand = new ArrayList<Card>(); // create space for the player to have cards
-		seen = new ArrayList<Card>(); // create space for the seen cards
+		hand = new HashSet<Card>(); // create space for the player to have cards
+		seen = new HashSet<Card>(); // create space for the seen cards
 		
 	}
 	
@@ -57,11 +59,11 @@ public class Player {
 		return column;
 	}
 	
-	public ArrayList<Card> getHand() {
+	public Set<Card> getHand() {
 		return hand;
 	}
 	
-	public ArrayList<Card> getSeen() {
+	public Set<Card> getSeen() {
 		return seen;
 	}
 	
@@ -97,7 +99,7 @@ public class Player {
 	// we need to clear hand when testing new deals since there is only one instance of Board & deal() would normally
 	// be only called once
 	public void clearHand() {
-		hand = new ArrayList<Card>(); // reallocating space on a new deal
+		hand = new HashSet<Card>(); // reallocating space on a new deal
 	}
 	
 	public Card disproveSuggestion(Solution suggestion) {

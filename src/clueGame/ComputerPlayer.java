@@ -23,8 +23,8 @@ public class ComputerPlayer extends Player {
 			boolean seenFlag = false;
 			boolean handFlag = false;
 			//set the flag to true if the card has been seen
-			for (int j = 0; j < getSeen().size(); j++) {
-				if (getSeen().get(j).equals(board.getDeck().get(i))) {
+			for (Card seenCard: getSeen()) {
+				if (seenCard.equals(board.getDeck().get(i))) {
 					seenFlag = true;
 				}
 			}
@@ -32,8 +32,8 @@ public class ComputerPlayer extends Player {
 				continue;
 			}
 			//set the flag to true if the card is in the player's hand
-			for (int k = 0; k < getHand().size(); k++) {
-				if (getHand().get(k).equals(board.getDeck().get(i))) {
+			for (Card handCard: getHand()) {
+				if (handCard.equals(board.getDeck().get(i))) {
 					handFlag = true;
 				}
 			}
@@ -73,13 +73,13 @@ public class ComputerPlayer extends Player {
 			targetsArray.add(target);
 			if (target.isRoom()) {
 				boolean seenRoom = false;
-				for (int i = 0; i < getHand().size(); i++) {
-					if (board.getRoom(target).getName().equals(getHand().get(i).getCardName())) { // room is in hand
+				for (Card cardHand: getHand()) {
+					if (board.getRoom(target).getName().equals(cardHand.getCardName())) { // room is in hand
 						seenRoom = true;
 					}
 				}
-				for (int i = 0; i < getSeen().size(); i++) {
-					if (board.getRoom(target).getName().equals(getSeen().get(i).getCardName())) { // room has been seen
+				for (Card cardSeen: getSeen()) {
+					if (board.getRoom(target).getName().equals(cardSeen.getCardName())) { // room is in hand
 						seenRoom = true;
 					}
 				}

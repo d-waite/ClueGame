@@ -4,6 +4,8 @@ package clueGame;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -66,7 +68,7 @@ public class GameCardPanel extends JPanel {
 		return new JLabel("Seen:");
 	}
 	
-	public void updateCardLabels(ArrayList<Card> seenList, ArrayList<Card> hand, JPanel panel) {
+	public void updateCardLabels(Set<Card> seenList, Set<Card> hand, JPanel panel) {
 		//set the card type based on what panel we are changing
 		CardType cardType;
 		if (panel.equals(peopleCards)) {
@@ -88,19 +90,25 @@ public class GameCardPanel extends JPanel {
 	}
 
 	
-	public void updatePanelList(ArrayList<Card> list,CardType cardType, JPanel panel) {
+	public void updatePanelList(Set<Card> list,CardType cardType, JPanel panel) {
+		int cardsDisplayed = 0;
 		//loop through the cards and add the cards of the correct type into the panel
 		for (Card card: list) {
 			if (card.getCardType().equals(cardType)) {
 				panel.add(newKnownCard(card));
-			}
+				cardsDisplayed++;
+			} 
+		}
+		
+		if (cardsDisplayed == 0) { // display none if we have no cards to show
+			panel.add(createNoneField());
 		}
 	}
 	
 	public static void main(String[] args) {
 		//for testing
-		ArrayList<Card> hand = new ArrayList<Card>();
-		ArrayList<Card> seen = new ArrayList<Card>();
+		Set<Card> hand = new HashSet<Card>();
+		Set<Card> seen = new HashSet<Card>();
 		Card A = new Card("A", CardType.PERSON);
 		A.setPlayerColor(Color.white);
 		hand.add(A);
