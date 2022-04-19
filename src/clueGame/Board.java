@@ -459,52 +459,21 @@ public class Board extends JPanel {
 		// deal the rest of the cards to the players
 		Random randCard = new Random();
 		int deckSize = 0;
+		int undealtPlayers = allPlayers.size();
 		//loop through each of the players
-		for (int playerNum = 6; playerNum >= 1; playerNum--) {
+		for (Player player: allPlayers) {
 			//update the deck size so that the right amount of cards are dealt to each person
 			deckSize = newDeck.size();
 			//loop through the amount of cards per player
-			for (int j = 0; j < (deckSize / playerNum); j++) {
-				//choose a random card 
-				int randCardNum = randCard.nextInt(deckSize - j);
-				//add it to the player's hand and remove it from newDeck
-				switch (playerNum) {
-				case 1:
-					//set the player color of the card
-					newDeck.get(randCardNum).setPlayerColor(getHumanPlayer().getColor());
-					//add the card to the hand and remove it from newDeck
-					getHumanPlayer().updateHand(newDeck.get(randCardNum));
-					newDeck.remove(newDeck.get(randCardNum));
-					break;
-				case 2:
-					newDeck.get(randCardNum).setPlayerColor(getComputerPlayers().get(0).getColor());
-					getComputerPlayers().get(0).updateHand(newDeck.get(randCardNum));
-					newDeck.remove(newDeck.get(randCardNum));
-					break;
-				case 3:
-					newDeck.get(randCardNum).setPlayerColor(getComputerPlayers().get(1).getColor());
-					getComputerPlayers().get(1).updateHand(newDeck.get(randCardNum));
-					newDeck.remove(newDeck.get(randCardNum));
-					break;
-				case 4:
-					newDeck.get(randCardNum).setPlayerColor(getComputerPlayers().get(2).getColor());
-					getComputerPlayers().get(2).updateHand(newDeck.get(randCardNum));
-					newDeck.remove(newDeck.get(randCardNum));
-					break;
-				case 5:
-					newDeck.get(randCardNum).setPlayerColor(getComputerPlayers().get(3).getColor());
-					getComputerPlayers().get(3).updateHand(newDeck.get(randCardNum));
-					newDeck.remove(newDeck.get(randCardNum));
-					break;
-				case 6:
-					newDeck.get(randCardNum).setPlayerColor(getComputerPlayers().get(4).getColor());
-					getComputerPlayers().get(4).updateHand(newDeck.get(randCardNum));
-					newDeck.remove(newDeck.get(randCardNum));
-					break;
-				default:
-					break;
-				}
+			for (int cardsDealt = 0; cardsDealt < deckSize / undealtPlayers; cardsDealt++) { // this evenly deals out cards to each player
+				int randCardNum = randCard.nextInt(deckSize - cardsDealt);
+				//set the player color of the card
+				newDeck.get(randCardNum).setPlayerColor(player.getColor());
+				//add the card to the hand and remove it from newDeck
+				player.updateHand(newDeck.get(randCardNum));
+				newDeck.remove(newDeck.get(randCardNum));
 			}
+		undealtPlayers--;
 		}
 	}
 
