@@ -129,6 +129,7 @@ public class GameControlPanel extends JPanel {
 			if (!board.isHumanPlayerFinished()) {
 				JOptionPane.showMessageDialog(board, "You haven't finished your turn yet!");
 			} else {
+				// execute next player's turn
 				board.next();
 				board.setUpTurn();
 				setRoll(board.getRoll());

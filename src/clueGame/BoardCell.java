@@ -11,7 +11,7 @@ public class BoardCell {
 	// variables describing the cell
 	private int row;
 	private int column;
-	private int x;
+	private int x; // x and y are the on-screen coordinates of the cell
 	private int y;
 	private char initial;
 	private DoorDirection doorDirection;
@@ -111,6 +111,7 @@ public class BoardCell {
 	}
 
 	public void draw(Graphics g, int x, int y, int cellSize) {
+		// set coordinates
 		this.x = x;
 		this.y = y;
 		if (initial != 'X') { // only draw if we are a walkway; unused spaces are skipped, leaving the black background visible
@@ -129,6 +130,7 @@ public class BoardCell {
 	}
 
 	public void drawRoom(Graphics g, int x, int y, int cellSize) { 
+		// set coordinates
 		this.x = x;
 		this.y = y;
 		// no borders to separate room cells, since we do not move around in room

@@ -25,16 +25,17 @@ public class Board extends JPanel {
 	private Set<BoardCell> visited  = new HashSet<BoardCell>(); // helps us to get our target list
 	private HumanPlayer human;
 	private ArrayList<ComputerPlayer> computers;
-	private ArrayList<Player> allPlayers;
+	private ArrayList<Player> allPlayers; // for when we don't care if players are human or computer
 	private ArrayList<Card> deck;
 	private Solution theAnswer;
 	private boolean humanFinished; // so we know whether it is okay to move to next player
 	private Player whoseTurn;
-	private int whoseTurnNum;
+	private int whoseTurnNum; // helps move from human player to computer player while keeping them separate
 	private int roll;
-	private boolean highlightTargets;
-	private Solution guess;
-	private Player whoDisproved;
+	private boolean highlightTargets; // tells us whether we need to show possible moves for human
+	// future code
+//	private Solution guess;
+//	private Player whoDisproved;
 	private int cellSize;
 
 	private Board() {
@@ -715,13 +716,14 @@ public class Board extends JPanel {
 		}
 	}
 
-	public Solution getGuess() {
-		return guess;
-	}
-
-	public Player getWhoDisproved() {
-		return whoDisproved;
-	}
+	// future code
+//	public Solution getGuess() {
+//		return guess;
+//	}
+//
+//	public Player getWhoDisproved() {
+//		return whoDisproved;
+//	}
 	
 	private class clickListener implements MouseListener{
 
