@@ -6,10 +6,10 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -22,8 +22,8 @@ public class PopUpDialog extends JDialog {
 	private JPanel leftPanel;
 	private JPanel rightPanel;
 	private JPanel bottomPanel;
-	private JMenuBar personMenu;
-	private JMenuBar weaponMenu;
+	private JComboBox<String> personMenu;
+	private JComboBox<String> weaponMenu;
 	
 	
 
@@ -39,6 +39,8 @@ public class PopUpDialog extends JDialog {
 		rightPanel.setLayout(new GridLayout(3, 1));
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 2));
+		personMenu = new JComboBox<String>();
+		weaponMenu = new JComboBox<String>();
 		
 		leftPanel.add(roomLabel);
 		leftPanel.add(personLabel);
@@ -49,6 +51,8 @@ public class PopUpDialog extends JDialog {
 		
 		add(leftPanel, BorderLayout.WEST);
 		add(bottomPanel, BorderLayout.SOUTH);
+		
+		
 
 		
 	}
@@ -65,11 +69,11 @@ public class PopUpDialog extends JDialog {
 		return rightPanel;
 	}
 	
-	public JMenuBar getPersonMenu() {
+	public JComboBox<String> getPersonMenu() {
 		return personMenu;
 	}
 	
-	public JMenuBar getWeaponMenu() {
+	public JComboBox<String> getWeaponMenu() {
 		return weaponMenu;
 	}
 }
