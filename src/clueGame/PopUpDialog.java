@@ -60,4 +60,16 @@ public class PopUpDialog extends JDialog {
 		test.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		test.setVisible(true);
 	}
+	
+	public JPanel getRightPanel() {
+		return rightPanel;
+	}
+	
+	public JMenuBar getPersonMenu() {
+		return personMenu;
+	}
+	
+	public JMenuBar getWeaponMenu() {
+		return weaponMenu;
+	}
 }

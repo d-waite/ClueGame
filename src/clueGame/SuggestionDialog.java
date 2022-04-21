@@ -13,10 +13,11 @@ public class SuggestionDialog extends PopUpDialog {
 
 	public SuggestionDialog(Player player) {
 		super();
-		roomTextField = new JTextField((board.getRoom(board.getCell(board.getHumanPlayer().getRow(), board.getHumanPlayer().getColumn())).getName()));
+		Board board = Board.getInstance();
+		roomTextField = new JTextField((board.getRoom(player.getRow(), player.getColumn())).getName());
 		roomTextField.setEditable(false);
-
-		add(roomTextField);
+		
+		add(super.getRightPanel());
 
 
 	}
