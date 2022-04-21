@@ -1,3 +1,4 @@
+// Authors: David Waite & Dillinger Day
 package clueGame;
 
 
@@ -62,6 +63,8 @@ public class PopUpDialog extends JDialog {
 
 		
 	}
+	
+	
 	
 	public static void main(String[] args) {
 		PopUpDialog test = new PopUpDialog();
