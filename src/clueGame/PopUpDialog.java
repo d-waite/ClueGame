@@ -28,6 +28,7 @@ public class PopUpDialog extends JDialog {
 	
 
 	public PopUpDialog() {
+		Board board = Board.getInstance();
 		roomLabel = new JLabel("Current room");
 		personLabel = new JLabel("Person");
 		weaponLabel = new JLabel("Weapon");
@@ -40,8 +41,13 @@ public class PopUpDialog extends JDialog {
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 2));
 		personMenu = new JComboBox<String>();
+		for (Player player: board.getAllPlayers()) {
+			personMenu.addItem(player.getName());
+		}
 		weaponMenu = new JComboBox<String>();
-		
+		for (Card weapon: board.getWeapons()) {
+			weaponMenu.addItem(weapon.getCardName());
+		}
 		leftPanel.add(roomLabel);
 		leftPanel.add(personLabel);
 		leftPanel.add(weaponLabel);

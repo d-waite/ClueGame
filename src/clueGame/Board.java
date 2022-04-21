@@ -792,5 +792,13 @@ public class Board extends JPanel {
 		public void mouseExited(MouseEvent e) {}
 	}
 	
+	public ArrayList<Player> getAllPlayers(){
+		return allPlayers;
+	}
+
+	public ArrayList<Card> getWeapons() {
+		return weapons;
+	}
+	
 }
 
