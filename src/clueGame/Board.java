@@ -799,6 +799,10 @@ public class Board extends JPanel {
 	public ArrayList<Card> getWeapons() {
 		return weapons;
 	}
+
+	public Map<Character, Room> getAllRooms() {
+		return rooms;
+	}
 	
 }
 
