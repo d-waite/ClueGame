@@ -103,16 +103,19 @@ public class Player {
 	
 	public Card disproveSuggestion(Solution suggestion) {
 		ArrayList<Card> matches = new ArrayList<Card>();
-		//check if any of the cards in the player's hand match the suggestion, and add them to the array list
-		if (hand.contains(suggestion.getRoom())) {
-			matches.add(suggestion.getRoom());
+		//check if any of the cards in the player's hand match the suggestion, and add them to the array list		
+		for (Card card: hand) {
+			if (card.equals(suggestion.getRoom())) {
+				matches.add(card);
+			}
+			if (card.equals(suggestion.getWeapon())) {
+				matches.add(card);
+			}
+			if (card.equals(suggestion.getPerson())) {
+				matches.add(card);
+			}
 		}
-		if (hand.contains(suggestion.getWeapon())) {
-			matches.add(suggestion.getWeapon());
-		}
-		if (hand.contains(suggestion.getPerson())) {
-			matches.add(suggestion.getPerson());
-		}
+		
 		//if no cards have been added to the array list, then return null
 		if (matches.size() == 0) {
 			return null;

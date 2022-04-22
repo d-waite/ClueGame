@@ -696,7 +696,7 @@ public class Board extends JPanel {
 	}
 
 	public void processTurn() {
-		if (whoseTurn.getName().equals("You")) { // human's turn, so show targets and set turn finished flag to false
+		if (whoseTurn.getName().equals(human.getName())) { // human's turn, so show targets and set turn finished flag to false
 			displayTargets();
 			humanFinished = false;
 		} else {
@@ -738,11 +738,11 @@ public class Board extends JPanel {
 			if (cell.isRoom()) {
 				if ((e.getX() >= xCoord1 && e.getX() <= xCoord2) && (e.getY() >= yCoord1 && e.getY() <= yCoord2)) {
 					human.movePlayer(getRoom(cell).getCenterCell().getRow(), getRoom(cell).getCenterCell().getColumn());
-					PopUpDialog suggestionDialog = new SuggestionDialog(human);
-					suggestionDialog.setVisible(true);
 					grid[human.getRow()][human.getColumn()].setOccupied(false);
 					humanFinished = true;
 					highlightTargets = false;
+					PopUpDialog suggestionDialog = new SuggestionDialog(human);
+					suggestionDialog.setVisible(true);
 				}
 			//otherwise, move the player to the cell clicked on
 			} else {
@@ -806,6 +806,6 @@ public class Board extends JPanel {
 	public Map<Character, Room> getAllRooms() {
 		return rooms;
 	}
-	
+
 }
 

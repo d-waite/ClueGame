@@ -59,12 +59,12 @@ public class SuggestionDialog extends PopUpDialog {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Board board = Board.getInstance();
-			Card roomCard = new Card(roomTextField.getName(), CardType.ROOM);
+			Card roomCard = new Card(roomTextField.getText(), CardType.ROOM);
 			Card personCard = new Card((String)personMenu.getSelectedItem(), CardType.PERSON);
 			Card weaponCard = new Card((String)weaponMenu.getSelectedItem(), CardType.WEAPON);
-			Solution suggestion = new Solution(roomCard, personCard, weaponCard);
+			Solution suggestion = new Solution(roomCard, weaponCard, personCard);
+			Card disprovenCard = board.handleSuggestion(suggestion, board.getHumanPlayer());
 			setVisible(false);
-			board.handleSuggestion(suggestion, board.getHumanPlayer());
 		}
 		
 	}

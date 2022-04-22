@@ -12,6 +12,8 @@ public class ClueGame extends JFrame {
 		add(controlPanel, BorderLayout.SOUTH); // roll, button, who's turn it is, etc. at the bottom
 		add(board, BorderLayout.CENTER); // board in the top left
 	}
+	
+	
 
 	public static void main(String[] args) {
 		// get the board and panels and set it up so that grid is made
@@ -23,6 +25,7 @@ public class ClueGame extends JFrame {
 		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getPeopleCards());
 		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getRoomCards());
 		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getWeaponCards());
+		board.setCardPanel(cardPanel);
 		ClueGame game = new ClueGame(board,cardPanel,controlPanel); // pass in board and panels to create GUI
 		// setting up JFrame
 		game.setSize(750,750); // big enough size to start so you can see everything
