@@ -29,7 +29,6 @@ public class Player {
 	
 	public void movePlayer(int row, int column) {
 		Board board = Board.getInstance();
-		//if ()
 		this.row = row;
 		this.column = column;
 		board.repaint();

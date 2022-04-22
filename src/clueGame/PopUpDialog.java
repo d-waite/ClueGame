@@ -18,8 +18,6 @@ public class PopUpDialog extends JDialog {
 	private JLabel roomLabel;
 	private JLabel personLabel;
 	private JLabel weaponLabel;
-	private JButton submitButton;
-	private JButton cancelButton;
 	private JPanel leftPanel;
 	private JPanel rightPanel;
 	private JPanel bottomPanel;
@@ -33,8 +31,6 @@ public class PopUpDialog extends JDialog {
 		roomLabel = new JLabel("Current room");
 		personLabel = new JLabel("Person");
 		weaponLabel = new JLabel("Weapon");
-		submitButton = new JButton("Submit");
-		cancelButton = new JButton("Cancel");
 		leftPanel = new JPanel();
 		leftPanel.setLayout(new GridLayout(3, 1));
 		rightPanel = new JPanel();
@@ -53,15 +49,7 @@ public class PopUpDialog extends JDialog {
 		leftPanel.add(personLabel);
 		leftPanel.add(weaponLabel);
 		
-		bottomPanel.add(submitButton);
-		bottomPanel.add(cancelButton);
-		
-		add(leftPanel, BorderLayout.WEST);
-		add(bottomPanel, BorderLayout.SOUTH);
-		
-		
-
-		
+		add(leftPanel, BorderLayout.WEST);		
 	}
 	
 	
@@ -76,6 +64,10 @@ public class PopUpDialog extends JDialog {
 	
 	public JPanel getRightPanel() {
 		return rightPanel;
+	}
+	
+	public JPanel getBottomPanel() {
+		return bottomPanel;
 	}
 	
 	public JComboBox<String> getPersonMenu() {

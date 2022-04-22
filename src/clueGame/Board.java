@@ -2,6 +2,8 @@
 package clueGame;
 
 import java.util.*;
+
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -736,9 +738,10 @@ public class Board extends JPanel {
 			if (cell.isRoom()) {
 				if ((e.getX() >= xCoord1 && e.getX() <= xCoord2) && (e.getY() >= yCoord1 && e.getY() <= yCoord2)) {
 					human.movePlayer(getRoom(cell).getCenterCell().getRow(), getRoom(cell).getCenterCell().getColumn());
-					humanFinished = true;
+					PopUpDialog suggestionDialog = new SuggestionDialog(human);
+					suggestionDialog.setVisible(true);
 					grid[human.getRow()][human.getColumn()].setOccupied(false);
-					cell.setOccupied(true);
+					humanFinished = true;
 					highlightTargets = false;
 				}
 			//otherwise, move the player to the cell clicked on

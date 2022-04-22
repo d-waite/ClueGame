@@ -1,3 +1,63 @@
+commit 471f1540b8e639511547220e523b4135388b87f5
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Apr 18 18:18:10 2022 -0600
+
+    Commented more code
+
+commit 5999ff12084243b341b698f6d79ab381b4aee9c0
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Apr 18 18:10:31 2022 -0600
+
+    Changed dealing from complex switch statement to a for loop through all players
+
+commit 618ce683463330728999b41b71dfe050f30d945f
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Apr 18 17:57:54 2022 -0600
+
+    Got rid of for loop to make copy of card deck
+
+commit 0e3c8cbfd477e391a94754b428e4a89cd0d537f8
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Apr 18 17:55:19 2022 -0600
+
+    Got rid of unnecessary imports
+
+commit d05efd7c977b14f617500f880c2f3badc5d97992
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Apr 18 17:52:57 2022 -0600
+
+    Closed scanners in the setConfigFiles and loadSetupConfig functions.
+
+commit 4914321af8c9a87bf33e6c9d95801b793157db32
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Apr 18 17:49:20 2022 -0600
+
+    Removed null as argument for the setConfigFiles and loadSetupConfig functions.
+
+commit 408c7a84a06a3dfd99c9a610794733b8a5568b45
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Apr 18 17:46:26 2022 -0600
+
+    Added commenting
+
+commit c2ce5ec84679a3490e7a4a91b67caafdc98f1c5b
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Apr 18 17:36:17 2022 -0600
+
+    Added players text while in room to display all of the player in the room (for overlapping).
+
+commit 79289ea5c271a507385923215b3b05b1f6201f88
+Author: David Waite <davidwaite@mines.edu>
+Date:   Mon Apr 18 16:30:26 2022 -0600
+
+    Refactor #2: Moved code from mouseClicked to mousePressed. Seemed to fix double click bug.
+
+commit f7ef84faf6aa2fc50ed539a5e45487a52176f00c
+Author: Dillinger Day <djday@mines.edu>
+Date:   Mon Apr 18 16:18:39 2022 -0600
+
+    Fixed mouse click detection logic.
+
 commit 8564f988e3ae8d9692477b04c1f6893e0513fe94
 Author: Dillinger Day <djday@mines.edu>
 Date:   Fri Apr 15 21:17:29 2022 -0600
