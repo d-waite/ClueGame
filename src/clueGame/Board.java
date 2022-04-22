@@ -539,6 +539,9 @@ public class Board extends JPanel {
 			if (cardShown != null) {
 				whoDisproved = allPlayers.get(i);
 				playerSuggesting.updateSeen(cardShown);
+				if (playerSuggesting.getName().equals(human.getName())) {
+					ClueGame.updateCardPanel();
+				}
 				return cardShown;
 			}
 		}
@@ -548,6 +551,9 @@ public class Board extends JPanel {
 			if (cardShown != null) {
 				whoDisproved = allPlayers.get(i);
 				playerSuggesting.updateSeen(cardShown);
+				if (playerSuggesting.getName().equals(human.getName())) {
+					ClueGame.updateCardPanel();
+				}
 				return cardShown;
 			}
 		}

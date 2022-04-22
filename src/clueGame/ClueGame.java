@@ -7,26 +7,33 @@ import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame {
 	
-	public ClueGame(Board board, GameCardPanel cardPanel, GameControlPanel controlPanel) {
+	private static Board board;
+	private static GameControlPanel controlPanel;
+	private static GameCardPanel cardPanel;
+	
+	
+	public ClueGame() {
 		add(cardPanel, BorderLayout.EAST); // cards on the right
 		add(controlPanel, BorderLayout.SOUTH); // roll, button, who's turn it is, etc. at the bottom
 		add(board, BorderLayout.CENTER); // board in the top left
 	}
 	
+	public static void updateCardPanel() {
+		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getPeopleCards());
+		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getRoomCards());
+		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getWeaponCards());
+	}
 	
 
 	public static void main(String[] args) {
 		// get the board and panels and set it up so that grid is made
-		Board board = Board.getInstance();
-		GameCardPanel cardPanel = new GameCardPanel();
-		GameControlPanel controlPanel = new GameControlPanel();
+		board = Board.getInstance();
+		cardPanel = new GameCardPanel();
+		controlPanel = new GameControlPanel();
 		board.setConfigFiles("ClueLayout.csv","ClueSetup.txt");
 		board.initialize();
-		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getPeopleCards());
-		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getRoomCards());
-		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getWeaponCards());
-		board.setCardPanel(cardPanel);
-		ClueGame game = new ClueGame(board,cardPanel,controlPanel); // pass in board and panels to create GUI
+		ClueGame game = new ClueGame();
+		ClueGame.updateCardPanel();
 		// setting up JFrame
 		game.setSize(750,750); // big enough size to start so you can see everything
 		game.setTitle("Clue--Medieval Theme");

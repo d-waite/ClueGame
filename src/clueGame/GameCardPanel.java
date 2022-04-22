@@ -87,6 +87,7 @@ public class GameCardPanel extends JPanel {
 		//rebuild the seen card labels
 		panel.add(createSeenLabel());
 		updatePanelList(seenList, cardType, panel);
+		updateUI();
 	}
 
 	
