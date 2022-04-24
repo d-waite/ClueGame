@@ -24,6 +24,10 @@ public class ClueGame extends JFrame {
 		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getWeaponCards());
 	}
 	
+	public static GameControlPanel getControlPanel() {
+		return controlPanel;
+	}
+	
 
 	public static void main(String[] args) {
 		// get the board and panels and set it up so that grid is made

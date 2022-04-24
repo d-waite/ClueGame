@@ -541,6 +541,7 @@ public class Board extends JPanel {
 				playerSuggesting.updateSeen(cardShown);
 				if (playerSuggesting.getName().equals(human.getName())) {
 					ClueGame.updateCardPanel();
+					ClueGame.getControlPanel().setGuessResult(cardShown.getCardName(),whoDisproved.getColor());
 				}
 				return cardShown;
 			}
@@ -553,6 +554,7 @@ public class Board extends JPanel {
 				playerSuggesting.updateSeen(cardShown);
 				if (playerSuggesting.getName().equals(human.getName())) {
 					ClueGame.updateCardPanel();
+					ClueGame.getControlPanel().setGuessResult(cardShown.getCardName(),whoDisproved.getColor());
 				}
 				return cardShown;
 			}
