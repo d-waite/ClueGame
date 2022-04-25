@@ -539,7 +539,15 @@ public class Board extends JPanel {
 
 	public Card handleSuggestion(Solution suggestion, Player playerSuggesting) {
 		int startIndex = currentPlayers.indexOf(playerSuggesting); // get index of person who is making the suggestion
-
+		
+		//move player being suggested into the room
+		for (Player player: currentPlayers) {
+			if (suggestion.getPerson().getCardName().equals(player.getName())) {
+				player.movePlayer(playerSuggesting.getRow(), playerSuggesting.getColumn());
+				repaint();
+			}
+		}
+		
 		for (int i = startIndex + 1; i < currentPlayers.size(); i++) { // start with next person till end of list
 			Card cardShown = currentPlayers.get(i).disproveSuggestion(suggestion);
 			if (cardShown != null) {
