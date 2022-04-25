@@ -71,9 +71,9 @@ public class AccusationDialog extends PopUpDialog {
 			Card personCard = new Card((String)personMenu.getSelectedItem(), CardType.PERSON);
 			Card weaponCard = new Card((String)weaponMenu.getSelectedItem(), CardType.WEAPON);
 			Solution accusation = new Solution(roomCard, weaponCard, personCard);
-			boolean reslut = board.checkAccusation(accusation);
+			boolean result = board.checkAccusation(accusation);
 			setVisible(false);
-			ClueGame.ClueGameResult(reslut);
+			ClueGame.ClueGameResult(result);
 		}
 		
 	}

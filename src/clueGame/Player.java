@@ -16,6 +16,7 @@ public class Player {
 	private int column;
 	private Set<Card> hand;
 	private Set<Card> seen;
+	private boolean suggested; // so we know if we need to include room that player is in
 	
 	public Player(String name, String color, int row, int column) {
 		this.name = name;
@@ -132,6 +133,18 @@ public class Player {
 		g.fillOval(column * cellSize + offsetX, row * cellSize + offsetY, cellSize, cellSize);
 		g.setColor(Color.black);
 		g.drawOval(column * cellSize + offsetX, row * cellSize + offsetY, cellSize, cellSize);
+	}
+
+	public void setSuggested(boolean suggested) {
+		if (suggested) {
+			this.suggested = true;
+		} else {
+			this.suggested = false;
+		}
+	}
+	
+	public boolean getSuggested() {
+		return suggested;
 	}
 	
 }
