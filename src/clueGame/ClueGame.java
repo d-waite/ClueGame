@@ -2,6 +2,8 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -56,10 +58,14 @@ public class ClueGame extends JFrame {
 	
 	public static void ClueGameResult(boolean result) {
 		if (result) {
-			JOptionPane.showMessageDialog(game, "You Won!\nYou Found The Culprit!", "Game Result",  JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(game, "You Won!\nIt was " + board.getSolution().getPerson().getCardName() + " in the " + board.getSolution().getRoom().getCardName() + " with the " + board.getSolution().getWeapon().getCardName(), "Game Result",  JOptionPane.PLAIN_MESSAGE);
 		} else {
-			JOptionPane.showMessageDialog(game, "You Lost!\nBetter Luck Next Time!", "Game Result",  JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(game, "You Lost!\nIt was " + board.getSolution().getPerson().getCardName() + " in the " + board.getSolution().getRoom().getCardName() + " with the " + board.getSolution().getWeapon().getCardName(), "Game Result",  JOptionPane.PLAIN_MESSAGE);
 		}
 		game.setVisible(false);
+	}
+
+	public static ClueGame getGame() {
+		return game;
 	}
 }

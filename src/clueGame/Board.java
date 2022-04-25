@@ -27,7 +27,8 @@ public class Board extends JPanel {
 	private Set<BoardCell> visited  = new HashSet<BoardCell>(); // helps us to get our target list
 	private HumanPlayer human;
 	private ArrayList<ComputerPlayer> computers;
-	private ArrayList<Player> allPlayers; // for when we don't care if players are human or computer
+	private ArrayList<Player> currentPlayers; // for when we don't care if players are human or computer
+	private ArrayList<Player> allPlayers; // we don't delete from this one when a player makes a wrong accusation
 	private ArrayList<Card> deck;
 	private Solution theAnswer;
 	private boolean humanFinished; // so we know whether it is okay to move to next player
@@ -38,6 +39,8 @@ public class Board extends JPanel {
 	private Solution guess;
 	private Player whoDisproved;
 	private int cellSize;
+	private boolean computerAccusationFlag = false;
+	private Solution computerAccusation;
 
 	private Board() {
 		super();
@@ -101,6 +104,7 @@ public class Board extends JPanel {
 		//initialize room map
 		rooms = new HashMap<Character, Room>();
 		computers = new ArrayList<ComputerPlayer>();
+		currentPlayers = new ArrayList<Player>();
 		allPlayers = new ArrayList<Player>();
 		people = new ArrayList<Card>();
 		weapons = new ArrayList<Card>();
@@ -166,10 +170,12 @@ public class Board extends JPanel {
 
 			if (playerType.equals("Human")) {
 				human = new HumanPlayer(playerName, playerColor, playerRow, playerColumn);
+				currentPlayers.add(human);
 				allPlayers.add(human);
 			} else {
 				ComputerPlayer computer = new ComputerPlayer(playerName, playerColor, playerRow, playerColumn);
 				computers.add(computer);
+				currentPlayers.add(computer);
 				allPlayers.add(computer);
 			}
 			Card currentPerson = new Card(playerName, CardType.PERSON);
@@ -461,9 +467,9 @@ public class Board extends JPanel {
 		// deal the rest of the cards to the players
 		Random randCard = new Random();
 		int deckSize = 0;
-		int undealtPlayers = allPlayers.size();
+		int undealtPlayers = currentPlayers.size();
 		//loop through each of the players
-		for (Player player: allPlayers) {
+		for (Player player: currentPlayers) {
 			//update the deck size so that the right amount of cards are dealt to each person
 			deckSize = newDeck.size();
 			//loop through the amount of cards per player
@@ -532,12 +538,12 @@ public class Board extends JPanel {
 	}
 
 	public Card handleSuggestion(Solution suggestion, Player playerSuggesting) {
-		int startIndex = allPlayers.indexOf(playerSuggesting); // get index of person who is making the suggestion
+		int startIndex = currentPlayers.indexOf(playerSuggesting); // get index of person who is making the suggestion
 
-		for (int i = startIndex + 1; i < allPlayers.size(); i++) { // start with next person till end of list
-			Card cardShown = allPlayers.get(i).disproveSuggestion(suggestion);
+		for (int i = startIndex + 1; i < currentPlayers.size(); i++) { // start with next person till end of list
+			Card cardShown = currentPlayers.get(i).disproveSuggestion(suggestion);
 			if (cardShown != null) {
-				whoDisproved = allPlayers.get(i);
+				whoDisproved = currentPlayers.get(i);
 				playerSuggesting.updateSeen(cardShown);
 				if (playerSuggesting.getName().equals(human.getName())) {
 					ClueGame.updateCardPanel();
@@ -548,9 +554,9 @@ public class Board extends JPanel {
 		}
 
 		for (int i = 0; i < startIndex; i++) { // start at beginning and stop before person suggesting
-			Card cardShown = allPlayers.get(i).disproveSuggestion(suggestion);
+			Card cardShown = currentPlayers.get(i).disproveSuggestion(suggestion);
 			if (cardShown != null) {
-				whoDisproved = allPlayers.get(i);
+				whoDisproved = currentPlayers.get(i);
 				playerSuggesting.updateSeen(cardShown);
 				if (playerSuggesting.getName().equals(human.getName())) {
 					ClueGame.updateCardPanel();
@@ -559,12 +565,14 @@ public class Board extends JPanel {
 				return cardShown;
 			}
 		}
-		
+		ClueGame.getControlPanel().setGuessResult("Suggestion Not Disproved", Color.WHITE);
+		computerAccusationFlag = true;
+		computerAccusation = suggestion;
 		return null; // no one could disprove
 	}
 
 	public void setAllPlayers(ArrayList<Player> players) { // for testing
-		allPlayers = players;
+		currentPlayers = players;
 	}
 	
 	@Override
@@ -644,7 +652,7 @@ public class Board extends JPanel {
 		if (getCell(player.getRow(), player.getColumn()).isRoom()) { // if a player is in the room, check to see if others are in the room
 			String overlappingPlayers = "Players: "; // creating a string to hold a list of the players currently in the room
 			BoardCell cell = grid[player.getRow()][player.getColumn()];
-			for (Player p: allPlayers) {
+			for (Player p: currentPlayers) {
 				if ((p.getRow() == cell.getRow()) && (p.getColumn() == cell.getColumn())) { // if multiple players in same room
 					overlappingPlayers += p.getName() + ", ";
 					// display list of players in the room
@@ -657,7 +665,7 @@ public class Board extends JPanel {
 
 	private void drawPlayers(Graphics g, int offsetX, int offsetY) {
 		// tell each player to draw themselves on the board
-		for (Player player: allPlayers) {
+		for (Player player: currentPlayers) {
 			player.draw(g, cellSize, offsetX, offsetY);
 			drawOverlappingPlayers(player, g); // deal with the overlapping players in rooms
 		}
@@ -709,15 +717,29 @@ public class Board extends JPanel {
 			humanFinished = false;
 		} else {
 			// accusation???
-			ComputerPlayer currentComputerPlayer = computers.get(whoseTurnNum);
-			currentComputerPlayer.move(targets);
-			repaint(); // display player's new position
-			if (getCell(currentComputerPlayer.getRow(),currentComputerPlayer.getColumn()).isRoom()) {
-				guess = currentComputerPlayer.createSuggestion();
-				handleSuggestion(guess, currentComputerPlayer);
+			if (computerAccusationFlag) {
+				boolean computerAccusationResult = checkAccusation(computerAccusation);
+				if (computerAccusationResult) {
+					JOptionPane.showMessageDialog(ClueGame.getGame(), whoseTurn.getName() + " Won!\nIt was " + theAnswer.getPerson().getCardName() + " in the " + theAnswer.getRoom().getCardName() + " with the " + theAnswer.getWeapon().getCardName(), "Game Result",  JOptionPane.PLAIN_MESSAGE);
+					ClueGame.getGame().setVisible(false);
+				} else {
+					computerAccusationFlag = false;
+					JOptionPane.showMessageDialog(ClueGame.getGame(), whoseTurn.getName() + " made an incorrect accusation of " + computerAccusation.getPerson().getCardName() + " in the " + computerAccusation.getRoom().getCardName() + " with the " + computerAccusation.getWeapon().getCardName(), "Accusation", JOptionPane.PLAIN_MESSAGE);
+					currentPlayers.remove(whoseTurnNum + 1);
+					computers.remove(whoseTurnNum);
+					repaint();
+				}
 			} else {
-				guess = null;
-				whoDisproved = null;
+				ComputerPlayer currentComputerPlayer = computers.get(whoseTurnNum);
+				currentComputerPlayer.move(targets);
+				repaint(); // display player's new position
+				if (getCell(currentComputerPlayer.getRow(),currentComputerPlayer.getColumn()).isRoom()) {
+					guess = currentComputerPlayer.createSuggestion();
+					handleSuggestion(guess, currentComputerPlayer);
+				} else {
+					guess = null;
+					whoDisproved = null;
+				}
 			}
 		}
 	}
@@ -801,6 +823,10 @@ public class Board extends JPanel {
 
 		@Override
 		public void mouseExited(MouseEvent e) {}
+	}
+	
+	public ArrayList<Player> getCurrentPlayers(){
+		return currentPlayers;
 	}
 	
 	public ArrayList<Player> getAllPlayers(){

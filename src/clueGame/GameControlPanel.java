@@ -157,9 +157,13 @@ public class GameControlPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			PopUpDialog accusationDialog = new AccusationDialog();
-			accusationDialog.setVisible(true);
-			
+			Board board = Board.getInstance();
+			if (!board.isHumanPlayerFinished()) {
+				PopUpDialog accusationDialog = new AccusationDialog();
+				accusationDialog.setVisible(true);
+			} else {
+				JOptionPane.showMessageDialog(board, "You can only make an accusation on your turn!");
+			}
 		}
 		
 	}
