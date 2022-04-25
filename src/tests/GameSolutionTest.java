@@ -6,8 +6,10 @@ import org.junit.jupiter.api.Test;
 import clueGame.Board;
 import clueGame.Card;
 import clueGame.CardType;
+import clueGame.ClueGame;
 import clueGame.ComputerPlayer;
 import clueGame.GameCardPanel;
+import clueGame.GameControlPanel;
 import clueGame.HumanPlayer;
 import clueGame.Player;
 import clueGame.Solution;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 
 public class GameSolutionTest {
 	private static Board board;
+	private static ClueGame clue;
 	private Card keep = new Card("Keep",CardType.ROOM);
 	private Card armory = new Card("Armory",CardType.ROOM);
 	private Card lookout = new Card("Lookout",CardType.ROOM);
@@ -40,7 +43,11 @@ public class GameSolutionTest {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
-		
+		clue = new ClueGame();
+		clue.setControlPanel(new GameControlPanel());
+		clue.setBoard(board);
+		clue.setCardPanel(new GameCardPanel());
+		clue.setVisible(false);
 	}
 	
 	@Test
@@ -97,6 +104,12 @@ public class GameSolutionTest {
 		Player player0 = new HumanPlayer("You","Blue",0,0); 
 		Player player1 = new ComputerPlayer("The Queen","Green",1,0);
 		Player player2 = new ComputerPlayer("Sir Knight","Red",0,1);
+		
+		for (Player player: board.getAllPlayers()) { // clear hands so we start fresh for the test
+			player.clearHand();
+		}
+		
+		
 		// simulate deal to players
 		player0.updateHand(armory);
 		player0.updateHand(axe);
@@ -116,11 +129,15 @@ public class GameSolutionTest {
 		board.setAllPlayers(players); // game has above 3 players now
 		
 		// test suggestion no one can disprove
+		board.setGuess(new Solution(hall,prof,poison));
 		assertEquals(board.handleSuggestion(new Solution(hall,prof,poison),player0), null);
 		// test suggestion only suggesting player can disprove
+		board.setGuess(new Solution(keep, prof, poison));
 		assertEquals(board.handleSuggestion(new Solution(keep, prof, poison), player2), null);
 		// test suggestion that human disproves & suggestion in which multiple people could disprove
+		board.setGuess(new Solution(armory,prof,poison));
 		assertTrue(board.handleSuggestion(new Solution(armory,prof,poison), player1).equals(armory));
+		board.setGuess(new Solution(keep, knight, axe));
 		assertTrue(board.handleSuggestion(new Solution(keep, knight, axe), player0).equals(knight));
 	}
 	

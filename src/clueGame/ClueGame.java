@@ -13,18 +13,12 @@ public class ClueGame extends JFrame {
 	private static GameControlPanel controlPanel;
 	private static GameCardPanel cardPanel;
 	
-	
-	public ClueGame() {
-		add(cardPanel, BorderLayout.EAST); // cards on the right
-		add(controlPanel, BorderLayout.SOUTH); // roll, button, who's turn it is, etc. at the bottom
-		add(board, BorderLayout.CENTER); // board in the top left
-	}
-	
 	public static void updateCardPanel() {
 		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getPeopleCards());
 		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getRoomCards());
 		cardPanel.updateCardLabels(board.getHumanPlayer().getSeen(), board.getHumanPlayer().getHand(), cardPanel.getWeaponCards());
 	}
+	
 	
 	public static GameControlPanel getControlPanel() {
 		return controlPanel;
@@ -39,6 +33,9 @@ public class ClueGame extends JFrame {
 		board.setConfigFiles("ClueLayout.csv","ClueSetup.txt");
 		board.initialize();
 		game = new ClueGame();
+		game.add(cardPanel, BorderLayout.EAST); // cards on the right
+		game.add(controlPanel, BorderLayout.SOUTH); // roll, button, who's turn it is, etc. at the bottom
+		game.add(board, BorderLayout.CENTER); // board in the top left
 		ClueGame.updateCardPanel();
 		// setting up JFrame
 		game.setSize(750,750); // big enough size to start so you can see everything
@@ -64,5 +61,18 @@ public class ClueGame extends JFrame {
 
 	public static ClueGame getGame() {
 		return game;
+	}
+	
+	// setters for testing purposes
+	public static void setControlPanel(GameControlPanel panel) {
+		controlPanel = panel;
+	}
+	
+	public static void setBoard(Board setBoard) {
+		board = setBoard;
+	}
+	
+	public static void setCardPanel(GameCardPanel panel) {
+		cardPanel = panel;
 	}
 }

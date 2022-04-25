@@ -19,7 +19,7 @@ public class BoardCell {
 	private boolean roomCenter;
 	private Set<BoardCell> adjList = new HashSet<BoardCell>(); // each cell has its own adjacency list
 	private boolean isRoom;
-	private boolean isOccupied;
+	private boolean isOccupied = false;
 	private boolean isDoorway;
 	private boolean isSecretPassage = false; // will only be changed to true if setSecretPassage() is called
 	private char secretPassage;
@@ -166,6 +166,8 @@ public class BoardCell {
 	}
 	
 	public void drawTarget(Graphics g, int x, int y, int cellSize) {
+		this.x = x;
+		this.y = y;
 		g.setColor(new Color(204, 30, 102));
 		g.fillRect(x, y, cellSize, cellSize);
 		if (!isRoom) {

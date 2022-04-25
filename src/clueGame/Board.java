@@ -543,6 +543,7 @@ public class Board extends JPanel {
 			if (suggestion.getPerson().getCardName().equals(player.getName())) {
 				player.movePlayer(playerSuggesting.getRow(), playerSuggesting.getColumn());
 				player.setSuggested(true);
+				repaint();
 			}
 		}
 		
@@ -573,6 +574,7 @@ public class Board extends JPanel {
 				return cardShown;
 			}
 		}
+		ClueGame.getControlPanel().setGuess(guess.getPerson().getCardName() + " in the " + guess.getRoom().getCardName() + " with the " + guess.getWeapon().getCardName());
 		ClueGame.getControlPanel().setGuessResult("Suggestion Not Disproved", Color.WHITE);
 		return null; // no one could disprove
 	}
@@ -600,7 +602,8 @@ public class Board extends JPanel {
 		// next, draw room names on rooms
 		drawRoomLabels(g, offsetX, offsetY);
 		// finally, draw players
-		drawPlayers(g, offsetX, offsetY);		
+		drawPlayers(g, offsetX, offsetY);
+		
 	}
 	
 	private void drawDoors(Graphics g, int offsetX, int offsetY) { // private since it is a helper function for paintComponent()
@@ -721,6 +724,7 @@ public class Board extends JPanel {
 		if (whoseTurn.getName().equals(human.getName())) { // human's turn, so show targets and set turn finished flag to false unless they just got moved to a room
 			if (human.getSuggested()) { // let human stay in room if moved there via suggestion
 				targets.add(getCell(human.getRow(), human.getColumn()));
+				human.setSuggested(false);
 			}
 			displayTargets();
 			humanFinished = false;
@@ -737,19 +741,27 @@ public class Board extends JPanel {
 			} else {
 				if (currentComputerPlayer.getSuggested()) { // let computer stay in room if moved there via suggestion
 					targets.add(getCell(currentComputerPlayer.getRow(),currentComputerPlayer.getColumn()));
+					currentComputerPlayer.setSuggested(false);
 				}
-				currentComputerPlayer.move(targets);
-				if (getCell(currentComputerPlayer.getRow(),currentComputerPlayer.getColumn()).isRoom()) {
-					guess = currentComputerPlayer.createSuggestion();
-					Card disprovedCard = handleSuggestion(guess, currentComputerPlayer);
-					if (disprovedCard == null) { // computers don't suggest anything in their hand, so if no one disproves then it must be the solution
-						currentComputerPlayer.setHasSolution(true);
-						currentComputerPlayer.setAccusation(guess);
+				if (targets.size() != 0) {
+					currentComputerPlayer.move(targets);
+					repaint();
+					if (getCell(currentComputerPlayer.getRow(),currentComputerPlayer.getColumn()).isRoom()) {
+						guess = currentComputerPlayer.createSuggestion();
+						Card disprovedCard = handleSuggestion(guess, currentComputerPlayer);
+						if (disprovedCard == null) { // computers don't suggest anything in their hand, so if no one disproves then it must be the solution
+							currentComputerPlayer.setHasSolution(true);
+							currentComputerPlayer.setAccusation(guess);
+						}
+					} else {
+						guess = null;
+						whoDisproved = null;
 					}
 				} else {
 					guess = null;
 					whoDisproved = null;
 				}
+				
 			}
 		}
 	}
@@ -778,7 +790,7 @@ public class Board extends JPanel {
 			if (cell.isRoom()) {
 				if ((e.getX() >= xCoord1 && e.getX() <= xCoord2) && (e.getY() >= yCoord1 && e.getY() <= yCoord2)) {
 					human.movePlayer(getRoom(cell).getCenterCell().getRow(), getRoom(cell).getCenterCell().getColumn());
-					grid[human.getRow()][human.getColumn()].setOccupied(false);
+					repaint();
 					humanFinished = true;
 					highlightTargets = false;
 					PopUpDialog suggestionDialog = new SuggestionDialog(human);
@@ -788,8 +800,8 @@ public class Board extends JPanel {
 			} else {
 				if ((e.getX() > xCoord1 && e.getX() < xCoord2) && (e.getY() > yCoord1 && e.getY() < yCoord2)) {
 					human.movePlayer(cell.getRow(), cell.getColumn());
+					repaint();
 					cell.setOccupied(true);
-					grid[human.getRow()][human.getColumn()].setOccupied(false);
 					humanFinished = true;
 					highlightTargets = false;
 				}
@@ -800,6 +812,8 @@ public class Board extends JPanel {
 		public void mousePressed(MouseEvent e) {
 			if (targets.size() == 0) { //if there is no where to move to, then your turn is over.
 				humanFinished = true;
+				JOptionPane.showMessageDialog(null, "You have no spaces to move to.", "Notification" , JOptionPane.INFORMATION_MESSAGE);
+				return;
 			}
 			if (humanFinished) {
 				JOptionPane.showMessageDialog(null, "You already moved.", "Error",  JOptionPane.ERROR_MESSAGE);

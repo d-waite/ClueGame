@@ -30,9 +30,10 @@ public class Player {
 	
 	public void movePlayer(int row, int column) {
 		Board board = Board.getInstance();
+		board.getCell(this.row, this.column).setOccupied(false);
 		this.row = row;
 		this.column = column;
-		board.repaint();
+		board.getCell(row, column).setOccupied(true);
 	}
 	
 	public void setRow(int row) {

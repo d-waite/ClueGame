@@ -6,8 +6,8 @@ import java.util.Set;
 
 public class ComputerPlayer extends Player {
 
-	private boolean hasSolution;
-	private Solution accusation;
+	private boolean hasSolution = false;
+	private Solution accusation = null;
 
 	public ComputerPlayer(String name, String color, int row, int column) {
 		super(name, color, row, column);
@@ -67,7 +67,7 @@ public class ComputerPlayer extends Player {
 		return suggestion;
 	}
 
-	public BoardCell selectTarget(Set<BoardCell> targets) {		
+	public BoardCell selectTarget(Set<BoardCell> targets) {
 		Board board = Board.getInstance();
 		ArrayList<BoardCell> unseenRooms = new ArrayList<BoardCell>(); // for choosing room if not seen
 		ArrayList<BoardCell> targetsArray = new ArrayList<BoardCell>(); // since don't have indices for sets
@@ -106,10 +106,7 @@ public class ComputerPlayer extends Player {
 	public void move(Set<BoardCell> targets) {
 		Board board = Board.getInstance();
 		BoardCell movedTo = selectTarget(targets);
-		movedTo.setOccupied(true);
-		board.getCell(super.getRow(), super.getColumn()).setOccupied(false);
-		super.setRow(movedTo.getRow());
-		super.setColumn(movedTo.getColumn());		
+		super.movePlayer(movedTo.getRow(),movedTo.getColumn());
 	}
 	
 	public void setHasSolution(boolean hasSolution) {
