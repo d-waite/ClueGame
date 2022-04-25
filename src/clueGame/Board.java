@@ -41,6 +41,7 @@ public class Board extends JPanel {
 	private int cellSize;
 	private boolean computerAccusationFlag = false;
 	private Solution computerAccusation;
+	private boolean movedPlayerFlag = false; //this is used for determining if the player wants to stay in a room after being moved there via suggestion.
 
 	private Board() {
 		super();
@@ -544,6 +545,9 @@ public class Board extends JPanel {
 		for (Player player: currentPlayers) {
 			if (suggestion.getPerson().getCardName().equals(player.getName())) {
 				player.movePlayer(playerSuggesting.getRow(), playerSuggesting.getColumn());
+				if (!(playerSuggesting.equals(human)) && player.equals(human)) {
+					movedPlayerFlag = true;
+				}
 				repaint();
 			}
 		}
@@ -720,17 +724,30 @@ public class Board extends JPanel {
 	}
 
 	public void processTurn() {
-		if (whoseTurn.getName().equals(human.getName())) { // human's turn, so show targets and set turn finished flag to false
+		if (whoseTurn.getName().equals(human.getName())) { // human's turn, so show targets and set turn finished flag to false unless they just got moved to a room
+			if (movedPlayerFlag) {
+				JOptionPane suggestionOption = new JOptionPane();
+				int result = suggestionOption.showConfirmDialog(ClueGame.getGame(), "Would you like to stay in the room and make a suggestion?", "Suggestion Option", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (result == JOptionPane.YES_OPTION) {
+					PopUpDialog suggestionDialog = new SuggestionDialog(human);
+					suggestionDialog.setVisible(true);
+					humanFinished = true;
+					return;
+				} else {
+					displayTargets();
+					humanFinished = false;
+				}
+			}
 			displayTargets();
 			humanFinished = false;
 		} else {
-			// accusation???
+			// if computer accusation is correct, game is over
 			if (computerAccusationFlag) {
 				boolean computerAccusationResult = checkAccusation(computerAccusation);
 				if (computerAccusationResult) {
 					JOptionPane.showMessageDialog(ClueGame.getGame(), whoseTurn.getName() + " Won!\nIt was " + theAnswer.getPerson().getCardName() + " in the " + theAnswer.getRoom().getCardName() + " with the " + theAnswer.getWeapon().getCardName(), "Game Result",  JOptionPane.PLAIN_MESSAGE);
 					ClueGame.getGame().setVisible(false);
-				} else {
+				} else { // otherwise, the game continues without those pieces on the board
 					computerAccusationFlag = false;
 					JOptionPane.showMessageDialog(ClueGame.getGame(), whoseTurn.getName() + " made an incorrect accusation of " + computerAccusation.getPerson().getCardName() + " in the " + computerAccusation.getRoom().getCardName() + " with the " + computerAccusation.getWeapon().getCardName(), "Accusation", JOptionPane.PLAIN_MESSAGE);
 					currentPlayers.remove(whoseTurnNum + 1);
@@ -796,6 +813,9 @@ public class Board extends JPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			if (targets.size() == 0) { //if there is no where to move to, then your turn is over.
+				humanFinished = true;
+			}
 			if (humanFinished) {
 				JOptionPane.showMessageDialog(null, "You already moved.", "Error",  JOptionPane.ERROR_MESSAGE);
 				return;
