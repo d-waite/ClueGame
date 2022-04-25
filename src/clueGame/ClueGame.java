@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame {
-	
+	private static ClueGame game;
 	private static Board board;
 	private static GameControlPanel controlPanel;
 	private static GameCardPanel cardPanel;
@@ -36,7 +36,7 @@ public class ClueGame extends JFrame {
 		controlPanel = new GameControlPanel();
 		board.setConfigFiles("ClueLayout.csv","ClueSetup.txt");
 		board.initialize();
-		ClueGame game = new ClueGame();
+		game = new ClueGame();
 		ClueGame.updateCardPanel();
 		// setting up JFrame
 		game.setSize(750,750); // big enough size to start so you can see everything
@@ -49,5 +49,11 @@ public class ClueGame extends JFrame {
 		controlPanel.setRoll(board.getRoll());
 		controlPanel.setTurn(board.getWhoseTurn());
 		board.processTurn();
+	}
+	
+	public static void ClueGameResult(boolean result) {
+		if (result) {
+			
+		}
 	}
 }

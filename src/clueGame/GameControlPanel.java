@@ -34,6 +34,7 @@ public class GameControlPanel extends JPanel {
 		nextTurnButton.addActionListener(new nextButtonListener());
 		buttonPanel.add(nextTurnButton);
 		accusationButton = new JButton("Make Accusation");
+		accusationButton.addActionListener(new accusationButtonListener());
 		buttonPanel.add(accusationButton);
 		return buttonPanel;
 	}
@@ -150,6 +151,15 @@ public class GameControlPanel extends JPanel {
 					setGuessResult("No Result",Color.white);
 				}
 			}
+		}
+	}
+	private class accusationButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			PopUpDialog accusationDialog = new AccusationDialog();
+			accusationDialog.setVisible(true);
+			
 		}
 		
 	}
