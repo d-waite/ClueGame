@@ -36,6 +36,9 @@ public class ClueGame extends JFrame {
 		controlPanel = new GameControlPanel();
 		board.setConfigFiles("ClueLayout.csv","ClueSetup.txt");
 		board.initialize();
+		System.out.println(board.getSolution().getPerson().getCardName());
+		System.out.println(board.getSolution().getRoom().getCardName());
+		System.out.println(board.getSolution().getWeapon().getCardName());
 		game = new ClueGame();
 		ClueGame.updateCardPanel();
 		// setting up JFrame
@@ -53,7 +56,10 @@ public class ClueGame extends JFrame {
 	
 	public static void ClueGameResult(boolean result) {
 		if (result) {
-			
+			JOptionPane.showMessageDialog(game, "You Won!\nYou Found The Culprit!", "Game Result",  JOptionPane.PLAIN_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(game, "You Lost!\nBetter Luck Next Time!", "Game Result",  JOptionPane.PLAIN_MESSAGE);
 		}
+		game.setVisible(false);
 	}
 }
