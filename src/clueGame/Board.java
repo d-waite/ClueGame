@@ -538,9 +538,12 @@ public class Board extends JPanel {
 	public Card handleSuggestion(Solution suggestion, Player playerSuggesting) {
 		int startIndex = currentPlayers.indexOf(playerSuggesting); // get index of person who is making the suggestion
 		
-		//move player being suggested into the room
+		//move player being suggested into the room as long as they do not suggest themselves
+		// note: requirements seem to imply you could stay in room if you suggest yourself
+		// however, for fairness, this code makes it so you must still move out of the room
+		// if you suggest yourself
 		for (Player player: currentPlayers) {
-			if (suggestion.getPerson().getCardName().equals(player.getName())) {
+			if (suggestion.getPerson().getCardName().equals(player.getName()) && !(player.getName().equals(playerSuggesting.getName()))) {
 				player.movePlayer(playerSuggesting.getRow(), playerSuggesting.getColumn());
 				player.setSuggested(true);
 				repaint();
@@ -574,8 +577,12 @@ public class Board extends JPanel {
 				return cardShown;
 			}
 		}
-		ClueGame.getControlPanel().setGuess(guess.getPerson().getCardName() + " in the " + guess.getRoom().getCardName() + " with the " + guess.getWeapon().getCardName());
-		ClueGame.getControlPanel().setGuessResult("Suggestion Not Disproved", Color.WHITE);
+		
+		if (playerSuggesting.getName().equals(human.getName())) {
+			ClueGame.getControlPanel().setGuess(guess.getPerson().getCardName() + " in the " + guess.getRoom().getCardName() + " with the " + guess.getWeapon().getCardName());
+			ClueGame.getControlPanel().setGuessResult("Guess was not disproven.",Color.white);
+		}
+		whoDisproved = null;
 		return null; // no one could disprove
 	}
 
@@ -831,7 +838,9 @@ public class Board extends JPanel {
 					}
 				} else {//check all of the other targets
 					clickCheck(e, cell);
-					if (humanFinished) {
+					if (humanFinished) { // if clicked on non-room target, turn is finished and there was no guess
+						ClueGame.getControlPanel().setGuess("No Guess");
+						ClueGame.getControlPanel().setGuessResult("No Result",Color.white);
 						break;
 					}
 				}
